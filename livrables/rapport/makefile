@@ -6,6 +6,7 @@ clean :
 	rm rapport.maf
 	rm rapport.bbl
 	rm rapport.blg
+	rm rapport.pyg
 	rm *.aux *.log *.out
 
 compil: rapport.pdf

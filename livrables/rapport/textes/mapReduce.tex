@@ -1,0 +1,18 @@
+\subsection{Pourquoi MapReduce ?}
+	Comment traiter des volumes gigantesques de données, réparti sur plusieurs machines dans plusieurs centres de données pour en tirer des résultats de calculs, d'agrégats, de résumés\dots ? MapReduce a été défini par Google pour répondre à ces besoins.
+
+\subsection{Principe de MapReduce}
+	MapReduce a été défini en 2004 dans un brevet de Google.\cite{google_mapreduce}. Le principe est simple : pour distribuer un traitement, Google a imaginé une opération en deux étapes :
+	\begin{enumerate}
+		\item L'attribution des opérations à effectuer sur chaque machine (étape \texttt{Map}) ;
+		\item Rassemblement des résultats après l'étape de traitement (étape \texttt{Reduce}).
+	\end{enumerate}
+
+	En soi, le raisonnement n'est pas révolutionnaire et n'a pas été inventé par Google. Les opérations de \texttt{map} et de \texttt{reduce} ont été inspirées par les primitives du même nom en Lisp. Le brevet de Google répond néanmoins aux problématiques de MapReduce dans un environnement distribué. Que faire en cas de défaillance d'une unité de traitement ? Comment s'assurer d'une bonne distribution du travail ? Comment synchroniser les résultats des traitements ?
+
+\subsection{Scalabilité horizontale}
+	La diminution du coût du matériel a été une formidable opportunité pour la scalabilité horizontale. La scalabilité verticable désigne la possibilité d'augmenter les performances d'un serveur (ajout de processeurs, RAM, disques\dots) tandis que la scalabilité horizontale désigne la possibilité d'ajouter des serveurs d'un type donné.\cite{Wikipedia_scalabilite}\\
+
+	Optimiser les performances d'un SGBD\footnote{SGBD : Système de Gestion de Bases de Données} sur une seule machine demande beaucoup d'énergie et de compétences pour aboutir à des résultats fragiles et qui ne peuvent supporter une multiplication soudaine de la demande. En revanche, s'assurer que le modèle de traitement de données est bien distribué de la façon la plus élégante possible sur des machines séparées, qui peuvent être multipliées à l'infini, permet de répondre à des augmentations éclairs de la demande par l'achat et l'installation rapide de nouvelles machines (puissantes ou non) et en s'assurant que toute défaillance d'une machine ne se traduise pas par une perte de données.\\
+
+	Il faut donc vérifier que le modèle déployé est capable de distribuer au mieux les données et le travail, même sur plusieurs milliers de nœuds, en offrant un système de réplication suffisant pour éliminer statistiquement le risque de perte de données.
