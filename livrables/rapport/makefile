@@ -14,3 +14,4 @@ rapport.pdf :
 	pdflatex -shell-escape rapport.tex;
 	bibtex rapport;
 	pdflatex -shell-escape rapport.tex;
+	pdflatex -shell-escape rapport.tex;
