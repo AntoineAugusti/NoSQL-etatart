@@ -1,0 +1,13 @@
+\subsection{La modélisation relationnelle}
+	Les modèles de données des bases de données relationnelles et des bases de données NoSQL sont très différentes. Le modèle relationnel sépare les données au sein de plusieurs tables qui contiennent des lignes et des colonnes. Les tables se référencent entre elles à l'aide de clés étrangères qui sont stockées dans les colonnes. Quand on recherche des données, l'information a besoin d'être collectée depuis plusieurs tables (parfois plusieurs dizaines ou centaines pour des modèles de données d'entreprise) et rassemblée avant d'être envoyée à l'application. C'est ce que l'on appelle les jointures. De manière similaire, lors d'une écriture, l'écriture doit être effectuée souvent sur plusieurs tables.
+
+\subsection{La modélisation NoSQL}
+	Les bases de données ont une modélisation des données très différente du modèle relationnel. Ces différences sont tellement importantes que nous les étudierons dans un chapitre dédié. Par exemple, dans une base de données orientée document, les données sont agrégées dans un document en utilisant le format JSON.\\
+
+	Un document JSON peut être imaginé comme un objet prêt à être utilisé dans l'application finale. Un document JSON peut par exemple prendre toutes les données d'une ligne dans 10 tables d'une base de données relationnelle et les agréger dans un seul document. L’agrégation de cette information conduit à la duplication de l'information mais depuis que les coûts de stockage sont devenus faibles, la flexibilité de la modélisation des données, la facilité d'utilisation des documents et les améliorations en lecture / écriture facilitent beaucoup le stockage de données pour des applications web. 
+
+	\begin{listing}[ht]
+		\inputminted{json}{code/commentaire.json}
+		\caption{Un commentaire sur une citation au format JSON. Exemple tiré de l'API de Teen Quotes.\cite{teenquotes_api_commentaire}}
+	\end{listing}
+	Dans ce document on voit que les données de l'utilisateur auteur du commentaire et de la citation sur laquelle ce commentaire a été posté ont été enchâssées (principe de l'\textit{embedding}).

@@ -1,0 +1,25 @@
+{
+   "id":1500,
+   "content":"Officia nihil vero quia molestias. Perspiciatis ex iusto pariatur quasi consequuntur sint assumenda. Numquam placeat est nihil qui doloremque maiores enim.",
+   "quote_id":646,
+   "user_id":41,
+   "created_at":"2016-01-08 06:10:46",
+   "user":{
+      "id":41,
+      "login":"odibs36",
+      "profile_hidden":false,
+      "url_avatar":"http:\/\/placekitten.com\/400\/400",
+      "wants_notification_comment_quote":false,
+      "is_admin":false
+   },
+   "quote":{
+      "id":646,
+      "content":"Ipsam et numquam sed nulla et omnis optio. Rerum sint est iure neque quisquam sit. Vero ea ratione eveniet saepe nihil sunt.",
+      "user_id":24,
+      "approved":1,
+      "created_at":"2013-09-06 06:10:43",
+      "has_comments":true,
+      "total_comments":2,
+      "is_favorite":false
+   }
+}
