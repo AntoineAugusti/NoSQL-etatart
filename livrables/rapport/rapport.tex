@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
+\usepackage[babel=true]{csquotes}
 \usepackage{lmodern}
 \usepackage{minted}
 \usemintedstyle{trac}
@@ -37,6 +38,17 @@
 % Couverture
 \usepackage{templateINSA}
 \initINSA
+
+% Citations
+\usepackage{epigraph}
+\setlength\epigraphwidth{12cm}
+\setlength\epigraphrule{0pt}
+
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\epigraph}{\@epitext{#1}}{\itshape\@epitext{#1}}{}{}
+\makeatother
 
 \usepackage[nottoc, notlof, notlot]{tocbibind}
 
