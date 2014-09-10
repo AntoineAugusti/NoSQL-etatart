@@ -24,7 +24,7 @@
 
 % TOC
 \usepackage[french]{minitoc}
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 \setcounter{minitocdepth}{2}
 \setlength{\mtcindent}{0pt}
 
@@ -78,7 +78,24 @@
 		\input{textes/mapReduce}
 
 		\section{Une approche non relationnelle}
-		\input{textes/nonRelationnelle}
+			\input{textes/nonRelationnelle}
+
+	\chapter{NoSQL et SQL : quelles différences ?}
+		
+		\section{Les principes du relationnel en regard du NoSQL}
+			\subsection{La normalisation}
+			\subsection{Le défaut d'impédance}
+			\subsection{Les NULL}
+		
+		\section{Transactions et cohérence des données}
+			\subsection{Isolation de la transaction}
+			\subsection{La transaction distribuée}
+			\subsection{Le théorème CAP}
+
+	\chapter{Les différents schémas de bases de données dans les bases NoSQL}
+		\section{Les bases de données clé / valeur}
+		\section{Les bases de données orientées documents}
+		\section{Les bases de données orientées graphes}
 	
 	%% -- Bibliographie
 	\bibliographystyle{plain}
