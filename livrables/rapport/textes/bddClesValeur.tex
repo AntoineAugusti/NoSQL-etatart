@@ -1,0 +1,24 @@
+\subsection{Les paires clé-valeur}
+	Beaucoup de bases NoSQL partent du principe qu'une paire clé-valeur permet de répondre à la quasi-totalité des besoins. Cette paire clé-valeur s'apparente comme la manière la plus simple de représenter de l'information de manière structurée. On peut faire le rapprochement avec une table d'une base de données relationnelle où la clé primaire permet d'identifier une ligne, qui peut être considérée comme une valeur.\\
+
+	Le raisonnement de la paire clé-valeur est que les besoins d'accès aux données peuvent être simplifiées ainsi : à partir d'une clé de recherche, je veux obtenir une donnée complexe. Voici quelques exemples :
+	\begin{itemize}
+		\item Sur un réseau social, à partir d'un identifiant d'un utilisateur (la clé), je veux obtenir la liste de ses amis (la valeur) ;
+		\item Dans un catalogue de livres, le numéro ISBN (la clé) donne accès à tous les détails sur le livre (la valeur) ;
+		\item Sur un site de presse, la clé \texttt{article:42:comments} donne le nombre de commentaires postés sur l'article ayant l'identifiant 42.
+	\end{itemize}
+	\vspace{20px}
+
+	La clé représente une information précise, simple et atomique alors que la valeur peut être complexe comme un tableau ou une liste, elle-même constituée de clés qui pointent sur des sous-valeurs.\\
+
+	\begin{listing}[H]
+		\inputminted{text}{code/commandesRedis.txt}
+		\caption{Quelques exemples de commandes basiques de Redis}
+	\end{listing}
+
+	On peut considérer que tous les moteurs NoSQL sont des entrepôts de clé-valeur plus ou moins spécialisés. En effet, dans les bases orientées documents on accède à un document à l'aide d'une clé, mais ce document a généralement une structure plus complexe comme par exemple un document JSON.
+
+\subsection{Recherche de simplicité et gestion des contraintes}
+	Un des objectifs d'une base de données clé-valeur est la simplicité. Il n'y a vraiment plus de notion de schéma de données dans un tel système. Chaque ligne peut être considérée comme étant complètement différente des autres, et s'il n'y a pas de système d'indexation secondaire, le seul accès valable est par la clé de la ligne.\\
+
+	Le moteur d'une telle base de données n'effectue aucune validation des données, que ce soit au niveau d'un schéma prédéfini ou de tous types de contraintes. C'est donc à l'application cliente de s'assurer que les données insérées dans la base de données sont bien cohérentes. Là où un SGBDR\footnote{SGBDR : Système de gestion de base de données} centralise la gestion des règles sur les données, un moteur NoSQL délègue cela au code client de chaque application utilisant la base de données.

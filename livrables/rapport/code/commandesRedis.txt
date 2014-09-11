@@ -1,0 +1,24 @@
+redis> SET a bonjour
+OK
+redis> GET a
+"bonjour"
+redis> SET compteur 41
+OK
+redis> INCR compteur
+(integer) 42
+redis> DEL compteur
+(integer) 1
+redis> GET compteur
+(nil)
+redis> RPUSH liste "Hello"
+(integer) 1
+redis> RPUSH liste "World"
+(integer) 2
+redis> LINSERT liste BEFORE "World" "There"
+(integer) 3
+redis> LRANGE liste 0 -1
+1) "Hello"
+2) "There"
+3) "World"
+redis> PING
+PONG
