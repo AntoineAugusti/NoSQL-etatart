@@ -27,3 +27,16 @@
 	L'absence de relation induit un volume de données beaucoup plus grand car les informations sont stockées de façon redondante. Il est bien sûr possible de simuler des relations entre les documents. Par exemple, on peut référencer la clé d'une paire clé-valeur dans la valeur d'un autre document. Imaginons que l'on modélise un réseau social. Un document peut contenir les informations d'un utilisateur, avec sa clé (par exemple son login) et la valeur sera un document JSON stockant des informations sur ses choix, ses activités et sa liste d'amis. Cette liste d'amis sera évidemment une liste de clés d'autres utilisateurs. Pour créer la liste d'amis, le code client devra retrouver le document de l'utilisateur à l'aide de son login, puis si on souhaite avoir des informations sur les amis de l'utilisateur, on pourra le faire à l'aide des clés contenues dans la liste de ses amis.\\
 
 	On pourrait considérer cela comme une jointure qui s'ignore, et il n'y a finalement pas beaucoup de différence avec un moteur relationnel si ce n'est que ce dernier effectue cette jointure au niveau du serveur en utilisant un algorithme de jointure optimisé alors que le système NoSQL va probablement effectuer ces opérations en boucle, peut-être avec des allers-retours du client au serveur.
+
+\subsection{L'importance de la clé}
+	Comme nous l'avons déjà vu, la clé est le seul point d'entrée pour accéder à la valeur. Elle a donc une importance capitale. Dans un moteur NoSQL clé-valeur, par défaut, seule la clé est indexée.\\
+
+	Souvent, cet index sur la clé est ce que l'on appelle un index \textit{clustered}. Les données sont ainsi physiquement ordonnées selon la clé entre les différentes machines (principe du \textit{sharding}), ce qui permet d'effectuer une recherche dichotomique rapide pour trouver la clé.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{images/clusteredIndex.jpg}
+		\caption{Représentation d'un index \textit{clustered}.}
+	\end{figure}
+
+	Bien évidemment les données peuvent être répliquées en plus d'être éparpillées sur plusieurs machines.
