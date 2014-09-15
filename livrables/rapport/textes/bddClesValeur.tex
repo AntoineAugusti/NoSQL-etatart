@@ -40,3 +40,12 @@
 	\end{figure}
 
 	Bien évidemment les données peuvent être répliquées en plus d'être éparpillées sur plusieurs machines.
+
+\subsection{Acteurs principaux}
+	La popularité des bases de données est donnée par DB-engines\cite{db_engines_key_value} pour le mois de septembre 2014.
+
+	\begin{enumerate}
+		\item \textbf{Redis}. Première version en avril 2009, écrit en C, open-source sous licence BSD. Le développement a été sponsorisé par VMware et Pivotal Software. Utilisé par The Guardian, GitHub, Stack Overflow, YouPorn, Twitter etc.\cite{Wikipedia_redis}
+		\item \textbf{Memcached}. Première version en mai 2003. Écrit en C, open-source sous licence BSD. Le développement a été sponsorisé par Danga Interactive. Utilisé par Reddit, Facebook, Orange, Tumblr, Wikipedia etc. Il est connu pour utiliser une gigantesque table de hash, distribuée sur plusieurs machines. Quand la table est pleine, les données sont supprimées à l'aide de la méthode du LRU\footnote{LRU : \textit{Least recently used}.}.\cite{Wikipedia_memcached}
+		\item \textbf{Riak}. Première version en août 2009, écrit en Erlang, open-source sous licence Apache 2.0. Le développement est assuré par Basho Technologies, qui propose une offre payante cloud. Utilisé par AT\&T, Boeing, Rovio, Yahoo! etc.\cite{Wikipedia_riak}
+	\end{enumerate}
