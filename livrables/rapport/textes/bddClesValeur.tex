@@ -1,45 +1,21 @@
-\subsection{Les paires clé-valeur}
-	Beaucoup de bases NoSQL partent du principe qu'une paire clé-valeur permet de répondre à la quasi-totalité des besoins. Cette paire clé-valeur s'apparente comme la manière la plus simple de représenter de l'information de manière structurée. On peut faire le rapprochement avec une table d'une base de données relationnelle où la clé primaire permet d'identifier une ligne, qui peut être considérée comme une valeur.\\
-
-	Le raisonnement de la paire clé-valeur est que les besoins d'accès aux données peuvent être simplifiées ainsi : à partir d'une clé de recherche, je veux obtenir une donnée complexe. Voici quelques exemples :
+\subsection{Modélisation}
+	Les bases de données clé-valeur sont les bases de données qui possèdent la représentation la plus simple car elles ne contiennent que des paires clé-valeur. Les opérations disponibles sur de telles bases de données sont très limitées :
 	\begin{itemize}
-		\item Sur un réseau social, à partir d'un identifiant d'un utilisateur (la clé), je veux obtenir la liste de ses amis (la valeur) ;
-		\item Dans un catalogue de livres, le numéro ISBN (la clé) donne accès à tous les détails sur le livre (la valeur) ;
-		\item Sur un site de presse, la clé \texttt{article:42:comments} donne le nombre de commentaires postés sur l'article ayant l'identifiant 42.
-	\end{itemize}
-	\vspace{20px}
+	 	\item Création d'une paire clé-valeur 
+	 	\item Accès à une valeur à partir de la clé
+	 	\item Suppression d'une paire clé-valeur
+	 	\item Incrémentation d'une valeur à partir de la clé
+	 	\item Décrémentation d'une valeur à partir de la clé
+	 \end{itemize}
 
-	La clé représente une information précise, simple et atomique alors que la valeur peut être complexe comme un tableau ou une liste, elle-même constituée de clés qui pointent sur des sous-valeurs.\\
+	Quelques autres opérations classiques sur les listes sont disponibles pour certains moteurs : ajout d'un élément à une liste, suppression d'un élément, comptage du nombre d'éléments d'une liste\dots
 
 	\begin{listing}[H]
 		\inputminted{text}{code/commandesRedis.txt}
 		\caption{Quelques exemples de commandes basiques de Redis}
 	\end{listing}
 
-	Comme nous le verrons dans les parties suivantes, les autres moteurs NoSQL sont souvent des entrepôts de clé-valeur plus ou moins spécialisés.
-
-\subsection{Recherche de simplicité et gestion des contraintes}
-	Un des objectifs d'une base de données clé-valeur est la simplicité. Il n'y a vraiment plus de notion de schéma de données dans un tel système. Chaque ligne peut être considérée comme étant complètement différente des autres, et s'il n'y a pas de système d'indexation secondaire, le seul accès valable est par la clé de la ligne.\\
-
-	Le moteur d'une telle base de données n'effectue aucune validation des données, que ce soit au niveau d'un schéma prédéfini ou de tous types de contraintes. C'est donc à l'application cliente de s'assurer que les données insérées dans la base de données sont bien cohérentes. Là où un SGBDR\footnote{SGBDR : Système de gestion de base de données} centralise la gestion des règles sur les données, un moteur NoSQL délègue cela au code client de chaque application utilisant la base de données.
-
-\subsection{La gestion de la redondance}
-	L'absence de relation induit un volume de données beaucoup plus grand car les informations sont stockées de façon redondante. Il est bien sûr possible de simuler des relations entre les documents. Par exemple, on peut référencer la clé d'une paire clé-valeur dans la valeur d'un autre document. Imaginons que l'on modélise un réseau social. Un document peut contenir les informations d'un utilisateur, avec sa clé (par exemple son login) et la valeur sera un document JSON stockant des informations sur ses choix, ses activités et sa liste d'amis. Cette liste d'amis sera évidemment une liste de clés d'autres utilisateurs. Pour créer la liste d'amis, le code client devra retrouver le document de l'utilisateur à l'aide de son login, puis si on souhaite avoir des informations sur les amis de l'utilisateur, on pourra le faire à l'aide des clés contenues dans la liste de ses amis.\\
-
-	On pourrait considérer cela comme une jointure qui s'ignore, et il n'y a finalement pas beaucoup de différence avec un moteur relationnel si ce n'est que ce dernier effectue cette jointure au niveau du serveur en utilisant un algorithme de jointure optimisé alors que le système NoSQL va probablement effectuer ces opérations en boucle, peut-être avec des allers-retours du client au serveur.
-
-\subsection{L'importance de la clé}
-	Comme nous l'avons déjà vu, la clé est le seul point d'entrée pour accéder à la valeur. Elle a donc une importance capitale. Dans un moteur NoSQL clé-valeur, par défaut, seule la clé est indexée.\\
-
-	Souvent, cet index sur la clé est ce que l'on appelle un index \textit{clustered}. Les données sont ainsi physiquement ordonnées selon la clé entre les différentes machines (principe du \textit{sharding}), ce qui permet d'effectuer une recherche dichotomique rapide pour trouver la clé.
-
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.9\textwidth]{images/clusteredIndex.jpg}
-		\caption{Représentation d'un index \textit{clustered}.}
-	\end{figure}
-
-	Bien évidemment les données peuvent être répliquées en plus d'être éparpillées sur plusieurs machines.
+\subsection{Cas d'utilisation}
 
 \subsection{Acteurs principaux}
 	La popularité des bases de données est donnée par DB-engines\cite{db_engines_key_value} pour le mois de septembre 2014.

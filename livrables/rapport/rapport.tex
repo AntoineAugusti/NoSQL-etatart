@@ -25,7 +25,7 @@
 % TOC
 \usepackage[french]{minitoc}
 \setcounter{tocdepth}{2}
-\setcounter{minitocdepth}{2}
+\setcounter{minitocdepth}{3}
 \setlength{\mtcindent}{0pt}
 
 % Images
@@ -72,10 +72,10 @@
 	\minitoc
 
 		\section{L'émergence du Big Data}
-		\input{textes/emergenceBigData}
+			\input{textes/emergenceBigData}
 
 		\section{Scalabilité horizontale et MapReduce}
-		\input{textes/mapReduce}
+			\input{textes/mapReduce}
 
 		\section{Une approche non relationnelle}
 			\input{textes/nonRelationnelle}
@@ -91,10 +91,15 @@
 		\section{Transactions et cohérence des données}
 			\subsection{Isolation de la transaction}
 			\subsection{La transaction distribuée}
-			\subsection{Le théorème CAP}
+
+		\section{Modélisation des bases de données NoSQL}
+			\input{textes/modelisationBDDNoSQl}
 
 	\chapter{Les différents schémas de bases de données dans les bases NoSQL}
 	\minitoc
+		
+		\section{Généralités de modélisation}
+			\input{textes/generalitesModelisation}
 
 		\section{Les bases de données clé / valeur}
 			\input{textes/bddClesValeur}

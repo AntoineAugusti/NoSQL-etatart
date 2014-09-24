@@ -1,0 +1,10 @@
+\subsection{Le théorème CAP}
+\subsection{La gestion de la redondance des données}
+	L'absence de relation induit un volume de données beaucoup plus grand car les informations sont stockées de façon redondante pour être accessible plus facilement. Il est bien sûr possible de simuler des relations entre les documents.
+
+	\subsubsection{Imbrication de documents}
+	\subsubsection{Duplication d'un sous-ensemble de champs}
+	\subsubsection{Duplication de la clé-primaire}
+		Par exemple, on peut référencer la clé d'une paire clé-valeur dans la valeur d'un autre document. Imaginons que l'on modélise un réseau social. Un document peut contenir les informations d'un utilisateur, avec sa clé (par exemple son login) et la valeur sera un document JSON stockant des informations sur ses choix, ses activités et sa liste d'amis. Cette liste d'amis sera évidemment une liste de clés d'autres utilisateurs. Pour créer la liste d'amis, le code client devra retrouver le document de l'utilisateur à l'aide de son login, puis si on souhaite avoir des informations sur les amis de l'utilisateur, on pourra le faire à l'aide des clés contenues dans la liste de ses amis.\\
+
+		On pourrait considérer cela comme une jointure qui s'ignore, et il n'y a finalement pas beaucoup de différence avec un moteur relationnel si ce n'est que ce dernier effectue cette jointure au niveau du serveur en utilisant un algorithme de jointure optimisé alors que le système NoSQL va probablement effectuer ces opérations en boucle, peut-être avec des allers-retours du client au serveur.
