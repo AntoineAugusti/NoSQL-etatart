@@ -19,12 +19,13 @@
 \subsection{L'importance de la clé}
 	La clé est le seul point d'entrée pour accéder à la valeur. Elle a donc une importance capitale. Dans un moteur NoSQL clé-valeur, par défaut, seule la clé est indexée.\\
 
-	Souvent, cet index sur la clé est ce que l'on appelle un index \textit{clustered}. Les données sont ainsi physiquement ordonnées selon la clé entre les différentes machines (principe du \textit{sharding}), ce qui permet d'effectuer une recherche dichotomique rapide pour trouver la clé.
+	Souvent, cet index sur la clé est ce que l'on appelle un index \textit{clustered}. Les données sont ainsi physiquement ordonnées selon la clé entre les différentes machines (principe du \textit{sharding}), ce qui permet d'effectuer une recherche dichotomique rapide pour trouver la clé. Un index \textit{clustered} est illustré dans la figure~\ref{clusteredIndex}.
 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{images/clusteredIndex.jpg}
-		\caption{Représentation d'un index \textit{clustered}.}
+		\caption{Représentation d'un index \textit{clustered}.\cite{clusteredIndex}}
+		\label{clusteredIndex}
 	\end{figure}
 
 	Bien évidemment les données peuvent être répliquées en plus d'être éparpillées sur plusieurs machines.
