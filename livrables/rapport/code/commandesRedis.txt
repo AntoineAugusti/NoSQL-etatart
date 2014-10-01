@@ -1,24 +1,32 @@
-redis> SET a bonjour
+# Assignation de chaîne "bonjour" à la clé "cleTexte"
+redis> SET cleTexte bonjour
 OK
-redis> GET a
+# Récupération de la valeur de la clé "cleTexte"
+redis> GET cleTexte
 "bonjour"
+
+# Création d'un compteur initialisé à 41
 redis> SET compteur 41
 OK
+# Incrémentation du compteur
 redis> INCR compteur
 (integer) 42
+# Suppression du compteur
 redis> DEL compteur
 (integer) 1
-redis> GET compteur
-(nil)
+
+# Création d'une liste avec insertion en fin de liste
 redis> RPUSH liste "Hello"
 (integer) 1
+# Insertion en fin de liste
 redis> RPUSH liste "World"
 (integer) 2
+# Insertion du mot "There" avant "World"
 redis> LINSERT liste BEFORE "World" "There"
 (integer) 3
+
+# Affichage de la liste complète
 redis> LRANGE liste 0 -1
 1) "Hello"
 2) "There"
 3) "World"
-redis> PING
-PONG
