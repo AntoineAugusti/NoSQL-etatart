@@ -1,0 +1,12 @@
+{
+  "id":10,
+  "nom":"Dupont",
+  "prenom":"David",
+  "email":"david@example.com",
+  "adresse":{
+    "complete":"10 rue du test",
+    "ville":"Rouen",
+    "pays":"France",
+    "codePostal":76000
+  }
+}

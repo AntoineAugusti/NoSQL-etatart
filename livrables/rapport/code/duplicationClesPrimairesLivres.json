@@ -1,0 +1,8 @@
+{
+  "id":42,
+  "prenom":"Nicolas",
+  "nom":"Sapin",
+  "livres":[
+    20, 55, 140
+  ]
+}

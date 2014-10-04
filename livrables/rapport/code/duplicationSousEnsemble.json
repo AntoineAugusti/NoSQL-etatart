@@ -1,0 +1,10 @@
+{
+  "id":42,
+  "contenu":"Les chatons sont vraiment mignons.",
+  "date_creation":"2014-12-01 12:42:42",
+  "auteur":{
+    "prenom":"Alice",
+    "nom":"Martin",
+    "avatar":"http://www.example.com/images/chaton.jpg"
+  }
+}

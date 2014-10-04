@@ -1,10 +1,44 @@
 \subsection{Le théorème CAP}
+\subsection{La dénormalisation des données}
+	Dans une relation entre deux schémas A et B, la dénormalisation consiste à dupliquer certaines données de la table B dans la table A, dans un souci d'optimisation des requêtes. On pourra alors se contenter d'interroger la table A sans avoir à faire une jointure entre A et B.\\
+
+	Les bases de données NoSQL utilisent parfois ce principe lors de la modélisation de la base. Dans une modélisation relationnelle, ceci était totalement prohibé par les formes normales.
+
 \subsection{La gestion de la redondance des données}
-	L'absence de relation induit un volume de données beaucoup plus grand car les informations sont stockées de façon redondante pour être accessible plus facilement. Il est bien sûr possible de simuler des relations entre les enregistrements.
+	Nous avons vu ce qu'était le principe de dénormalisation. L'absence de relation entre tables induit un volume de données beaucoup plus grand car les informations sont parfois stockées de façon redondante pour être accessible plus facilement. Il est bien sûr possible de simuler des relations entre les enregistrements.\\
 
-	\subsubsection{Imbrication de documents}
+	Les exemples utilisés dans cette partie sont des documents structurés au format JSON. De tels documents peuvent être stockés dans une base de données NoSQL orientée document, comme abordé dans la partie~\ref{sec:BDDDocuments}.
+
+	\subsubsection{Imbrication d'enregistrements}
+		Pour une relation entre deux enregistrements A et B, cela consiste à avoir l'enregistrement B imbriqué dans l'enregistrement A. On peut avoir deux cas d'utilisation lorsque l'on utilise cette stratégie :
+
+		\begin{itemize}
+			\item On peut se passer de la collection des enregistrements imbriqués. Ainsi, toutes les requêtes concernant l'enregistrement parent concerneront aussi les données de l'enregistrement imbriqué.
+			\item On peut modifier les enregistrements parents et enfants d'une manière atomique. Cependant, l'imbrication d'enregistrements n'est pas possible si on veut créer l'enregistrement enfant avant l'enregistrement parent.
+		\end{itemize}
+		\vspace{20px}
+
+		\begin{listing}[H]
+			\inputminted{json}{code/imbrication.json}
+			\caption{Imbrication de l'adresse dans l'enregistrement d'un client.}
+		\end{listing}
+
 	\subsubsection{Duplication d'un sous-ensemble de champs}
-	\subsubsection{Duplication de la clé-primaire}
-		Par exemple, on peut référencer la clé d'une paire clé-valeur dans la valeur d'un autre document. Imaginons que l'on modélise un réseau social. Un document peut contenir les informations d'un utilisateur, avec sa clé (par exemple son login) et la valeur sera un document JSON stockant des informations sur ses choix, ses activités et sa liste d'amis. Cette liste d'amis sera évidemment une liste de clés d'autres utilisateurs. Pour créer la liste d'amis, le code client devra retrouver le document de l'utilisateur à l'aide de son login, puis si on souhaite avoir des informations sur les amis de l'utilisateur, on pourra le faire à l'aide des clés contenues dans la liste de ses amis.\\
+		L'idée est de dupliquer le minimum de données de l'enregistrement B dans l'enregistrement A et de préférence celles qui ne changent pas souvent. En effet lors de la mise à jour nous devrions mettre à jour l'ensemble des enregistrements qui contiennent cette information plutôt qu'à un seul endroit dans une base de données respectant les formes normales. Il faut se souvenir que cette modélisation augmente donc le temps d'écriture lors d'une mise à jour.\\
 
-		On pourrait considérer cela comme une jointure qui s'ignore, et il n'y a finalement pas beaucoup de différence avec un moteur relationnel si ce n'est que ce dernier effectue cette jointure au niveau du serveur en utilisant un algorithme de jointure optimisé alors que le système NoSQL va probablement effectuer ces opérations en boucle, peut-être avec des allers-retours du client au serveur.
+		Par exemple, quand on affiche une liste d'articles, on a besoin que d'informations sommaires sur l'auteur de l'article : son nom et son avatar par exemple. C'est seulement en visitant le profil de l'auteur de l'article que l'on accédera aux informations complètes sur l'auteur de l'article.
+
+		\begin{listing}[H]
+			\inputminted{json}{code/duplicationSousEnsemble.json}
+			\caption{Imbrication d'un sous-ensemble des champs d'un utilisateur sur l'enregistrement d'un article.}
+		\end{listing}
+
+	\subsubsection{Duplication de la clé-primaire}
+		Cette fois, on ne duplique que la clé primaire de l'enregistrement B dans l'enregistrement A. pour récupérer les données on devra alors effectuer deux requêtes : une première requête pour récupérer les données de l'enregistrement A, puis une seconde pour récupérer les données de l'autre côté de la relation à l'aide des informations de l'enregistrement A.\\
+
+		Par exemple, imaginons que l'on modélise une relation plusieurs vers plusieurs entre des livres et des auteurs. L'enregistrement de l'auteur contiendrait la liste des clés primaires de ses livres et le livre contiendrait les clés primaires de ses auteurs. On commencerait par récupérer les identifiants des auteurs puis on interrogerait les livres pour récupérer le reste des données.
+
+		\begin{listing}[H]
+			\inputminted{json}{code/duplicationClesPrimairesLivres.json}
+			\caption{Imbrication des clés primaires des livres écrits par un écrivain.}
+		\end{listing}
