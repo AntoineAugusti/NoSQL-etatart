@@ -1,4 +1,16 @@
 \subsection{Le théorème CAP}
+	Classiquement, la focalisation de l'informatique distribuée était faite sur le calcul, et non sur les données. C'est pour des besoins de calcul qu'on créait des clusters, pour atteindre une puissance de calcul multipliée par le nombre de nœuds. Eric Brewer, professeur de l'université de Californie affirme que le calcul distribué est relativement facile. Le paradigme MapReduce abordé dans la partie~\ref{subsec:principeMapReduce} est maintenant éprouvé et n'est plus particulièrement difficilement à mettre en place. Ce qui est difficile, c'est la distribution des données. Le professeur Brewer énonce le théorème CAP, une abréviation de trois propriétés :
+	\vspace{10px}
+	\begin{itemize}
+		\item \textbf{\textit{Consistency}} (cohérence) : tous les nœuds sont à jour sur les données au même moment ; 
+		\item \textbf{\textit{Availability}} (disponibilité) : la perte d'un nœud n'empêche pas le système de fonctionner et de servir l'intégralité des données ; 
+		\item \textbf{\textit{Partition tolerance}} (résistance au morcellement) : chaque nœud doit pouvoir fonctionner de manière autonome. 
+	\end{itemize}
+	\vspace{20px}
+	L'expression \textit{Partition tolerance} n'est pas très claire. On entend par là qu'un système partitionné doit pouvoir survivre aux difficultés du réseau. D'après Seth Gilbert\footnote{Seth Gilbert est un doctorant à l'École polytechnique fédérale de Lausanne (EPFL).} et Nancy Lynch\footnote{Nancy Lynch est une professeure au Massachusetts Institute of Technology (MIT).}, \enquote{le système doit être capable de survivre aux aléas de la perte de partitions ou de communication entre les partitions. Il ne s'agit pas d'une garantie totale d'accès à partir d'un nœud, mais bien d'une capacité à la survie et à la résilience aussi poussée que possible.}\\
+
+	Les bases de données distribuées ne peuvent satisfaire que deux de ces critères au plus.
+
 \subsection{La dénormalisation des données}
 	Dans une relation entre deux schémas A et B, la dénormalisation consiste à dupliquer certaines données de la table B dans la table A, dans un souci d'optimisation des requêtes. On pourra alors se contenter d'interroger la table A sans avoir à faire une jointure entre A et B.\\
 
