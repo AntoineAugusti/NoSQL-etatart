@@ -1,0 +1,12 @@
+Une transaction est \enquote{un ensemble d'opérations élémentaires dont l'exécution provoque le passage d'un état cohérent de la base de données à un autre état cohérent.}\cite{cours_bdd_insa} Les transactions visent à préserver l'intégrité des données dans un environnement multi-usagers, non fiable, où des pannes peuvent se produire.\\
+
+Les bases de données relationnelles cherchent à maintenir une cohérence forte de la base de données en respectant les propriétés dites ACID, définies en 1983 par Andreas Reuter et Theo Härder. Ces propriétés sont les suivantes :
+\vspace{10px}
+\begin{itemize}
+	\item \textbf{Atomicité.} Une transaction doit s'effectuer en intégralité ou pas du tout. Si une partie d'une transaction ne peut être faite, il faut effacer toute trace de la transaction et remettre les données dans l'état où elles étaient avant la transaction.
+	\item \textbf{Cohérence.} Chaque transaction doit amener le système d'un état valide à un autre état valide. La validité de l'état est, entre autre, assurée par les contraintes d'intégrité.
+	\item \textbf{Isolation.} Les transactions ne doivent pas voir les résultats d'autres transactions en cours. Elles s'exécutent comme si elles étaient seules sur le système.
+	\item \textbf{Durabilité.} Aucun autre événement, hormis une transaction de compensation ne peut supprimer les effets d'une transaction terminée et correctement exécutée.
+\end{itemize}
+\vspace{20px}
+Le strict respect des propriétés ACID par une base de donnée dégrade ses performances. La garantie des propriétés ACID dans un système distribué de transactions à travers une base de donnée, elle-même distribuée, présente des complications additionnelles. Ces problèmes seront détaillées dans la partie \ref{subsec:theoremeCAP} où nous discuterons du théorème CAP.
