@@ -20,7 +20,7 @@
 	En connaissance de ceci, Eric Brewer propose une alternative aux propriétés ACID, les propriétés BASE, qui sont énoncées de la manière suivante :
 	\vspace{10px}
 	\begin{itemize}
-	 	\item \textbf{\textit{Basic Availability.}} Le système distribué est disponible sans son ensemble, bien qu'il soit inévitable que certains nœuds ne soient pas disponibles par moment.
+	 	\item \textbf{\textit{Basic Availability.}} Le système distribué est disponible dans son ensemble, bien qu'il soit inévitable que certains nœuds ne soient pas disponibles par moment.
 	 	\item \textbf{\textit{Soft state.}} L'état du système distribué peut changer au cours du temps, même sans nouvelles transactions. Ceci s'explique par la propriété précédente : certaines transactions peuvent être propagées tardivement, résultant en une mise à jour différée des données sur certaines parties du système.
 	 	\item \textbf{\textit{Eventual consistency.}} Indique que le système sera cohérent au bout d'un temps, sous réserve que celui-ci ne reçoive plus de nouvelles transactions.
 	 \end{itemize}
