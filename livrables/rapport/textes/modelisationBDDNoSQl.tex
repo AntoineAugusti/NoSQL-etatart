@@ -1,7 +1,7 @@
 \subsection{La dénormalisation des données}
 	Dans une relation entre deux schémas A et B, la dénormalisation consiste à dupliquer certaines données de la table B dans la table A, dans un souci d'optimisation des requêtes. On pourra alors se contenter d'interroger la table A sans avoir à faire une jointure entre A et B.\\
 
-	Les bases de données NoSQL utilisent parfois ce principe lors de la modélisation de la base. Dans une modélisation relationnelle, ceci était totalement prohibé par les formes normales.
+	Les bases de données NoSQL utilisent parfois ce principe lors de la modélisation de la base. Dans une modélisation relationnelle, ceci est à éviter le plus possible, comme recommandé par les formes normales.
 
 \subsection{La gestion de la redondance des données}
 	Nous avons vu ce qu'était le principe de dénormalisation. L'absence de relation entre tables induit un volume de données beaucoup plus grand car les informations sont parfois stockées de façon redondante pour être accessible plus facilement. Il est bien sûr possible de simuler des relations entre les enregistrements.\\
