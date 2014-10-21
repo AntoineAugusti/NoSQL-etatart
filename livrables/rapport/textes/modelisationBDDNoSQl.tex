@@ -23,7 +23,7 @@
 		\end{listing}
 
 	\subsubsection{Duplication d'un sous-ensemble de champs}
-		L'idée est de dupliquer le minimum de données de l'enregistrement B dans l'enregistrement A et de préférence celles qui ne changent pas souvent. En effet lors de la mise à jour nous devrions mettre à jour l'ensemble des enregistrements qui contiennent cette information plutôt qu'à un seul endroit dans une base de données respectant les formes normales. Il faut se souvenir que cette modélisation augmente donc le temps d'écriture lors d'une mise à jour.\\
+		L'idée est de dupliquer le minimum de données de l'enregistrement B dans l'enregistrement A et de préférence celles qui ne changent pas souvent. En effet lors de la mise à jour nous devrions mettre à jour l'ensemble des enregistrements qui contiennent cette information plutôt qu'à un seul endroit dans une base de données respectant les formes normales. Il faut se souvenir que cette modélisation augmente donc le temps d'écriture lors d'une mise à jour. On utilise donc cette forme de duplication quand on sait que les enregistrements seront très souvent lus et très rarement mis à jour.\\
 
 		Par exemple, quand on affiche une liste d'articles, on a besoin que d'informations sommaires sur l'auteur de l'article : son nom et son avatar par exemple. C'est seulement en visitant le profil de l'auteur de l'article que l'on accédera aux informations complètes sur l'auteur de l'article.
 
