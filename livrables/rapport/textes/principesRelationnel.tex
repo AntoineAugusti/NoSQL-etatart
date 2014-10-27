@@ -1,9 +1,9 @@
 \subsection{La normalisation}
 
-    Edgar Frank Codd est considéré comme l'inventeur du modèle relationnel. En 1970, il définit des règles simples et logiques afin de s'assurer que les modèlisations des schémas relationnels sont correctes\cite{Wikipedia_Edgar_Frank_Codd}. Son livre définie des règles de normalisation sous la forme de 3 formes normales.
+    Edgar Frank Codd est considéré comme l'inventeur du modèle relationnel. En 1970, il définit des règles simples et logiques afin de s'assurer que les modèlisations des schémas relationnels sont correctes\cite{Wikipedia_Edgar_Frank_Codd}. Son livre définit des règles de normalisation sous la forme de 3 formes normales.
 
     \begin{itemize}
-      \item 1ère forme normale : atomicité. Cette règle assure qu'une colonne d'une table dans un schéma relationnel ne contient qu'une valeur isolée afin de faciliter la recherche et la manipulation. Par exemple, il faut stocker \textit{{Alice Dupont} dans avec deux champs (nom et prénom) afin de pouvoir rechercher par rapport au prénom, par rapport au nom ou par rapport aux deux.
+      \item 1ère forme normale : atomicité. Cette règle assure qu'une colonne d'une table dans un schéma relationnel ne contient qu'une valeur isolée afin de faciliter la recherche et la manipulation. Par exemple, il faut stocker \textit{Alice Dupont} dans avec deux champs (nom et prénom) afin de pouvoir rechercher par rapport au prénom, par rapport au nom ou par rapport aux deux.
       \item 2ème forme normale : un attribut non clé d'une table doit dépendre de toutes les clés de la table et ne dois pas dépendre d'une sous ensemble des clés de la table.
       \item 3ème forme normale : un attribut non clé ne dépend pas d'un ou plusieurs attributs ne participant pas à la clé.
     \end{itemize}
