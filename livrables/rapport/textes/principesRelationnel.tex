@@ -1,14 +1,14 @@
 \subsection{La normalisation}
 
     Edgar Frank Codd est considéré comme l'inventeur du modèle relationnel. En 1970, il définit des règles simples et logiques afin de s'assurer que les modélisations des schémas relationnels sont correctes\cite{Wikipedia_Edgar_Frank_Codd}. Son livre définit des règles de normalisation sous la forme de 3 formes normales.
-
+    \vspace{10px}
     \begin{itemize}
       \item \textbf{1\iere{} forme normale} : atomicité. Cette règle assure qu'une colonne d'une table dans un schéma relationnel ne contient qu'une valeur isolée afin de faciliter la recherche et la manipulation. Par exemple, il faut stocker \textit{Alice Dupont} dans deux champs (nom et prénom) afin de pouvoir rechercher par rapport au prénom, par rapport au nom ou par rapport aux deux.
       \item \textbf{2\ieme{} forme normale} : un attribut non clé d'une table doit dépendre de toutes les clés de la table et ne doit pas dépendre d'un sous-ensemble des clés de la table.
       \item \textbf{3\ieme{} forme normale} : un attribut non clé ne dépend pas d'un ou plusieurs attributs ne participant pas à la clé.
     \end{itemize}
-
-    D'autres formes normales ont été défini par la suite.
+    \vspace{20px}
+    D'autres formes normales ont été défini par la suite. Chacune d'entre elles précisant des bonnes pratiques supplémentaires dans la conception des bases de données relationnelles. Il est très dur, voire impossible, de toutes les respecter. Dans les bases de données NoSQL, nous allons relacher ces formes normales afin de simplifier la structure de la base de données. Cette simplification vient à un prix : la perte de certaines optimisations comme par exemple la non-redondance des données stockées.
 
 \subsection{Le défaut d'impédance}
 \subsection{Les valeurs NULL}
