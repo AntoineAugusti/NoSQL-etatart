@@ -8,22 +8,21 @@
       \item \textbf{3\ieme{} forme normale} : un attribut non clé ne dépend pas d'un ou plusieurs attributs ne participant pas à la clé.
     \end{itemize}
     \vspace{20px}
-    D'autres formes normales ont été défini par la suite. Chacune d'entre elles précisant des bonnes pratiques supplémentaires dans la conception des bases de données relationnelles. Il est très dur, voire impossible, de toutes les respecter. Dans les bases de données NoSQL, nous allons relacher ces formes normales afin de simplifier la structure de la base de données. Cette simplification vient à un prix : la perte de certaines optimisations comme par exemple la non-redondance des données stockées.
+    D'autres formes normales ont été défini par la suite, chacune d'entre elles précisant des bonnes pratiques supplémentaires dans la conception des bases de données relationnelles. Il est très difficile, voire impossible, de respecter ces recommandations de modélisation. Dans les bases de données NoSQL, nous allons relâcher ces formes normales afin de simplifier la structure de la base de données. Cette simplification vient à un prix : la perte de certaines optimisations comme par exemple la non-redondance des données stockées.
 
 \subsection{Le défaut d'impédance}
 
 
 
 \subsection{Le marqueur NULL}
+  Dans une base de données relationnelle, les marqueurs  NULL permettent d'indiquer l'absence de valeur. Selon la qualité de notre conception, ces marqueurs sont plus ou moins fréquents, mais comme pour le respect de toutes les formes normales, il est très compliqué de concevoir un schéma n'ayant pas besoin de cette petite astuce.\\
+  
+  Les marqueurs NULL sont très critiquées car ils ne sont pas équivalents à une chaîne de caractères vide ou à un 0. Ce concept présente deux défauts majeurs :
+  \vspace{10px}
+  \begin{itemize}
+    \item \textbf{L'espace disque occupé} : le marqueur NULL, de part sa nature, occupe un espace plus ou moins important en fonction de la qualité de la base de données.
+    \item \textbf{La gestion en SQL} : le concept de marqueur NULL oblige d'une part à la base de données de gérer un type de donnée supplémentaire et d'autre part aux développeurs de penser au traitement des valeurs NULL à chaque requête.
+  \end{itemize}
+  \vspace{20px}
 
-  Dans une base de données relationnelle, le marqueur NULL sont très critiquées. Selon la qualité de notre conception, elles sont plus ou moins fréquentes, mais comme pour le respect de toutes les formes normales, il est très compliqué de concevoir un schéma n'ayant pas besoin de cette petite astuce.\\
-
-  Les valeurs NULL permettent en effet de gérer l'absence de valeur. De ce fait un marqueur NULL n'équivaut pas à une chaine de caractère vide par exemple ou à 0. Ce concept présente deux défauts majeurs :
-\vspace{10px}
-\begin{itemize}
-  \item \textbf{L'espace disque occupé} : le marqueur NULL, de part leur nature, occupe un espace plus ou moins important en fonction de la qualité de la base de données.
-  \item \textbf{La gestion en SQL} : le concept de marqueur NULL oblige d'une part à la base de données de gérer un type de donnée supplémentaire ainsi que d'autre part aux développeurs de penser à chaque requête au traitement des valeurs NULL.
-\end{itemize}
-\vspace{20px}
-
-  Dans une base de données NoSQL, le marqueur NULL n'est pas nécessaire. En effet, il est inutile d'indiquer l'absence de valeur car aucun schéma n'a été défini. Pour indiquer l'absence de valeur, il suffit de ne pas définir la clé.
+  Dans une base de données NoSQL, le marqueur NULL n'est pas nécessaire. En effet, il est inutile d'indiquer l'absence de valeur car aucune valeur n'a été définie. Pour indiquer l'absence de valeur, il suffit de ne pas définir l'attribut concerné.
