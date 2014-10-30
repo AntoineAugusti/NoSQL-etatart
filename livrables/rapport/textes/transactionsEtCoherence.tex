@@ -15,7 +15,7 @@
 
 \subsection{Isolation de la transaction}
 
-	Comme vu dans le paragraphe précédent, une transaction isole les données accédées afin d'éviter une corruption des données due à une modification simultanée par plusieurs utilisateurs concurrents. Cette propriété est gérée, dans le cas de lectures concurrentes, de différentes manière en fonction des bases de données utilisées, dans certains cas, elle provoque des temps d'attente, dans d'autres, des complications en obligeant le moteur à garder en mémoire des états intermédiaires. En revanche, deux écritures simultanées sont interdites. Le vérouillage peut se situer à plusieurs niveaux : base, table ou, dans le meilleur des cas, ligne.
+	Comme vu dans le paragraphe précédent, une transaction isole les données accédées afin d'éviter une corruption des données due à une modification simultanée par plusieurs utilisateurs concurrents. Cette propriété est gérée, dans le cas de lectures concurrentes, de différentes manière en fonction des bases de données utilisées, dans certains cas, elle provoque des temps d'attente, dans d'autres, des complications en obligeant le moteur à garder en mémoire des états intermédiaires. En revanche, deux écritures simultanées sont interdites. Le vérouillage peut se situer à plusieurs niveaux : base, table ou, dans le meilleur des cas, ligne.\\
 
 	La norme SQL définit 4 niveaux d'isolation afin de résoudre les trois principales problèmatiques d'isolation (lecture sale, lecture non reproductible et lecture fantôme) le plus efficacement possible :
 	\vspace{10px}
