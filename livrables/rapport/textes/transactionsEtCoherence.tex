@@ -15,17 +15,17 @@
 
 \subsection{Isolation de la transaction}
 
-	Comme vu dans le paragraphe précédent, une transaction isole les données accédées afin d'éviter une corruption des données due à une modification simultanée par plusieurs utilisateurs concurrents. Cette propriété est gérée, dans le cas de lectures concurrentes, de différentes manière en fonction des bases de données utilisées, dans certains cas, elle provoque des temps d'attente, dans d'autres, des complications en obligeant le moteur à garder en mémoire des états intermédiaires. En revanche, deux écritures simultanées sont interdites. Le vérouillage peut se situer à plusieurs niveaux : base, table ou, dans le meilleur des cas, ligne.\\
+	Comme vu dans le paragraphe précédent, une transaction isole les données accédées afin d'éviter une corruption des données due à une modification simultanée par plusieurs utilisateurs concurrents. Cette propriété est gérée, dans le cas de lectures concurrentes, de différentes manières en fonction des bases de données utilisées. Dans certains cas, elle provoque des temps d'attente, dans d'autres, des complications en obligeant le moteur à garder en mémoire des états intermédiaires. En revanche, deux écritures simultanées sont interdites. Le verrouillage peut se situer à plusieurs niveaux : base, table ou, dans le meilleur des cas, ligne.\\
 
-	La norme SQL définit 4 niveaux d'isolation afin de résoudre les trois principales problèmatiques d'isolation (lecture sale, lecture non reproductible et lecture fantôme) le plus efficacement possible :
+	La norme SQL définit 4 niveaux d'isolation afin de résoudre les trois principales problématiques d'isolation (lecture sale, lecture non reproductible et lecture fantôme) le plus efficacement possible :
 	\vspace{10px}
 	\begin{itemize}
 		\item \textbf{Uncommited Read} (en français, \textit{Lecture de données non validées}) : permet tout ;
 		\item \textbf{Commited Read} (en français, \textit{Lecture de données validées}) : empêche uniquement les lectures sales ;
 		\item \textbf{Repeatable Read} (en français, \textit{Lecture répétée}) : laisse uniquement passer les problèmes de lectures fantômes ;
-		\item \textbf{Serializable} (en français, \textit{Sérialisable}) : résoud tous les problèmes.
+		\item \textbf{Serializable} (en français, \textit{Sérialisable}) : résout tous les problèmes.
 	\end{itemize}
 	\vspace{20px}
-	 Les bases de données implémentent tout ou partie de ces niveaux (PostgreSQL implémente les niveaux \textit{Commited Read} et \textit{Serializable}\cite{isolationTransactionPostgre} alors que SQL Server, par exemple, les implémente tous\cite{isolationTransactionSQLServer}). Il est donc nécessaire de se renseigner sur les caractéristiques des différentes bases de données au niveau de l'isolation des transactions avant de faire son choix.\\
+	 Les bases de données implémentent tout ou partie de ces niveaux (PostgreSQL implémente les niveaux \textit{Commited Read} et \textit{Serializable}\cite{isolationTransactionPostgre} alors que SQL Server, par exemple, les implémentent tous\cite{isolationTransactionSQLServer}). Il est donc nécessaire de se renseigner sur les caractéristiques des différentes bases de données au niveau de l'isolation des transactions avant de faire son choix.\\
 
-	Dans le monde du NoSQL, les bases de données ne tiennent pas compte de la cohérence transactionnelle pour des raisons de simplicité et de performances afin de gérer de nombreux utilisateurs. Il faut préciser que, même dans le monde relationnel, le moteur de stockage MyISAM de la base de données MySQL ne permet pas de transaction. Dans la pratique, le problème des lectures sales n'engendre que très rarement des problèmes, nous avons donc ici une vision optimiste des transactions.
+	Dans le monde du NoSQL, les bases de données ne tiennent pas compte de la cohérence transactionnelle pour des raisons de simplicité et de performances afin de gérer de nombreux utilisateurs. Il faut préciser que même dans le monde relationnel, certains moteurs ne gèrent pas les transactions. C'est par exemple le cas du moteur de stockage MyISAM de la base de données MySQL. Dans la pratique, les lectures sales n'engendrent que très rarement des problèmes, nous avons donc ici une vision optimiste des transactions.
