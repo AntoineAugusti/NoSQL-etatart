@@ -17,7 +17,7 @@
 
 	Comme vu dans le paragraphe précédent, une transaction isole les données accédées afin d'éviter une corruption des données due à une modification simultanée par plusieurs utilisateurs concurrents. Cette propriété est gérée, dans le cas de lectures concurrentes, de différentes manières en fonction des bases de données utilisées. Dans certains cas, elle provoque des temps d'attente, dans d'autres, des complications en obligeant le moteur à garder en mémoire des états intermédiaires. En revanche, deux écritures simultanées sont interdites. Le verrouillage peut se situer à plusieurs niveaux : base, table ou, dans le meilleur des cas, ligne.\\
 
-	Il existe trois problèmatiques lors d'accès concurrents à une base de données :
+	Il existe trois problématiques lors d'accès concurrents à une base de données :
 	\vspace{10px}
 	\begin{itemize}
 		\item \textbf{Lecture sale} : \enquote{lecture par une requête de données en cours de modification par une autre}\cite{wiktionnaireLectureSale} ;
@@ -26,7 +26,7 @@
 	\end{itemize}
 	\vspace{10px}
 
-	 Ces problèmes étant courrants, la norme SQL a défini 4 niveaux d'isolation afin de les résoudre le plus efficacement possible :
+	 Ces problèmes étant courants, la norme SQL a défini 4 niveaux d'isolation afin de les résoudre le plus efficacement possible :
 	\vspace{10px}
 	\begin{itemize}
 		\item \textbf{Uncommited Read} (en français, \textit{Lecture de données non validées}) : permet tout ;
