@@ -1,5 +1,24 @@
 \subsection{Modélisation}
 
+	\subsubsection{Exemple de requête sous Neo4j}
+	Neo4j est une \bddGraphe{} qui est actuellement la base de données la plus populaire. Pour comprendre comment écrire les requêtes sous Neo4j, il faut tout d'abord être familier avec le concept de graphe. Pour simplifier, un graphe connecte des nœuds (des \enquote{entités}) entre eux à l'aide de lieux, qui symbolisent les relations. On peut stocker les informations que l'on souhaite dans les nœuds ou dans les liens.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{images/graphe.png}
+		\caption{Un graphe représentant une partie des relations pour le film \enquote{\textit{The Matrix}}.\cite{grapheNeo4j}}
+		\label{clusteredIndex}
+	\end{figure}
+
+	Si l'on veut, à partir de ce groupe, trouver tous les acteurs jouant dans ce film et le rôle qu'ils jouent, la requête à écrire est la suivante :
+
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{images/requeteNeo4j.png}
+		\caption{Trouver tous les acteurs du film \enquote{\textit{The Matrix}}.\cite{grapheNeo4j}}
+		\label{clusteredIndex}
+	\end{figure}
+
 \subsection{Cas d'utilisation}
 	Une \bddGraphe{} n'a pas pour vocation à être utilisée comme seul moteur de stockage, sauf dans le cas d'applications très spécifiques ou de modules d'un système d'information. Les bases de données orientée graphe sont adaptées lorsque les données manipulées possèdent un grand nombre de liaisons entre elles. Pour rappel, les bases de données orientée graphe accordent une importance égale pour les nœuds et les relations entre ces nœuds. Voici quelques cas d'utilisation où une \bddGraphe{} est particulièrement adaptée\footnote{Ces exemples sont tirés du site officiel de Neo4j : \url{http://neo4j.com}} :
 
