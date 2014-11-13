@@ -1,22 +1,29 @@
 \subsection{Modélisation}
 
 	\subsubsection{Exemple de requête sous Neo4j}
-	Neo4j est une \bddGraphe{} qui est actuellement la base de données la plus populaire. Pour comprendre comment écrire les requêtes sous Neo4j, il faut tout d'abord être familier avec le concept de graphe. Pour simplifier, un graphe connecte des nœuds (des \enquote{entités}) entre eux à l'aide de lieux, qui symbolisent les relations. On peut stocker les informations que l'on souhaite dans les nœuds ou dans les liens.
+	Neo4j est une \bddGraphe{} qui est actuellement la plus populaire de sa catégorie. Pour comprendre comment écrire les requêtes sous Neo4j, il faut tout d'abord être familier avec le concept de graphe. Pour simplifier, un graphe connecte des nœuds (des \enquote{entités}) entre eux à l'aide de liens, qui symbolisent les relations. On peut stocker les informations que l'on souhaite dans les nœuds ou dans les liens.\\
+
+	Voici un exemple de graphe qui représente une partie des relations du film \enquote{\textit{The Matrix}} et \enquote{\textit{Cloud Atlas}} sur la figure \ref{grapheNeo4j}. On y retrouve les différents acteurs et le réalisateur du film. Les nœuds sont les personnes et les liens sont les relations qu'ils ont par rapport au film. Dans notre cas, il y a en a que deux :
+	\vspace{5px}
+	\begin{itemize}
+		\item \textit{DIRECTED} : la personne est un des réalisateurs du film pointé par la liaison ; 
+		\item \textit{ACTED\_IN} : la personne est un acteur du film pointé par la liaison. 
+	\end{itemize}
 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{images/graphe.png}
-		\caption{Un graphe représentant une partie des relations pour le film \enquote{\textit{The Matrix}}.\cite{grapheNeo4j}}
-		\label{clusteredIndex}
+		\caption{Un graphe représentant une partie des relations pour les films \enquote{\textit{The Matrix}} et \enquote{\textit{Cloud Atlas}}.\cite{grapheNeo4j}}
+		\label{grapheNeo4j}
 	\end{figure}
 
-	Si l'on veut, à partir de ce groupe, trouver tous les acteurs jouant dans ce film et le rôle qu'ils jouent, la requête à écrire est la suivante :
+	Si l'on veut, à partir de ce graphe, trouver tous les acteurs jouant dans le film \enquote{\textit{The Matrix}} et le rôle qu'ils jouent, la requête à écrire est présentée dans la figure~\ref{requeteNeo4j}.
 
-		\begin{figure}[H]
+	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{images/requeteNeo4j.png}
 		\caption{Trouver tous les acteurs du film \enquote{\textit{The Matrix}}.\cite{grapheNeo4j}}
-		\label{clusteredIndex}
+		\label{requeteNeo4j}
 	\end{figure}
 
 \subsection{Cas d'utilisation}
