@@ -1,0 +1,13 @@
+.DS_Store
+.env.*.php
+.env.php
+.sass-cache
+bootstrap/compiled.php
+composer.lock
+composer.phar
+node_modules
+public/assets/css
+public/assets/js
+ressources/css/app.css
+Thumbs.db
+vendor
