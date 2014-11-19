@@ -4,6 +4,13 @@ use Moloquent;
 
 class Recipe extends Moloquent {
 
+	public $fillable = ['title', 'note'];
+
+	public function ingredients()
+	{
+		return $this->embedsMany('Insa\Ingredients\Models\Ingredient');
+	}
+
 	public function setNoteAttribute($value)
 	{
 		if (! is_int($value) OR $value < 0 OR $value > 10)
