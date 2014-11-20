@@ -12,4 +12,14 @@ class MongoRecipesRepository implements RecipesRepository {
 	{
 		return Recipe::all();
 	}
+
+	/**
+	 * Retrieve a recipe by its slug
+	 * @param  string $slug
+	 * @return \Insa\Recipes\Models\Recipe
+	 */
+	public function getBySlug($slug)
+	{
+		return Recipe::whereSlug($slug)->first();
+	}
 }
