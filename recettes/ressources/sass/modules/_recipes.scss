@@ -1,0 +1,11 @@
+.recipes__recipe-info {
+	text-align: center;
+}
+
+.recipes__star {
+	font-size: 150%;
+
+	&.yellow {
+		color: $yellow;
+	}
+}

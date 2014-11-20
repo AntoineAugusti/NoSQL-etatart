@@ -62,7 +62,7 @@ gulp.task('css', function() {
 // Watch files for changes
 gulp.task('watch', function() {
 	gulp.watch(inputJSDir + '*.js', ['lint', 'scripts']);
-	gulp.watch(inputSASSDir + '*.scss', ['compass']);
+	gulp.watch(inputSASSDir + '*/*.scss', ['compass']);
 	gulp.watch(inputCSS + '*.css', ['css']);
 });
 
