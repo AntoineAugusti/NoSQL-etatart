@@ -3,6 +3,7 @@
 use View;
 use Illuminate\Routing\Controller;
 use Insa\Recipes\Repositories\RecipesRepository;
+use Insa\Exceptions\RecipeNotFoundException;
 
 class RecipesController extends Controller {
 
@@ -18,5 +19,14 @@ class RecipesController extends Controller {
 		$recipes = $this->recipesRepo->getAll();
 
 		return View::make('recipes.index', compact('recipes'));
+	}
+
+	public function show($slug)
+	{
+		$recipe = $this->recipesRepo->getBySlug($slug);
+
+		if (is_null($recipe)) throw new RecipeNotFoundException;
+
+		return View::make('recipes.show', compact('recipe'));
 	}
 }

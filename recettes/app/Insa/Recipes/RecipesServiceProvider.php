@@ -40,6 +40,7 @@ class RecipesServiceProvider extends ServiceProvider {
 		
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
 			$this->app['router']->get('recipes', ['as' => 'recipes.index', 'uses' => $controller.'@index']);
+			$this->app['router']->get('recipes/{slug}', ['as' => 'recipes.show', 'uses' => $controller.'@show']);
 		});
 	}
 
