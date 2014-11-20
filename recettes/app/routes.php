@@ -25,10 +25,3 @@ Route::get('/', function()
 		var_dump($i->quantity->type);
 	}
 });
-
-Route::get('recipes', function()
-{
-	$recipes = Recipe::all();
-
-	return View::make('recipes.index', compact('recipes'));
-});
