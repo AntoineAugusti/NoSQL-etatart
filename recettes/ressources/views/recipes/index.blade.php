@@ -6,4 +6,8 @@
 	@foreach ($recipes as $recipe)
 		@include('recipes.partials.single')
 	@endforeach
+
+	<div class="paginator">
+		{{ $paginator->links() }}
+	</div>
 @stop

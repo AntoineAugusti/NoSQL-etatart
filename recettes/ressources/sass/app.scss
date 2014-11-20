@@ -9,5 +9,9 @@ body {
 	background-color: $red;
 }
 
+.paginator {
+	text-align: center;
+}
+
 @import "modules/recipes";
 @import "modules/ingredients";

@@ -1,6 +1,6 @@
 <?php namespace Insa\Recipes\Controllers;
 
-use View;
+use Config, Input, Paginator, View;
 use Illuminate\Routing\Controller;
 use Insa\Recipes\Repositories\RecipesRepository;
 use Insa\Exceptions\RecipeNotFoundException;
@@ -16,9 +16,16 @@ class RecipesController extends Controller {
 
 	public function index()
 	{
-		$recipes = $this->recipesRepo->getAll();
+		$pagesize = Config::get('recipes.perPage');
+		$recipes = $this->recipesRepo->index(Input::get('page', 1), $pagesize);
+		$totalRecipes = $this->recipesRepo->getTotalRecipes();
 
-		return View::make('recipes.index', compact('recipes'));
+		$data = [
+			'recipes' => $recipes,
+			'paginator' => Paginator::make($recipes->toArray(), $totalRecipes, $pagesize),
+		];
+
+		return View::make('recipes.index', $data);
 	}
 
 	public function show($slug)
