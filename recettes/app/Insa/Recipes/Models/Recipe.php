@@ -13,11 +13,11 @@ class Recipe extends Moloquent {
 	const STARTER      = 'starter';
 
 	protected $presenter = 'Insa\Recipes\Presenters\RecipePresenter';
-	public $fillable = ['title', 'note', 'cookingTime', 'type'];
+	public $fillable = ['title', 'note', 'cookingTime', 'type', 'slug', 'description'];
 
 	public function ingredients()
 	{
-		return $this->embedsMany('Insa\Ingredients\Models\Ingredient');
+		return $this->embedsMany(\Insa\Ingredients\Models\Ingredient::class);
 	}
 
 	public function setNoteAttribute($value)

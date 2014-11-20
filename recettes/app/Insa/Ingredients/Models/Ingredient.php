@@ -9,6 +9,6 @@ class Ingredient extends Moloquent {
 
 	public function quantity()
 	{
-		return $this->embedsOne('Insa\Quantities\Models\Quantity');
+		return $this->embedsOne(\Insa\Quantities\Models\Quantity::class);
 	}
 }
