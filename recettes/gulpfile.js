@@ -35,8 +35,8 @@ gulp.task('compass', function() {
 // Concatenate and minify JS
 gulp.task('scripts', function() {
 	return gulp.src([
-			inputJSDir + 'ripples.min.',
-			inputJSDir + 'material.min.',
+			inputJSDir + 'ripples.min.js',
+			inputJSDir + 'material.min.js',
 			inputJSDir + 'app.js'
 		])
 		.pipe(concat('scripts.min.js'))
