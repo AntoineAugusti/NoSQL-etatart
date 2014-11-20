@@ -22,4 +22,34 @@ class MongoRecipesRepository implements RecipesRepository {
 	{
 		return Recipe::whereSlug($slug)->first();
 	}
+
+	/**
+	 * Get last recipes
+	 * @param  int $page The page number
+	 * @param  int $pagesize The number of recipes per page
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
+	public function index($page, $pagesize)
+	{
+		$skip = $this->computeSkip($page, $pagesize);
+
+		return Recipe::latest()
+			->take($pagesize)
+			->skip($skip)
+			->get();
+	}
+
+	/**
+	 * Get the total number of recipes
+	 * @return int
+	 */
+	public function getTotalRecipes()
+	{
+		return Recipe::count();
+	}
+
+	private function computeSkip($page, $pagesize)
+	{
+		return $pagesize * ($page - 1);	
+	}
 }
