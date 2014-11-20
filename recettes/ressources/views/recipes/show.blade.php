@@ -1,7 +1,7 @@
 @extends('layouts.page')
 
 @section('pageTitle')
-	{{{ $recipe->title }}}
+{{{ $recipe->title }}}
 @stop
 
 @section('content')
@@ -10,4 +10,7 @@
 		<li class="active">{{{ $recipe->title }}}</li>
 	</ul>
 	@include('recipes.partials.single')
+	
+	<h2>{{ Lang::get('recipes.listOfIngredients') }}</h2>
+	@include('ingredients.index', ['ingredients' => $recipe->ingredients])
 @stop
