@@ -2,8 +2,10 @@
 <html>
 <head>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-	<link href="assets/css/styles.min.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
+	<link href="/assets/css/styles.min.css" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>@yield('pageTitle')</title>
 </head>
 <body>
 	<div class="navbar navbar-default">
