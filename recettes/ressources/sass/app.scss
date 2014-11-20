@@ -5,4 +5,8 @@ body {
 	font-size: 15px;
 }
 
+.navbar-default {
+	background-color: $red;
+}
+
 @import "modules/recipes";

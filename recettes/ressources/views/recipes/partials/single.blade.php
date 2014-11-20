@@ -1,16 +1,16 @@
 <div class="panel panel-default">
-	<div class="panel-heading">{{ $recipe->title }}</div>
+	<div class="panel-heading recipes__title">
+		<a href="{{ route('recipes.show', $recipe->slug) }}">
+			{{ $recipe->title }}
+		</a>
+	</div>
 	<div class="panel-body">
-		<div class="row recipes__recipe-info">		
-			<div class="col-sm-4">
-				<i class="mdi-maps-restaurant-menu"></i> {{ $recipe->present()->type }}
-			</div>
-			<div class="col-sm-4">
-				<i class="mdi-image-timer"></i> {{ $recipe->present()->cookingTime }}
-			</div>
-			<div class="col-sm-4">
-				{{ $recipe->present()->rating }}
-			</div>		
+		<!-- Type, cooking time and rating -->
+		@include('recipes.partials.infos')
+		
+		<!-- Description -->
+		<div class="recipes__description">
+			{{{ $recipe->description }}}
 		</div>
 	</div>
 </div>

@@ -2,6 +2,23 @@
 	text-align: center;
 }
 
+.recipes__big-title {
+	color: $darkRed;
+	margin-bottom: 30px;
+}
+
+.recipes__title {
+	font-family: 'Crete Round', serif;
+	font-size: 1.5em;
+}
+
+.recipes__description {
+	border-top: 2px $lightGray solid;
+	padding: 15px 10px;
+	margin: 10px 0;
+	line-height: 25px;
+}
+
 .recipes__star {
 	font-size: 150%;
 
