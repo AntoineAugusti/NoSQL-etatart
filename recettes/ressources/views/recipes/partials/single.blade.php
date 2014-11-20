@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default animated fadeInUp">
 	<div class="panel-heading recipes__title">
 		<a href="{{ route('recipes.show', $recipe->slug) }}">
 			{{ $recipe->title }}

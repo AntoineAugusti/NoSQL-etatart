@@ -1,5 +1,11 @@
+<?php
+if ($i % 2 != 0)
+	$animation = 'fadeInLeft';
+else
+	$animation = 'fadeInRight';
+?>
 <div class="col-lg-6">				
-	<div class="list-group-item">
+	<div class="list-group-item animated {{ $animation }}">
 		<div class="row-action-primary ingredients__price">
 			<div class="">
 				{{ $ingredient->present()->price }}
