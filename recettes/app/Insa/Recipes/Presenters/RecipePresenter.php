@@ -5,12 +5,21 @@ use Laracasts\Presenter\Presenter;
 
 class RecipePresenter extends Presenter {
 	
+	public function totalTime()
+	{
+		$time = $this->entity->cookingTime + $this->entity->preparationTime;
+		
+		return $this->htmlForTime($time);
+	}
+
 	public function cookingTime()
 	{
-		$hours = floor($this->entity->cookingTime / 60);
-		$minutes = ($this->entity->cookingTime % 60);
+		return $this->htmlForTime($this->entity->cookingTime);
+	}
 
-		return Lang::choice('recipes.cookingTime', $hours, compact('hours', 'minutes'));
+	public function preparationTime()
+	{
+		return $this->htmlForTime($this->entity->preparationTime);
 	}
 
 	public function type()
@@ -36,5 +45,15 @@ class RecipePresenter extends Presenter {
 			$html .= $star;
 
 		return $html;
+	}
+
+	private function htmlForTime($time)
+	{
+		$hours = floor($time / 60);
+		$minutes = ($time % 60);
+		// Add a leading 0 to single digits
+		$minutes = sprintf("%02s", $minutes);
+
+		return Lang::choice('recipes.cookingTime', $hours, compact('hours', 'minutes'));
 	}
 }

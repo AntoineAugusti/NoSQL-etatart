@@ -21,12 +21,13 @@ class RecipeTableSeeder extends Seeder {
 			$title = ucwords($faker->sentence(3));
 			
 			$r = new Recipe([
-				'title' => $title,
-				'slug' => Str::slug($title),
-				'note' => $faker->numberBetween(1, 10),
-				'type' => $faker->randomElement([Recipe::AMUSE_GUEULE, Recipe::DESSERT, Recipe::MAIN, Recipe::STARTER]),
-				'cookingTime' => $faker->numberBetween(20, 200),
-				'description' => $faker->text(300)
+				'title'           => $title,
+				'slug'            => Str::slug($title),
+				'note'            => $faker->numberBetween(1, 10),
+				'type'            => $faker->randomElement([Recipe::AMUSE_GUEULE, Recipe::DESSERT, Recipe::MAIN, Recipe::STARTER]),
+				'cookingTime'     => $faker->numberBetween(20, 200),
+				'preparationTime' => $faker->numberBetween(20, 200),
+				'description'     => $faker->text(300)
 			]);	
 
 			// Create ingredients and quantities

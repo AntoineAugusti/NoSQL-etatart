@@ -13,7 +13,7 @@ class Recipe extends Moloquent {
 	const STARTER      = 'starter';
 
 	protected $presenter = 'Insa\Recipes\Presenters\RecipePresenter';
-	public $fillable = ['title', 'note', 'cookingTime', 'type', 'slug', 'description'];
+	public $fillable = ['title', 'note', 'cookingTime', 'preparationTime', 'type', 'slug', 'description'];
 
 	public function ingredients()
 	{
