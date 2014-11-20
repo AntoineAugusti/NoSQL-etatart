@@ -1,10 +1,19 @@
 <?php namespace Insa\Recipes\Models;
 
 use Moloquent;
+use Laracasts\Presenter\PresentableTrait;
 
 class Recipe extends Moloquent {
 
-	public $fillable = ['title', 'note'];
+	use PresentableTrait;
+
+	const AMUSE_GUEULE = 'amuse-gueule';
+	const DESSERT      = 'dessert';
+	const MAIN         = 'main';
+	const STARTER      = 'starter';
+
+	protected $presenter = 'Insa\Recipes\Presenters\RecipePresenter';
+	public $fillable = ['title', 'note', 'cookingTime', 'type'];
 
 	public function ingredients()
 	{
@@ -21,7 +30,7 @@ class Recipe extends Moloquent {
 
 	public function setTypeAttribute($value)
 	{
-		$allowedValues = ['amuse-gueule', 'dessert', 'plat', 'entree'];
+		$allowedValues = [self::AMUSE_GUEULE, self::DESSERT, self::MAIN, self::STARTER];
 		if ( ! in_array($value, $allowedValues))
 			throw new \InvalidArgumentException($value." is not a valid type. Possible values are: ".implode('|', $allowedValues));
 			
