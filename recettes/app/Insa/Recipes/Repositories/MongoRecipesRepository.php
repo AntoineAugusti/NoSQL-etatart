@@ -1,6 +1,6 @@
 <?php namespace Insa\Recipes\Repositories;
 
-use Str;
+use Cache, Str;
 use Insa\Recipes\Models\Recipe;
 
 class MongoRecipesRepository implements RecipesRepository {
@@ -67,6 +67,32 @@ class MongoRecipesRepository implements RecipesRepository {
 		$r->save();
 
 		return $r;
+	}
+
+	/**
+	 * Get an array of the name of all ingredients used in recipes
+	 * @return array
+	 */
+	public function getAllIngredients()
+	{
+		$instance = $this;
+
+		return Cache::remember('recipes.allIngredients', 10, function() use ($instance)
+		{
+			$ingredientsArray = $instance->getAll()->lists('ingredients');
+			$ingredientsCollections = new \Illuminate\Support\Collection($ingredientsArray);
+
+			$ingredients = [];
+			foreach ($ingredientsCollections as $ingredientsCollection)
+				$ingredients = array_merge($ingredients, $ingredientsCollection->lists('name'));
+
+			// Remove duplicates
+			$ingredients = array_unique($ingredients);
+			// Sort alphabetically
+			sort($ingredients);
+
+			return $ingredients;
+		});
 	}
 
 	private function computeSkip($page, $pagesize)

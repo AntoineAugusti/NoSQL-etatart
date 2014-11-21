@@ -40,4 +40,10 @@ interface RecipesRepository {
 	 * @return \Insa\Recipes\Models\Recipe
 	 */
 	public function create($title, $rating, $type, $preparationTime, $cookingTime, $description);
+
+	/**
+	 * Get an array of the name of all ingredients used in recipes
+	 * @return array
+	 */
+	public function getAllIngredients();
 }
