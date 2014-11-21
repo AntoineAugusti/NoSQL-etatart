@@ -8,47 +8,54 @@
 	<title>@yield('pageTitle')</title>
 </head>
 <body>
-	<div class="navbar navbar-default">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="{{ URL::route('recipes.index') }}">Brand</a>
-		</div>
-		<div class="navbar-collapse collapse navbar-responsive-collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="javascript:void(0)">Active</a></li>
-				<li><a href="javascript:void(0)">Link</a></li>
-				<li class="dropdown">
-					<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="javascript:void(0)">Action</a></li>
-						<li><a href="javascript:void(0)">Another action</a></li>
-						<li><a href="javascript:void(0)">Something else here</a></li>
-						<li class="divider"></li>
-						<li class="dropdown-header">Dropdown header</li>
-						<li><a href="javascript:void(0)">Separated link</a></li>
-						<li><a href="javascript:void(0)">One more separated link</a></li>
-					</ul>
-				</li>
-			</ul>
-			<form class="navbar-form navbar-left">
-				<input type="text" class="form-control col-lg-8" placeholder="Search">
-			</form>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="javascript:void(0)">Link</a></li>
-				<li class="dropdown">
-					<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="javascript:void(0)">Action</a></li>
-						<li><a href="javascript:void(0)">Another action</a></li>
-						<li><a href="javascript:void(0)">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="javascript:void(0)">Separated link</a></li>
-					</ul>
-				</li>
-			</ul>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">		
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{{ URL::route('recipes.index') }}">INSA</a>
+			</div>
+			<div class="navbar-collapse collapse navbar-responsive-collapse">
+				<ul class="nav navbar-nav">
+					@foreach (['recipes.index', 'recipes.create'] as $route)
+						<?php 
+						$active = (Route::currentRouteName() == $route) ? 'class="active"' : ''; 
+						?>
+						<li {{ $active }}><a href="{{ URL::route($route) }}">{{ Lang::get('menu.'.$route) }}</a></li>
+					@endforeach
+					<li><a href="javascript:void(0)">Link</a></li>
+					<li class="dropdown">
+						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="javascript:void(0)">Action</a></li>
+							<li><a href="javascript:void(0)">Another action</a></li>
+							<li><a href="javascript:void(0)">Something else here</a></li>
+							<li class="divider"></li>
+							<li class="dropdown-header">Dropdown header</li>
+							<li><a href="javascript:void(0)">Separated link</a></li>
+							<li><a href="javascript:void(0)">One more separated link</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-left">
+					<input type="text" class="form-control col-lg-8" placeholder="Search">
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="javascript:void(0)">Link</a></li>
+					<li class="dropdown">
+						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="javascript:void(0)">Action</a></li>
+							<li><a href="javascript:void(0)">Another action</a></li>
+							<li><a href="javascript:void(0)">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="javascript:void(0)">Separated link</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
