@@ -39,6 +39,8 @@ gulp.task('scripts', function() {
 			inputJSDir + 'material.min.js',
 			inputJSDir + 'headroom.min.js',
 			inputJSDir + 'nouislider.min.js',
+			inputJSDir + 'chosen.min.js',
+			inputJSDir + 'chosen-create-option.min.js',
 			inputJSDir + 'app.js',
 			inputJSDir + 'timers/preparation-time.js',
 			inputJSDir + 'timers/cooking-time.js',
@@ -56,6 +58,7 @@ gulp.task('css', function() {
 			inputCSS + 'ripples.min.css',
 			inputCSS + 'material-wfont.min.css',
 			inputCSS + 'animate.css',
+			inputCSS + 'chosen.css',
 			inputCSS + 'app.css'
 		])
 		.pipe(concat('styles.min.css'))

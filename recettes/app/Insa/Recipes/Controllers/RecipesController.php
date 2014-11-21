@@ -67,6 +67,18 @@ class RecipesController extends Controller {
 
 	public function createIngredients()
 	{
-		return Session::all();
+		$ingredients = $this->recipesRepo->getAllIngredients();
+		
+		$data = [
+			// Keys and values are the same
+			'ingredients' => array_combine($ingredients, $ingredients),
+		];
+		
+		return View::make('ingredients.create', $data);
+	}
+
+	public function storeIngredients()
+	{
+		return Input::all();
 	}
 }

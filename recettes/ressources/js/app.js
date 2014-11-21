@@ -7,6 +7,13 @@
 // Headroom
 $("header").headroom();
 
+$(".chosen-select").chosen({
+	create_option: true,
+	persistent_create_option: true,
+	skip_no_results: true,
+	create_option_text: "Add your ingredient",
+});
+
 // Material design
 $(document).ready(function() {
 	$.material.init();

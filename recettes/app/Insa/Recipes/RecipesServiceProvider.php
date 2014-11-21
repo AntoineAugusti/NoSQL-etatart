@@ -42,6 +42,7 @@ class RecipesServiceProvider extends ServiceProvider {
 			$this->app['router']->get('/', ['as' => 'recipes.index', 'uses' => $controller.'@index']);
 			$this->app['router']->get('recipes/create', ['as' => 'recipes.create', 'uses' => $controller.'@create']);
 			$this->app['router']->get('recipes/ingredients/create', ['as' => 'recipes.ingredients.create', 'uses' => $controller.'@createIngredients']);
+			$this->app['router']->post('recipes/ingredients', ['as' => 'recipes.ingredients.store', 'uses' => $controller.'@storeIngredients']);
 			$this->app['router']->post('recipes', ['as' => 'recipes.store', 'uses' => $controller.'@store']);
 			$this->app['router']->get('recipes/{slug}', ['as' => 'recipes.show', 'uses' => $controller.'@show']);
 		});
