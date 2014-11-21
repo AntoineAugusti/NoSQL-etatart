@@ -1,5 +1,6 @@
 <?php namespace Insa\Recipes\Repositories;
 
+use Str;
 use Insa\Recipes\Models\Recipe;
 
 class MongoRecipesRepository implements RecipesRepository {
@@ -46,6 +47,26 @@ class MongoRecipesRepository implements RecipesRepository {
 	public function getTotalRecipes()
 	{
 		return Recipe::count();
+	}
+
+	/**
+	 * Store a new recipe
+	 * @param  string $title The name of the recipe
+	 * @param  int $rating
+	 * @param  string $type            [description]
+	 * @param  string $preparationTime
+	 * @param  string $cookingTime
+	 * @param  string $description
+	 * @return \Insa\Recipes\Models\Recipe
+	 */
+	public function create($title, $rating, $type, $preparationTime, $cookingTime, $description)
+	{
+		$r = new Recipe(compact('title', 'rating', 'type', 'preparationTime', 'cookingTime', 'description'));
+		$r->slug = Str::slug($title);
+
+		$r->save();
+
+		return $r;
 	}
 
 	private function computeSkip($page, $pagesize)
