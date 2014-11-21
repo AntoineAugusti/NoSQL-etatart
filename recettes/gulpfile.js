@@ -37,7 +37,12 @@ gulp.task('scripts', function() {
 	return gulp.src([
 			inputJSDir + 'ripples.min.js',
 			inputJSDir + 'material.min.js',
-			inputJSDir + 'app.js'
+			inputJSDir + 'headroom.min.js',
+			inputJSDir + 'nouislider.min.js',
+			inputJSDir + 'app.js',
+			inputJSDir + 'timers/preparation-time.js',
+			inputJSDir + 'timers/cooking-time.js',
+			inputJSDir + 'timers/rating.js',
 		])
 		.pipe(concat('scripts.min.js'))
 		.pipe(gulp.dest(outputJS))
@@ -62,6 +67,7 @@ gulp.task('css', function() {
 // Watch files for changes
 gulp.task('watch', function() {
 	gulp.watch(inputJSDir + '*.js', ['lint', 'scripts']);
+	gulp.watch(inputJSDir + '*/*.js', ['lint', 'scripts']);
 	gulp.watch(inputSASSDir + '*/*.scss', ['compass']);
 	gulp.watch(inputSASSDir + '*.scss', ['compass']);
 	gulp.watch(inputCSS + '*.css', ['css']);

@@ -5,6 +5,10 @@
 .recipes__big-title {
 	color: $darkRed;
 	margin-bottom: 30px;
+	i {
+		color: black;
+		margin-right: 15px;
+	}
 }
 
 .recipes__title {

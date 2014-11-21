@@ -1,5 +1,9 @@
 @extends('layouts.page')
 
+@section('pageTitle')
+	{{ Lang::get('recipes.ourRecipes') }}
+@stop
+
 @section('content')
 	<h1 class="recipes__big-title">{{ Lang::get('recipes.ourRecipes') }}</h1>
 	

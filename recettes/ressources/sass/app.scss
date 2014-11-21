@@ -3,6 +3,7 @@
 
 body {
 	font-size: 15px;
+	padding-top: 70px;
 }
 
 .navbar-default {
@@ -11,6 +12,16 @@ body {
 
 .paginator {
 	text-align: center;
+}
+
+.headroom {
+	transition: transform 200ms linear;
+}
+.headroom--pinned {
+	transform: translateY(0%);
+}
+.headroom--unpinned {
+	transform: translateY(-100%);
 }
 
 @import "modules/recipes";
