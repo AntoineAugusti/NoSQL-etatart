@@ -23,7 +23,7 @@ class RecipeTableSeeder extends Seeder {
 			$r = new Recipe([
 				'title'           => $title,
 				'slug'            => Str::slug($title),
-				'note'            => $faker->numberBetween(1, 10),
+				'rating'          => $faker->numberBetween(1, 10),
 				'type'            => $faker->randomElement(Recipe::getAllowedTypeValues()),
 				'cookingTime'     => $faker->numberBetween(20, 200),
 				'preparationTime' => $faker->numberBetween(20, 200),

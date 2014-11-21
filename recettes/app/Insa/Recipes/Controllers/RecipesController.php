@@ -1,18 +1,23 @@
 <?php namespace Insa\Recipes\Controllers;
 
-use Config, Input, Paginator, View;
+use Config, Input, Paginator, Session, Redirect, View;
 use Illuminate\Routing\Controller;
 use Insa\Exceptions\RecipeNotFoundException;
 use Insa\Recipes\Models\Recipe;
 use Insa\Recipes\Repositories\RecipesRepository;
+use Insa\Recipes\Validation\RecipeValidator;
 
 class RecipesController extends Controller {
 
 	private $recipesRepo;
+	private $recipesValidator;
 	
-	public function __construct(RecipesRepository $recipesRepo)
+	public function __construct(RecipesRepository $recipesRepo, RecipeValidator $recipesValidator)
 	{
 		$this->recipesRepo = $recipesRepo;
+		$this->recipesValidator = $recipesValidator;
+
+		$this->beforeFilter('csrf', ['only' => 'store']);
 	}
 
 	public function index()
@@ -45,5 +50,23 @@ class RecipesController extends Controller {
 		if (is_null($recipe)) throw new RecipeNotFoundException;
 
 		return View::make('recipes.show', compact('recipe'));
+	}
+
+	public function store()
+	{
+		$data = Input::only(['title', 'rating', 'type', 'preparationTime', 'cookingTime', 'description']);
+
+		$this->recipesValidator->validateCreate($data);
+
+		// Store the recipe
+		extract($data);
+		$recipe = $this->recipesRepo->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
+
+		return Redirect::route('recipes.ingredients.create')->withRecipe($recipe);
+	}
+
+	public function createIngredients()
+	{
+		return Session::all();
 	}
 }

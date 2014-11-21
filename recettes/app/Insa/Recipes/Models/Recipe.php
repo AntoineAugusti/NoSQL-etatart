@@ -13,17 +13,17 @@ class Recipe extends Moloquent {
 	const STARTER      = 'starter';
 
 	protected $presenter = 'Insa\Recipes\Presenters\RecipePresenter';
-	public $fillable = ['title', 'note', 'cookingTime', 'preparationTime', 'type', 'slug', 'description'];
+	public $fillable = ['title', 'rating', 'cookingTime', 'preparationTime', 'type', 'slug', 'description'];
 
 	public function ingredients()
 	{
 		return $this->embedsMany(\Insa\Ingredients\Models\Ingredient::class);
 	}
 
-	public function setNoteAttribute($value)
+	public function setRatingAttribute($value)
 	{
-		if (! is_int($value) OR $value < 0 OR $value > 10)
-			throw new \InvalidArgumentException("The rating should be between 0 and 10");
+		if (! is_numeric($value) OR $value < 1 OR $value > 10)
+			throw new \InvalidArgumentException("The rating should be between 1 and 10");
 
 		$this->attributes['note'] = $value;
 	}

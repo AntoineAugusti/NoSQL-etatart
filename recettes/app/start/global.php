@@ -48,6 +48,23 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+App::error(function(Laracasts\Validation\FormValidationException $e, $code)
+{
+	if (Request::wantsJson()) {
+
+		$failedKey = array_keys($e->getErrors()->getMessages())[0];
+		
+		return Response::json([
+			'status' => 'wrong_'.$failedKey,
+			'error'  => $e->getErrors()->first($failedKey),
+		], 400);
+	}
+
+	return Redirect::back()
+		->withInput(Input::except(['password', 'avatar']))
+		->withErrors($e->getErrors());
+});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler

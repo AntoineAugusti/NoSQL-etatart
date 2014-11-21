@@ -5,14 +5,15 @@
 @stop
 
 @section('content')
-	<div class="panel panel-default animated fadeInUp">
+	<div class="panel panel-default">
 		<div class="panel-body">
 			<h1 class="recipes__big-title"><i class="mdi-maps-restaurant-menu"></i> {{ Lang::get('recipes.createRecipe') }}</h1>
 			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">				
+				<div class="col-lg-8 col-lg-offset-2">
+				@include('layouts.partials.formErrors')				
 				{{
 					Form::open([
-						'route' => 'recipes.create',
+						'route' => 'recipes.store',
 						'class' => 'form-horizontal'
 					]);
 				}}
@@ -31,7 +32,7 @@
 							<div class="col-lg-10">
 								<div id="slider-rating" class="slider shor"></div>
 								<div id="display-stars"></div>
-								{{ Form::hidden('rating', 0, ['id' => 'rating']) }}
+								{{ Form::hidden('rating', 5, ['id' => 'rating']) }}
 							</div>
 						</div>
 
@@ -56,7 +57,7 @@
 							<div class="col-lg-10">
 								<div id="slider-preparation-time" class="slider shor"></div>
 								<div id="display-preparation-time"></div>
-								{{ Form::hidden('preparationTime', 0, ['id' => 'preparationTime']) }}
+								{{ Form::hidden('preparationTime', 10, ['id' => 'preparationTime']) }}
 							</div>
 						</div>
 
@@ -66,7 +67,7 @@
 							<div class="col-lg-10">
 								<div id="slider-cooking-time" class="slider shor"></div>
 								<div id="display-cooking-time"></div>
-								{{ Form::hidden('cookingTime', 0, ['id' => 'cookingTime']) }}
+								{{ Form::hidden('cookingTime', 20, ['id' => 'cookingTime']) }}
 							</div>
 						</div>
 						
