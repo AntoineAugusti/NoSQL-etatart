@@ -2,8 +2,9 @@
 
 use Config, Input, Paginator, View;
 use Illuminate\Routing\Controller;
-use Insa\Recipes\Repositories\RecipesRepository;
 use Insa\Exceptions\RecipeNotFoundException;
+use Insa\Recipes\Models\Recipe;
+use Insa\Recipes\Repositories\RecipesRepository;
 
 class RecipesController extends Controller {
 
@@ -31,7 +32,7 @@ class RecipesController extends Controller {
 	public function create()
 	{
 		$data = [
-
+			'possibleTypes' => Recipe::getAllowedTypeValues()
 		];
 		
 		return View::make('recipes.create', $data);

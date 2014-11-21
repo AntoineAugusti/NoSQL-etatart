@@ -30,10 +30,15 @@ class Recipe extends Moloquent {
 
 	public function setTypeAttribute($value)
 	{
-		$allowedValues = [self::AMUSE_GUEULE, self::DESSERT, self::MAIN, self::STARTER];
+		$allowedValues = self::getAllowedTypeValues();
 		if ( ! in_array($value, $allowedValues))
 			throw new \InvalidArgumentException($value." is not a valid type. Possible values are: ".implode('|', $allowedValues));
 			
 		$this->attributes['type'] = $value;
+	}
+
+	public static function getAllowedTypeValues()
+	{
+		return [self::AMUSE_GUEULE, self::STARTER, self::MAIN, self::DESSERT];
 	}
 }

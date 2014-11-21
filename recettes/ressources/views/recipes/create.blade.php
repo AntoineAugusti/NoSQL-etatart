@@ -39,7 +39,7 @@
 						<div class="form-group">
 							<label class="col-lg-2 control-label">{{ trans('recipes.type') }}</label>
 							<div class="col-lg-10">
-								@foreach (['amuse-gueule', 'starter', 'main', 'dessert'] as $element)
+								@foreach ($possibleTypes as $element)
 									<div class="radio radio-primary">
 										<label>
 										{{ Form::radio('type', $element, false) }}
