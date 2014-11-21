@@ -28,6 +28,15 @@ class RecipesController extends Controller {
 		return View::make('recipes.index', $data);
 	}
 
+	public function create()
+	{
+		$data = [
+
+		];
+		
+		return View::make('recipes.create', $data);
+	}
+
 	public function show($slug)
 	{
 		$recipe = $this->recipesRepo->getBySlug($slug);
