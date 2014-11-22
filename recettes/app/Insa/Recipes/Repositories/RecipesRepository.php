@@ -1,5 +1,8 @@
 <?php namespace Insa\Recipes\Repositories;
 
+use Insa\Ingredients\Models\Ingredient;
+use Insa\Recipes\Models\Recipe;
+
 interface RecipesRepository {
 
 	/**
@@ -14,6 +17,13 @@ interface RecipesRepository {
 	 * @return \Insa\Recipes\Models\Recipe
 	 */
 	public function getBySlug($slug);
+
+	/**
+	 * Add an ingredient to a recipe
+	 * @param \Insa\Recipes\Models\Recipe $r
+	 * @param \Insa\Ingredients\Models\Ingredient $i
+	 */
+	public function addIngredient(Recipe $r, Ingredient $i);
 
 	/**
 	 * Get last recipes

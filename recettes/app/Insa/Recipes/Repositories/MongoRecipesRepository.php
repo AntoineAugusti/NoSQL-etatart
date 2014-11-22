@@ -1,6 +1,7 @@
 <?php namespace Insa\Recipes\Repositories;
 
 use Cache, Str;
+use Insa\Ingredients\Models\Ingredient;
 use Insa\Recipes\Models\Recipe;
 
 class MongoRecipesRepository implements RecipesRepository {
@@ -22,6 +23,19 @@ class MongoRecipesRepository implements RecipesRepository {
 	public function getBySlug($slug)
 	{
 		return Recipe::whereSlug($slug)->first();
+	}
+
+	/**
+	 * Add an ingredient to a recipe
+	 * @param \Insa\Recipes\Models\Recipe $r
+	 * @param \Insa\Ingredients\Models\Ingredient $i
+	 */
+	public function addIngredient(Recipe $r, Ingredient $i)
+	{
+		$r->ingredients()->associate($i);
+		$r->save();
+
+		return $r;
 	}
 
 	/**

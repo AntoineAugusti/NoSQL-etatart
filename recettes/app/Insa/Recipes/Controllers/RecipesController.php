@@ -1,9 +1,10 @@
 <?php namespace Insa\Recipes\Controllers;
 
-use Config, Input, Paginator, Session, Redirect, View;
+use Config, Input, Paginator, Session, Redirect, Str, View;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Insa\Exceptions\RecipeNotFoundException;
+use Insa\Ingredients\Models\Ingredient;
 use Insa\Quantities\Models\Quantity;
 use Insa\Recipes\Models\Recipe;
 use Insa\Recipes\Repositories\RecipesRepository;
@@ -94,5 +95,36 @@ class RecipesController extends Controller {
 		Session::set('ingredients', Input::get('ingredients'));
 
 		return Redirect::route('recipes.ingredients.quantities.create');
+	}
+
+	public function store()
+	{
+		// Store the recipe
+		extract(Session::get('recipe'));
+		$recipe = $this->recipesRepo->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
+
+		// Foreach ingredient, associate its quantity
+		foreach (Session::get('ingredients') as $ingredient) {
+			$slug = Str::slug($ingredient);
+
+			$ing = new Ingredient(['name' => $ingredient]);
+			$q = new Quantity([
+				'unit'     => Input::get('unit-'.$slug),
+				'price'    => Input::get('price-'.$slug),
+				'quantity' => Input::get('quantity-'.$slug),
+			]);
+			
+			$ing->quantity()->associate($q);
+
+			// Add the ingredient to the recipe
+			$recipe = $this->recipesRepo->addIngredient($recipe, $ing);
+		}
+
+		// Forget values stored in session
+		Session::forget('recipe');
+		Session::forget('ingredients');
+
+		return Redirect::route('recipes.show', $recipe->slug)
+			->withSuccess(trans('recipes.recipeCreated'));
 	}
 }
