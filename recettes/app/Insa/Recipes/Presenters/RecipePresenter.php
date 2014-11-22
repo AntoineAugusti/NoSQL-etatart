@@ -12,6 +12,11 @@ class RecipePresenter extends Presenter {
 		return $this->htmlForTime($time);
 	}
 
+	public function totalPrice()
+	{
+		return $this->entity->computeTotalPrice().' €';
+	}
+
 	public function cookingTime()
 	{
 		return $this->htmlForTime($this->entity->cookingTime);

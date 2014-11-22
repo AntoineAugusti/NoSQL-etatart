@@ -1,10 +1,15 @@
+$red:#c0392b;
+$darkRed:darken($red, 10%);
+$green:#2ecc71;
 $lightBlue:#4285F4;
 $lightGray:#ECECEC;
 $orange:#e67e22;
-$red:#c0392b;
-$darkRed:darken($red, 10%);
 $yellow:#f1c40f;
+$gray:#95a5a6;
 
+.gray {
+	color: $gray;
+}
 .light-blue {
 	color: $lightBlue;
 }
@@ -16,6 +21,9 @@ $yellow:#f1c40f;
 }
 .red {
 	color: $red;
+}
+.green {
+	color: $green;
 }
 .dark-red {
 	color: $darkRed;

@@ -28,6 +28,16 @@ class Recipe extends Moloquent {
 		$this->attributes['note'] = $value;
 	}
 
+	public function computeTotalPrice()
+	{
+		$price = 0;
+
+		foreach ($this->ingredients as $ingredient)
+			$price += $ingredient->quantity->computePrice();
+
+		return $price;
+	}
+
 	public function setTypeAttribute($value)
 	{
 		$allowedValues = self::getAllowedTypeValues();

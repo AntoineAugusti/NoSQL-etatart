@@ -15,6 +15,6 @@ class QuantityPresenter extends Presenter {
 
 	public function unit()
 	{
-		return Lang::get('quantities.for'.ucfirst($this->entity->unit));
+		return Lang::get('quantities.'.$this->entity->unit);
 	}
 }

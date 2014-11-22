@@ -25,6 +25,7 @@ return [
 	'preparationTimeLabel'        => 'Preparation time',
 	'priceGiven'                  => 'Price given',
 	'rating'                      => 'Rating',
+	'recipeCreated'               => 'Your recipe has been created!',
 	'starter'                     => 'Starter',
 	'submitTheseQuantities'       => 'My quantities are set!',
 	'title'                       => 'Title',
