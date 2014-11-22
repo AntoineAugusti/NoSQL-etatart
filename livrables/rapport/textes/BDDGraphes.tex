@@ -1,5 +1,5 @@
 \subsection{Modélisation}
-	Une \bddGraphe{} enregistre des données dans un graphe. Pour simplifier, un graphe connecte des nœuds (des \enquote{entités}) entre eux à l'aide de liens, qui symbolisent les relations. On peut stocker les informations que l'on souhaite dans les nœuds ou dans les liens. Pour avoir une définition plus complète, il est possible de \enquote{lire} le graphe de la figure \ref{bddGrapheSVG} en suivant les flèches pour former des phrases.
+	Une \bddGraphe{} enregistre des données dans un graphe. Pour simplifier, un graphe connecte des nœuds (des \enquote{entités}) entre eux à l'aide de liens, qui symbolisent les relations (les \enquote{associations}). On peut stocker les informations que l'on souhaite dans les nœuds ou dans les liens. Pour avoir une définition plus complète, il est possible de \enquote{lire} le graphe de la figure \ref{bddGrapheSVG} en suivant les flèches pour former des phrases.
 
 	\begin{figure}[H]
 		\centering
@@ -43,6 +43,7 @@
 		\end{figure}
 
 		Neo4j inclut par défaut la plupart des algorithmes les plus utilisés sur les graphes, en particulier celui du plus court chemin sous un ensemble de contraintes. Neo4j supporte également les expressions rationnelles. Ainsi, pour trouver les noms des personnes qui relient deux personnes qui ne sont pas amies, on devrait exécuter la requête présentée dans la figure~\ref{connectingFriends}.
+		
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.8\textwidth]{images/connectingFriends.png}
