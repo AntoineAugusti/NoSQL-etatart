@@ -5,7 +5,7 @@
 		@foreach ($possibleTypes as $element)
 			<div class="radio radio-primary">
 				<label>
-				{{ Form::radio('type-'.$ingredientSlug, $element, false) }}
+				{{ Form::radio('unit-'.$ingredientSlug, $element, false) }}
 				{{ trans('quantities.'.$element) }}
 				</label>
 			</div>

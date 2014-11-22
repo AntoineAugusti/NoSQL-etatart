@@ -8,7 +8,7 @@ class Quantity extends Moloquent {
 	use PresentableTrait;
 
 	public $timestamps = false;
-	public $fillable = ['type', 'value'];
+	public $fillable = ['unit', 'price', 'quantity'];
 	protected $presenter = 'Insa\Quantities\Presenters\QuantityPresenter';
 
 	const GRAMMES_LITER = '100g-liter';
@@ -20,16 +20,25 @@ class Quantity extends Moloquent {
 		return $this->belongsTo('Insa\Ingredients\Models\Ingredient');
 	}
 
-	public function setTypeAttribute($value)
+	public function setUnitAttribute($value)
 	{
-		$allowedValues = [self::GRAMMES_LITER, self::KILO, self::UNIT];
+		$allowedValues = $this->getAllowedUnitValues();
 		if ( ! in_array($value, $allowedValues))
-			throw new \InvalidArgumentException($value." is not a valid type. Possible values are: ".implode('|', $allowedValues));
+			throw new \InvalidArgumentException($value." is not a valid unit. Possible values are: ".implode('|', $allowedValues));
 			
-		$this->attributes['type'] = $value;
+		$this->attributes['unit'] = $value;
 	}
 
-	public static function getAllowedTypeValues()
+	/**
+	 * Return the price of the ingredient given the amount and the price / unit
+	 * @return float
+	 */
+	public function computePrice()
+	{
+		return round($this->price * $this->quantity, 2);
+	}
+
+	public static function getAllowedUnitValues()
 	{
 		return [self::UNIT, self::KILO, self::GRAMMES_LITER];
 	}

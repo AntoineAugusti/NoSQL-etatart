@@ -8,11 +8,13 @@ class QuantityPresenter extends Presenter {
 
 	public function price()
 	{
-		return $this->entity->value. ' €';
+		$price = $this->entity->computePrice();
+
+		return $price. ' €';
 	}
 
 	public function unit()
 	{
-		return Lang::get('quantities.for'.ucfirst($this->entity->type));
+		return Lang::get('quantities.for'.ucfirst($this->entity->unit));
 	}
 }

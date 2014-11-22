@@ -34,8 +34,12 @@ class RecipeTableSeeder extends Seeder {
 			foreach (range(1, $faker->numberBetween(3, 10)) as $dummy)
 			{
 				$ing = new Ingredient(['name' => $faker->sentence(2)]);
-				$q = new Quantity(['type' => $faker->randomElement([Quantity::UNIT, Quantity::GRAMMES_LITER, Quantity::KILO]), 'value' => $faker->randomFloat(2, 1, 15)]);
-
+				$q = new Quantity([
+					'unit'     => $faker->randomElement(Quantity::getAllowedUnitValues()),
+					'price'    => $faker->randomFloat(2, 1, 15),
+					'quantity' => $faker->randomFloat(2, 0.1, 10)
+				]);
+				
 				$ing->quantity()->associate($q);
 				$r->ingredients()->associate($ing);
 			}

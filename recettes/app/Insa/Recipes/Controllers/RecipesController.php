@@ -83,7 +83,7 @@ class RecipesController extends Controller {
 		$data = [
 			'ingredients'   => new Collection(Session::get('ingredients')),
 			'recipe'        => Session::get('recipe'),
-			'possibleTypes' => Quantity::getAllowedTypeValues()
+			'possibleTypes' => Quantity::getAllowedUnitValues()
 		];
 
 		return View::make('quantities.create', $data);
