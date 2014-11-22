@@ -1,13 +1,15 @@
 @extends('layouts.page')
 
 @section('pageTitle')
-	{{ Lang::get('recipes.createRecipe') }}
+	{{ trans('recipes.createRecipe') }}
 @stop
 
 @section('content')
+	@include('recipes.partials.breadcrumbSteps')
+
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<h1 class="recipes__big-title"><i class="mdi-maps-restaurant-menu"></i> {{ Lang::get('recipes.createRecipe') }}</h1>
+			<h1 class="recipes__big-title"><i class="mdi-maps-restaurant-menu"></i> {{ trans('recipes.createRecipe') }}</h1>
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2">
 				@include('layouts.partials.formErrors')				
@@ -44,7 +46,7 @@
 									<div class="radio radio-primary">
 										<label>
 										{{ Form::radio('type', $element, false) }}
-										{{ Lang::get('recipes.'.$element) }}
+										{{ trans('recipes.'.$element) }}
 										</label>
 									</div>
 								@endforeach

@@ -11,3 +11,10 @@
 .headroom--unpinned {
 	transform: translateY(-100%);
 }
+
+.breadcrumb li.active {
+	color: $lightBlue;
+	i {
+		color: black;
+	}
+}
