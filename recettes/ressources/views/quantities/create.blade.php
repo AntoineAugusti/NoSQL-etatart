@@ -7,13 +7,14 @@ $submitKey = 'recipes.submitTheseQuantities';
 
 @section('form')
 	@foreach ($ingredients->chunk(2) as $ings)
-		<div class="row">
+		<div class="row quantities__row">
 			@foreach ($ings as $ingredient)
 				<?php $ingredientSlug = Str::slug($ingredient); ?>
 				<div class="col-lg-6">
 					<h4 class="orange">{{ $ingredient }}</h4>
 					@include('quantities.partials.radiosType', compact('ingredientSlug'))
 					@include('quantities.partials.inputPrice', compact('ingredientSlug'))
+					@include('quantities.partials.inputQuantity', compact('ingredientSlug'))
 				</div>
 			@endforeach
 		</div>
