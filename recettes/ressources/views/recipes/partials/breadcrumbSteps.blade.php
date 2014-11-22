@@ -1,4 +1,4 @@
-<ul class="breadcrumb">
+<ul class="breadcrumb recipes__breadcrumb-steps">
 	<div class="row">
 		<div class="col-sm-4">
 			@if (Route::currentRouteName() == 'recipes.create')

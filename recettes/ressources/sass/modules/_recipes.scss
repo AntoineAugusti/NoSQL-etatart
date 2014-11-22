@@ -11,6 +11,13 @@
 	}
 }
 
+.recipes__breadcrumb-steps li.active {
+	color: $lightBlue;
+	i {
+		color: black;
+	}
+}
+
 .recipes__title {
 	font-family: 'Crete Round', serif;
 	font-size: 1.5em;
