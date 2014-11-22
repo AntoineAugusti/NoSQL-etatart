@@ -2,7 +2,9 @@
 
 use Config, Input, Paginator, Session, Redirect, View;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Collection;
 use Insa\Exceptions\RecipeNotFoundException;
+use Insa\Quantities\Models\Quantity;
 use Insa\Recipes\Models\Recipe;
 use Insa\Recipes\Repositories\RecipesRepository;
 use Insa\Recipes\Validation\RecipeValidator;
@@ -53,17 +55,15 @@ class RecipesController extends Controller {
 		return View::make('recipes.show', compact('recipe'));
 	}
 
-	public function store()
+	public function redirectToIngredients()
 	{
-		$data = Input::only(['title', 'rating', 'type', 'preparationTime', 'cookingTime', 'description']);
+		$recipeData = Input::only(['title', 'rating', 'type', 'preparationTime', 'cookingTime', 'description']);
 
-		$this->recipesValidator->validateCreate($data);
+		$this->recipesValidator->validateCreate($recipeData);
 
-		// Store the recipe
-		extract($data);
-		$recipe = $this->recipesRepo->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
+		Session::set('recipe', $recipeData);
 
-		return Redirect::route('recipes.ingredients.create')->withRecipe($recipe);
+		return Redirect::route('recipes.ingredients.create');
 	}
 
 	public function createIngredients()
@@ -78,8 +78,21 @@ class RecipesController extends Controller {
 		return View::make('ingredients.create', $data);
 	}
 
-	public function storeIngredients()
+	public function createQuantities()
 	{
-		return Input::all();
+		$data = [
+			'ingredients'   => new Collection(Session::get('ingredients')),
+			'recipe'        => Session::get('recipe'),
+			'possibleTypes' => Quantity::getAllowedTypeValues()
+		];
+
+		return View::make('quantities.create', $data);
+	}
+
+	public function redirectToQuantities()
+	{
+		Session::set('ingredients', Input::get('ingredients'));
+
+		return Redirect::route('recipes.ingredients.quantities.create');
 	}
 }

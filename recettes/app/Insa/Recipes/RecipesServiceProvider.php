@@ -40,10 +40,17 @@ class RecipesServiceProvider extends ServiceProvider {
 		
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
 			$this->app['router']->get('/', ['as' => 'recipes.index', 'uses' => $controller.'@index']);
+			
+			// Step 1
 			$this->app['router']->get('recipes/create', ['as' => 'recipes.create', 'uses' => $controller.'@create']);
+			$this->app['router']->post('recipes/create', ['as' => 'recipes.redirect', 'uses' => $controller.'@redirectToIngredients']);
+			// Step 2
 			$this->app['router']->get('recipes/ingredients/create', ['as' => 'recipes.ingredients.create', 'uses' => $controller.'@createIngredients']);
-			$this->app['router']->post('recipes/ingredients', ['as' => 'recipes.ingredients.store', 'uses' => $controller.'@storeIngredients']);
+			$this->app['router']->post('recipes/ingredients/create', ['as' => 'recipes.ingredients.redirect', 'uses' => $controller.'@redirectToQuantities']);
+			// Step 3
+			$this->app['router']->get('recipes/ingredients/quantities/create', ['as' => 'recipes.ingredients.quantities.create', 'uses' => $controller.'@createQuantities']);
 			$this->app['router']->post('recipes', ['as' => 'recipes.store', 'uses' => $controller.'@store']);
+			
 			$this->app['router']->get('recipes/{slug}', ['as' => 'recipes.show', 'uses' => $controller.'@show']);
 		});
 	}

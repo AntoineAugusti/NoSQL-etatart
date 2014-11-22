@@ -4,3 +4,22 @@ $orange:#e67e22;
 $red:#c0392b;
 $darkRed:darken($red, 10%);
 $yellow:#f1c40f;
+
+.light-blue {
+	color: $lightBlue;
+}
+.light-gray {
+	color: $lightGray;
+}
+.orange {
+	color: $orange;
+}
+.red {
+	color: $red;
+}
+.dark-red {
+	color: $darkRed;
+}
+.yellow {
+	color: $yellow;
+}
