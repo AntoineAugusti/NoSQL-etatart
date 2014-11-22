@@ -70,6 +70,18 @@ Route::filter('guest', function()
 	if (Auth::check()) return Redirect::to('/');
 });
 
+Route::filter('hasCreatedRecipe', function()
+{
+	if ( ! Session::has('recipe'))
+		return Redirect::route('recipes.create')->withWarning(Lang::get('recipes.mustCreateRecipe'));
+});
+
+Route::filter('hasChoosenIngredients', function()
+{
+	if ( ! Session::has('recipe') OR ! Session::has('choosenIngredients'))
+		return Redirect::route('recipes.create')->withWarning(Lang::get('recipes.mustCreateRecipe'));
+});
+
 /*
 |--------------------------------------------------------------------------
 | CSRF Protection Filter

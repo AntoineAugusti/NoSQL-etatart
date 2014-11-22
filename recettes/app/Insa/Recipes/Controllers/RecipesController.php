@@ -18,6 +18,7 @@ class RecipesController extends Controller {
 		$this->recipesValidator = $recipesValidator;
 
 		$this->beforeFilter('csrf', ['only' => 'store']);
+		$this->beforeFilter('hasCreatedRecipe', ['only' => 'createIngredients']);
 	}
 
 	public function index()
