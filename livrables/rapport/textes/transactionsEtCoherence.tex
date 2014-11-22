@@ -17,7 +17,7 @@
 
 	Comme vu dans le paragraphe précédent, une transaction isole les données accédées afin d'éviter une corruption des données due à une modification simultanée par plusieurs utilisateurs concurrents. Cette propriété est gérée, dans le cas de lectures concurrentes, de différentes manières en fonction des bases de données utilisées. Dans certains cas, elle provoque des temps d'attente, dans d'autres, des complications en obligeant le moteur à garder en mémoire des états intermédiaires. En revanche, deux écritures simultanées sont interdites. Le verrouillage peut se situer à plusieurs niveaux : base, table ou, dans le meilleur des cas, ligne.\\
 
-	Il existe trois problématiques lors d'accès concurrents à une base de données :
+	Il existe trois problématiques principales lors d'accès concurrents à une base de données :
 	\vspace{10px}
 	\begin{itemize}
 		\item \textbf{Lecture sale} : \enquote{lecture par une requête de données en cours de modification par une autre}\cite{wiktionnaireLectureSale} ;
@@ -35,6 +35,6 @@
 		\item \textbf{Serializable} (en français, \textit{Sérialisable}) : résout tous les problèmes.
 	\end{itemize}
 	\vspace{20px}
-	 Les bases de données implémentent tout ou partie de ces niveaux (PostgreSQL implémente les niveaux \textit{Commited Read} et \textit{Serializable}\cite{isolationTransactionPostgre} alors que SQL Server, par exemple, les implémentent tous\cite{isolationTransactionSQLServer}). Il est donc nécessaire de se renseigner sur les caractéristiques des différentes bases de données au niveau de l'isolation des transactions avant de faire son choix.\\
+	 Les systèmes de gestion de bases de données implémentent tout ou partie de ces niveaux (PostgreSQL implémente les niveaux \textit{Commited Read} et \textit{Serializable}\cite{isolationTransactionPostgre} alors que SQL Server, par exemple, les implémentent tous\cite{isolationTransactionSQLServer}). Il est donc nécessaire de se renseigner sur les caractéristiques des différents systèmes de gestion de bases de données au niveau de l'isolation des transactions avant de faire son choix.\\
 
-	Dans le monde du NoSQL, les bases de données ne tiennent pas compte de la cohérence transactionnelle pour des raisons de simplicité et de performances afin de gérer de nombreux utilisateurs. Il faut préciser que même dans le monde relationnel, certains moteurs ne gèrent pas les transactions. C'est par exemple le cas du moteur de stockage MyISAM de la base de données MySQL. Dans la pratique, les lectures sales n'engendrent que très rarement des problèmes, nous avons donc ici une vision optimiste des transactions.
+	Dans le monde du NoSQL, les bases de données ne tiennent pas compte de la cohérence transactionnelle pour des raisons de simplicité et de performances afin de gérer de nombreux accès concurrents. Il faut préciser que même dans le monde relationnel, certains moteurs ne gèrent pas les transactions. C'est par exemple le cas du moteur de stockage MyISAM de la base de données MySQL. Dans la pratique, les transactions concurrentes n'engendrent que très rarement des problèmes, nous avons donc ici une vision optimiste des transactions, nous partons du principe que les lectures concurrentes n'entraîneront pas de problème.
