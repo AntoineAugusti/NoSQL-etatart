@@ -28,4 +28,9 @@ class Quantity extends Moloquent {
 			
 		$this->attributes['type'] = $value;
 	}
+
+	public static function getAllowedTypeValues()
+	{
+		return [self::UNIT, self::KILO, self::GRAMMES_LITER];
+	}
 }

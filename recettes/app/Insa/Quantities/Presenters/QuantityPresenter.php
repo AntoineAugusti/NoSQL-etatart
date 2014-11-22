@@ -1,5 +1,6 @@
 <?php namespace Insa\Quantities\Presenters;
 
+use Lang;
 use Laracasts\Presenter\Presenter;
 use Insa\Quantities\Models\Quantity;
 
@@ -12,15 +13,6 @@ class QuantityPresenter extends Presenter {
 
 	public function unit()
 	{
-		switch ($this->entity->type) {
-			case Quantity::GRAMMES_LITER:
-				return '/ 100 grammes / liter';
-
-			case Quantity::KILO:
-				return ' / kilo';
-
-			case Quantity::UNIT:
-				return ' / unit';
-		}
+		return Lang::get('quantities.for'.ucfirst($this->entity->type));
 	}
 }
