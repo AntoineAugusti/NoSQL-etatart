@@ -32,6 +32,8 @@
 			\label{requeteNeo4j}
 		\end{figure}
 
+		Cypher utilise l'art ASCII\footnote{L'art ASCII consiste à réaliser des images uniquement à l'aide des lettres et caractères spéciaux contenus dans le code ASCII.\cite{Wikipedia_artASCII}} pour représenter les liaisons entre des nœuds. Ainsi, la partie de requête \texttt{(A:Person)-[B:ACTED\_IN]->(C:Movie)} cherche à trouver dans le graphe un nœud A, de type \enquote{Person}, lié par la relation \enquote{ACTED\_IN} à un nœud C, de type \enquote{Movie}. Les \textit{labels} représentent les classes des nœuds ou des liaisons, les \textit{identifiers} sont les variables qui sont créées dynamiquement et les \textit{properties} sont les attributs des nœuds ou des liaisons. Les nœuds et les liaisons ont une importance égale : ils peuvent avoir des classes, des attributs et on peut appliquer des critères de recherche ainsi que des agrégats sur chacun.
+
 \subsection{Cas d'utilisation}
 	Une \bddGraphe{} n'a pas pour vocation à être utilisée comme seul moteur de stockage, sauf dans le cas d'applications très spécifiques ou de modules d'un système d'information. Les bases de données orientée graphe sont adaptées lorsque les données manipulées possèdent un grand nombre de liaisons entre elles. Pour rappel, les bases de données orientée graphe accordent une importance égale pour les nœuds et les relations entre ces nœuds. Voici quelques cas d'utilisation où une \bddGraphe{} est particulièrement adaptée\footnote{Ces exemples sont tirés du site officiel de Neo4j : \url{http://neo4j.com}} :
 	\vspace{10px}
