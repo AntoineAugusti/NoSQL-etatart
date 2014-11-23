@@ -100,28 +100,13 @@ class RecipesController extends Controller {
 	public function store()
 	{
 		$ingredients = Session::get('ingredients');
-		$this->recipesValidator->quantitiesAreCorrectForIngredients($ingredients, Input::all());
+		$quantities = $this->getQuantitiesForIngredients($ingredients);
+		
+		// Perform validation
+		$this->recipesValidator->quantitiesAreCorrectForIngredients($ingredients, $quantities);
 
 		// Store the recipe
-		extract(Session::get('recipe'));
-		$recipe = $this->recipesRepo->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
-
-		// Foreach ingredient, associate its quantity
-		foreach ($ingredients as $ingredient) {
-			$slug = Str::slug($ingredient);
-
-			$ing = new Ingredient(['name' => $ingredient]);
-			$q = new Quantity([
-				'unit'     => Input::get('unit-'.$slug),
-				'price'    => Input::get('price-'.$slug),
-				'quantity' => Input::get('quantity-'.$slug),
-			]);
-			
-			$ing->quantity()->associate($q);
-
-			// Add the ingredient to the recipe
-			$recipe = $this->recipesRepo->addIngredient($recipe, $ing);
-		}
+		$recipe = $this->recipesRepo->createWithIngredientsAndQuantities(Session::get('recipe'), $ingredients, $quantities);
 
 		// Forget values stored in session
 		Session::forget('recipe');
@@ -129,5 +114,30 @@ class RecipesController extends Controller {
 
 		return Redirect::route('recipes.show', $recipe->slug)
 			->withSuccess(trans('recipes.recipeCreated'));
+	}
+
+	private function getQuantitiesForIngredients(array $ingredients)
+	{
+		$quantities = [];
+		foreach ($ingredients as $ingredient)
+			$quantities = $this->grabQuantitiesForIngredient($ingredient, $quantities);
+
+		return $quantities;
+	}
+
+	private function grabQuantitiesForIngredient($ingredient, array $quantities)
+	{
+		$slug = $this->computeSlug($ingredient);
+
+		$quantities['unit-'.$slug]     = Input::get('unit-'.$slug);
+		$quantities['price-'.$slug]    = Input::get('price-'.$slug);
+		$quantities['quantity-'.$slug] = Input::get('quantity-'.$slug);
+
+		return $quantities;
+	}
+
+	private function computeSlug($value)
+	{
+		return Str::slug($value);
 	}
 }
