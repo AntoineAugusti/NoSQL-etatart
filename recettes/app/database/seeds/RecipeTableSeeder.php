@@ -3,6 +3,7 @@
 use Faker\Factory as Faker;
 use Insa\Ingredients\Models\Ingredient;
 use Insa\Quantities\Models\Quantity;
+use Insa\Recipes\Models\Location;
 use Insa\Recipes\Models\Recipe;
 
 class RecipeTableSeeder extends Seeder {
@@ -15,6 +16,9 @@ class RecipeTableSeeder extends Seeder {
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Recipes table using Faker...');
+
+		// Convert the collection to an array of models
+		$allLocations = Location::all()->all();
 		
 		foreach(range(1, 20) as $index)
 		{
@@ -43,6 +47,9 @@ class RecipeTableSeeder extends Seeder {
 				$ing->quantity()->associate($q);
 				$r->ingredients()->associate($ing);
 			}
+
+			// Associate a location for this recipe
+			$r->location()->associate($faker->randomElement($allLocations));
 
 			$r->save();
 		}
