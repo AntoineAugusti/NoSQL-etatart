@@ -99,12 +99,15 @@ class RecipesController extends Controller {
 
 	public function store()
 	{
+		$ingredients = Session::get('ingredients');
+		$this->recipesValidator->quantitiesAreCorrectForIngredients($ingredients, Input::all());
+
 		// Store the recipe
 		extract(Session::get('recipe'));
 		$recipe = $this->recipesRepo->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
 
 		// Foreach ingredient, associate its quantity
-		foreach (Session::get('ingredients') as $ingredient) {
+		foreach ($ingredients as $ingredient) {
 			$slug = Str::slug($ingredient);
 
 			$ing = new Ingredient(['name' => $ingredient]);
