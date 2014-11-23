@@ -20,6 +20,11 @@ class Recipe extends Moloquent {
 		return $this->embedsMany(\Insa\Ingredients\Models\Ingredient::class);
 	}
 
+	public function location()
+	{
+		return $this->belongsTo(\Insa\Recipes\Models\Location::class);
+	}
+
 	public function setRatingAttribute($value)
 	{
 		if (! is_numeric($value) OR $value < 1 OR $value > 10)
