@@ -2,6 +2,7 @@
 
 use Cache, Str;
 use Insa\Ingredients\Models\Ingredient;
+use Insa\Quantities\Models\Quantity;
 use Insa\Recipes\Models\Recipe;
 
 class MongoRecipesRepository implements RecipesRepository {
@@ -76,11 +77,41 @@ class MongoRecipesRepository implements RecipesRepository {
 	public function create($title, $rating, $type, $preparationTime, $cookingTime, $description)
 	{
 		$r = new Recipe(compact('title', 'rating', 'type', 'preparationTime', 'cookingTime', 'description'));
-		$r->slug = Str::slug($title);
+		$r->slug = $this->computeSlug($title);
 
 		$r->save();
 
 		return $r;
+	}
+
+	/**
+	 * Create a recipe with its ingredients and quantities
+	 * @param  array  $recipeData  Data for the creation of the recipe
+	 * @param  array  $ingredients List of ingredients, as strings
+	 * @param  array  $quantities  Data for quantitites, associated with ingredients
+	 * @see \Insa\Recipes\Repositories\RecipesRepository@create
+	 * @return \Insa\Recipes\Models\Recipe
+	 */
+	public function createWithIngredientsAndQuantities(array $recipeData, array $ingredients, array $quantities)
+	{
+		// Store the new recipe
+		extract($recipeData);
+		$recipe = $this->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
+		
+		// Foreach ingredient, associate its quantity
+		foreach ($ingredients as $ingredient) {
+
+			$ing = $this->createIngredientWithQuantity($ingredient, $quantities);
+
+			// Add the ingredient to the recipe
+			$recipe = $this->addIngredient($recipe, $ing);
+		}
+
+		// If a new ingredient was found, delete the cache
+		if ($this->listOfIngredientsNeedsUpdate($ingredients))
+			Cache::forget('recipes.allIngredients');
+
+		return $recipe;
 	}
 
 	/**
@@ -107,6 +138,50 @@ class MongoRecipesRepository implements RecipesRepository {
 
 			return $ingredients;
 		});
+	}
+
+	/**
+	 * Determine if the list of all ingredients needs a refresh because we have a new ingredient
+	 * @param  array  $ingredients The list of ingredients
+	 * @return boolean
+	 */
+	private function listOfIngredientsNeedsUpdate(array $ingredients)
+	{
+		$existingIngredients = $this->getAllIngredients();
+		
+		foreach ($ingredients as $ingredient) {
+			if ( ! in_array($ingredient, $existingIngredients))
+				return true;			
+		}
+
+		return false;
+	}
+
+	/**
+	 * Create an ingredient with its quantity
+	 * @param  string $ingredient The name of the ingredient
+	 * @param  array  $quantities Data for quantity associated with the ingredient
+	 * @return \Insa\Ingredients\Models\Ingredient
+	 */
+	private function createIngredientWithQuantity($ingredient, array $quantities)
+	{
+		$slug = $this->computeSlug($ingredient);
+		
+		$ing = new Ingredient(['name' => $ingredient]);
+		$q = new Quantity([
+			'unit'     => $quantities['unit-'.$slug],
+			'price'    => $quantities['price-'.$slug],
+			'quantity' => $quantities['quantity-'.$slug],
+		]);
+		
+		$ing->quantity()->associate($q);
+
+		return $ing;
+	}
+
+	private function computeSlug($value)
+	{
+		return Str::slug($value);
 	}
 
 	private function computeSkip($page, $pagesize)
