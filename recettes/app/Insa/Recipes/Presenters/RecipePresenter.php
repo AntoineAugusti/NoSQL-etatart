@@ -34,7 +34,7 @@ class RecipePresenter extends Presenter {
 
 	public function rating()
 	{
-		$nbStars = floor($this->entity->note / 2);
+		$nbStars = floor($this->entity->rating / 2);
 		$nbStarsGray = 5 - $nbStars;
 		
 		$star = '<i class="recipes__star mdi-action-star-rate"></i>';

@@ -25,7 +25,7 @@ class Recipe extends Moloquent {
 		if (! is_numeric($value) OR $value < 1 OR $value > 10)
 			throw new \InvalidArgumentException("The rating should be between 1 and 10");
 
-		$this->attributes['note'] = $value;
+		$this->attributes['rating'] = $value;
 	}
 
 	public function computeTotalPrice()
