@@ -115,6 +115,32 @@ class MongoRecipesRepository implements RecipesRepository {
 	}
 
 	/**
+	 * Get an array of the name of all ingredients used in recipes
+	 * @return array
+	 */
+	public function getAllIngredients()
+	{
+		$instance = $this;
+
+		return Cache::remember('recipes.allIngredients', 10, function() use ($instance)
+		{
+			$ingredientsArray = $instance->getAll()->lists('ingredients');
+			$ingredientsCollections = new \Illuminate\Support\Collection($ingredientsArray);
+
+			$ingredients = [];
+			foreach ($ingredientsCollections as $ingredientsCollection)
+				$ingredients = array_merge($ingredients, $ingredientsCollection->lists('name'));
+
+			// Remove duplicates
+			$ingredients = array_unique($ingredients);
+			// Sort alphabetically
+			sort($ingredients);
+
+			return $ingredients;
+		});
+	}
+
+	/**
 	 * Determine if the list of all ingredients needs a refresh because we have a new ingredient
 	 * @param  array  $ingredients The list of ingredients
 	 * @return boolean
@@ -151,32 +177,6 @@ class MongoRecipesRepository implements RecipesRepository {
 		$ing->quantity()->associate($q);
 
 		return $ing;
-	}
-
-	/**
-	 * Get an array of the name of all ingredients used in recipes
-	 * @return array
-	 */
-	public function getAllIngredients()
-	{
-		$instance = $this;
-
-		return Cache::remember('recipes.allIngredients', 10, function() use ($instance)
-		{
-			$ingredientsArray = $instance->getAll()->lists('ingredients');
-			$ingredientsCollections = new \Illuminate\Support\Collection($ingredientsArray);
-
-			$ingredients = [];
-			foreach ($ingredientsCollections as $ingredientsCollection)
-				$ingredients = array_merge($ingredients, $ingredientsCollection->lists('name'));
-
-			// Remove duplicates
-			$ingredients = array_unique($ingredients);
-			// Sort alphabetically
-			sort($ingredients);
-
-			return $ingredients;
-		});
 	}
 
 	private function computeSlug($value)
