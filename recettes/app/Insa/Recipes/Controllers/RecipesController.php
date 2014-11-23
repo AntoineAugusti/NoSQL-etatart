@@ -20,7 +20,7 @@ class RecipesController extends Controller {
 		$this->recipesRepo = $recipesRepo;
 		$this->recipesValidator = $recipesValidator;
 
-		$this->beforeFilter('csrf', ['only' => 'store']);
+		$this->beforeFilter('csrf', ['only' => ['redirectToIngredients', 'redirectToQuantities', 'store']]);
 		$this->beforeFilter('hasCreatedRecipe', ['only' => 'createIngredients']);
 	}
 
