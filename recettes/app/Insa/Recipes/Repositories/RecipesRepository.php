@@ -52,6 +52,16 @@ interface RecipesRepository {
 	public function create($title, $rating, $type, $preparationTime, $cookingTime, $description);
 
 	/**
+	 * Create a recipe with its ingredients and quantities
+	 * @param  array  $recipeData  Data for the creation of the recipe
+	 * @param  array  $ingredients List of ingredients, as strings
+	 * @param  array  $quantities  Data for quantitites, associated with ingredients
+	 * @see \Insa\Recipes\Repositories\RecipesRepository@create
+	 * @return \Insa\Recipes\Models\Recipe
+	 */
+	public function createWithIngredientsAndQuantities(array $recipeData, array $ingredients, array $quantities);
+
+	/**
 	 * Get an array of the name of all ingredients used in recipes
 	 * @return array
 	 */
