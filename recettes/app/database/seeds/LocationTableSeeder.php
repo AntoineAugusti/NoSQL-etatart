@@ -35,10 +35,12 @@ class LocationTableSeeder extends Seeder {
 			'type'        => $type,
 		];
 
-		// For a magazine or a website, associate a date
-		if (in_array($type, Location::getTypesWithDate()))
-			$data['date'] = $faker->dateTimeThisYear();
+		$location = new Location($data);
 
-		return new Location($data);
+		// For a magazine or a website, associate a date
+		if ($location->hasDate())
+			$location->date = $faker->dateTimeThisYear();
+
+		return $location;
 	}
 }
