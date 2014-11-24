@@ -13,7 +13,8 @@ class Location extends Moloquent {
 	const MAGAZINE   = 'magazine';
 
 	protected $presenter = 'Insa\Recipes\Presenters\LocationPresenter';
-	public $fillable = ['date', 'name', 'description', 'type'];
+	protected $fillable = ['date', 'name', 'description', 'type'];
+	protected $dates = ['date'];
 
 	public function recipes()
 	{
@@ -22,10 +23,10 @@ class Location extends Moloquent {
 
 	public function setDateAttribute($value)
 	{
-		if (! in_array($this->type, [self::URL, self::MAGAZINE]))
-			throw new \InvalidArgumentException("Can only set the date for a magazine or a URL");
+		if (! in_array($this->type, self::getTypesWithDate()))
+			throw new \InvalidArgumentException("Can only set the date for the following types: ".implode(',', self::getTypesWithDate()));
 
-		$this->attributes['date'] = $value;
+		$this->attributes['date'] = $this->fromDateTime($value);
 	}
 
 	public function setTypeAttribute($value)
@@ -35,6 +36,11 @@ class Location extends Moloquent {
 			throw new \InvalidArgumentException($value." is not a valid type. Possible values are: ".implode('|', $allowedValues));
 			
 		$this->attributes['type'] = $value;
+	}
+
+	public function hasDate()
+	{
+		return in_array($this->type, self::getTypesWithDate());
 	}
 
 	public static function getAllowedTypeValues()
