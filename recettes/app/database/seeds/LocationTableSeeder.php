@@ -36,7 +36,7 @@ class LocationTableSeeder extends Seeder {
 		];
 
 		// For a magazine or a website, associate a date
-		if (in_array($type, [Location::MAGAZINE, Location::URL]))
+		if (in_array($type, Location::getTypesWithDate()))
 			$data['date'] = $faker->dateTimeThisYear();
 
 		return new Location($data);
