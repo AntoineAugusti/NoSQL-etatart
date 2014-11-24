@@ -19,4 +19,10 @@
 		</div>
 	</h2>
 	@include('ingredients.index', ['ingredients' => $recipe->ingredients])
+
+	<!-- LOCATION -->
+	@if ($recipe->hasLocation())
+		<h2 class="locations__title">{{ trans('recipes.location') }}</h2>
+		@include('locations.partials.single', ['location' => $recipe->location]);
+	@endif
 @stop

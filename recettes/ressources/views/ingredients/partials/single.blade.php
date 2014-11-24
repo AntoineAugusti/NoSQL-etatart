@@ -13,7 +13,7 @@ else
 			</div>
 		</div>
 		<div class="row-content">
-			<h4 class="list-group-item-heading">{{ $ingredient->name }}</h4>
+			<h4 class="list-group-item-heading">{{{ $ingredient->name }}}</h4>
 			
 			<!-- QUANTITY -->
 			<p class="list-group-item-text ingredients__quantity-line">

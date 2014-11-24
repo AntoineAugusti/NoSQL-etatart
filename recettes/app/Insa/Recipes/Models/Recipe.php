@@ -52,6 +52,11 @@ class Recipe extends Moloquent {
 		$this->attributes['type'] = $value;
 	}
 
+	public function hasLocation()
+	{
+		return ! is_null($this->location);
+	}
+
 	public static function getAllowedTypeValues()
 	{
 		return [self::AMUSE_GUEULE, self::STARTER, self::MAIN, self::DESSERT];

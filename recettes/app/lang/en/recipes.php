@@ -18,6 +18,7 @@ return [
 	'ingredientsHelp'             => 'Type here the name of the ingredients you need for your new recipe. In the next step, you will choose their quantities',
 	'ingredientsHelpInput'        => 'Type here the name of your ingredients',
 	'listOfIngredients'           => 'List of ingredients',
+	'location'                    => 'Location',
 	'main'                        => 'Main',
 	'mustCreateRecipe'            => 'You need to create a recipe before you can do this!',
 	'ourRecipes'                  => 'Our recipes',
