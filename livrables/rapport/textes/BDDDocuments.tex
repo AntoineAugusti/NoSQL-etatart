@@ -2,11 +2,11 @@
 
   Les bases de données orientées documents sont les bases de données NoSQL qui ressemblent le plus aux bases de données relationnelles. Chaque document peut être considéré comme un tuple dans une table d'une base de donnée relationnelle. Ces documents sont la plupart du temps stocké dans le format JSON, un format structuré et lisible par le moteur NoSQL et regroupés dans des équivalents de tables appelés \enquote{collections}. De nombreuses données peuvent être stockées dans un document : des textes, des chiffres mais aussi des tableaux ou encore d'autres documents. Contrairement aux tuples d'une base de données relationnelle classique, un document ne possède pas de structure prédéfinie, chaque document peut donc être différent et présenter des données variables. Il faut cependant faire attention à garder une structure cohérente afin de pouvoir traiter les données plus tard.\\
 
-  Les requêtes des base de données orientées documents se font majoritairement en JSON mais certaines implémentations fournissent une API de type REST afin d'accèder aux données de manière simple et efficace. L'objectif des documents est de stocker des informations (souvent de manière répartie) et de les restituer le plus efficacement possible, le langage est donc simple et ne permet pas toutes les possibilités d'un langage comme le SQL. Il permet néamoins d'effectuer des aggrégats de documents, des calculs simples ainsi que, très utile, tester la présence ou non d'éléments (du fait que la structure des documents peut changer au sein même d'une collection).
+  Les requêtes des base de données orientées documents se font majoritairement en JSON mais certaines implémentations fournissent une API de type REST afin d’accéder aux données de manière simple et efficace. L'objectif des documents est de stocker des informations (souvent de manière répartie) et de les restituer le plus efficacement possible, le langage est donc simple et ne permet pas toutes les possibilités d'un langage comme le SQL. Il permet néanmoins d'effectuer des agrégats de documents, des calculs simples ainsi que de tester la présence ou non d'éléments ce qui peut s'avérer très utile comme la structure des documents peut changer au sein même d'une collection.
 
 \subsubsection{Le format JSON}
 
-  Le format JSON pour \textit{JavaScript Objet Notation} est un format de représentation de données similaire au XML (\textit{Extensible Markup Language}). Il permet aussi bien de sérialiser l'état des classes que de structurer des données. Son format texte le rend reconnaissable et lisible sur toutes les plateformes et tout système. Il est aussi très simple à traiter (génération et \textit{parsing}). Il est préféré au XML dans les bases de données NoSQL pour quelques raisons :
+  Le format JSON pour \textit{JavaScript Objet Notation} est un format de représentation de données similaire au XML (\textit{Extensible Markup Language}). Il permet aussi bien de sérialiser l'état des classes que de structurer des données. Son format texte le rend reconnaissable et lisible sur toutes les plate-formes et tout système. Il est aussi très simple à traiter (génération et \textit{parsing}). Il est préféré au XML dans les bases de données NoSQL pour quelques raisons :
   \vspace{10px}
   \begin{enumerate}
     \item Plus compact
@@ -19,26 +19,26 @@
     \caption{Exemple de document JSON.}
   \end{listing}
 
-  Comme montré dans l'exemple, le JSON utilise des accolades pour représenter les objets et des crochets pour représenter les tableaux. Cette notation est bien plus économe que celle du XML mais ne permet pas de garder une sémantique à chaque information. En JSON, nous ne pouvons pas comprendre la nature d'un objet sans se référer à la documentation alors que les balises XML permettent de conserver cette sémantique.
+  Comme montré dans l'exemple, le JSON utilise des accolades pour représenter les objets et des crochets pour représenter les tableaux. Cette notation est bien plus économe que celle du XML mais ne permet pas de conserver une sémantique pour chaque information. En JSON, nous ne pouvons pas comprendre la nature d'un objet sans se référer à la documentation alors que les balises XML permettent de conserver cette sémantique.
 
-  \subsubsection{Le principe de l'\textit{embeding}}
+  \subsubsection{Le principe de l'\textit{embedding}}
 
-  Comme nous l'avons vu précédement, dans une base de données orientée documents, il est possible d'imbriquer des documents entre eux. De plus, le langage JSON permet d'effectuer cette imbrication très simplement. C'est le principe de l'\textit{embeding}.\\
+  Comme nous l'avons vu précédemment, dans une base de données orientée documents, il est possible d'imbriquer des documents entre eux. De plus, le langage JSON permet d'effectuer cette imbrication très simplement. C'est le principe de l'\textit{embedding}.\\
 
-  Il est très compliqué pour une base de données orintée documents de gérer les relations, là où une base de données relationnelle va optimiser soit automatiquement (via le SGBD) ou manuellement (via à des vues) les relations entre les tables, les SGBD des bases de données documents ne connaissent pas ce principe. Une erreur courante pour architecte BD venant du monde du relationnel est de faire des jointures entre ses différents documents en plaçant des clés étrangères. Si nous reprenons l'exemple précédent, le mauvais schéma pourrait ressembler à ceci :
+  Il est très compliqué pour une base de données orientée documents de gérer les relations, là où une base de données relationnelle va optimiser soit automatiquement (via le SGBD) ou manuellement (via des vues) les relations entre les tables, les SGBD des bases de données documents ne connaissent pas ce principe. Une erreur courante pour architecte BD venant du monde du relationnel est de faire des jointures entre ses différents documents en plaçant des clés étrangères. Si nous reprenons l'exemple précédent, le mauvais schéma pourrait ressembler à ceci :
 
   \begin{listing}[H]
     \inputminted{json}{code/exempleMauvaisSchema.json}
     \caption{Exemple de mauvais schéma.}
   \end{listing}
 
-  Lorsque l'application va demander à la base de données de récupérer le texte, mais aussi l'utilisateur qui l'a écrit et les commentaires sur ce texte, le système de gestion de base de données va effectuer 5 requêtes distinctes : une pour le texte, une pour l'utilisateur et 3 pour les commentaires. Cette mauvaise approche peut être très couteuse pour une base de données orientée documents. Pour résoudre ce problème, le principe de l'\textit{embeding} va imbriquer les documents.\\
+  Lorsque l'application va demander à la base de données de récupérer le texte, mais aussi l'utilisateur qui l'a écrit et les commentaires sur ce texte, le système de gestion de base de données va effectuer 5 requêtes distinctes : une pour le texte, une pour l'utilisateur et 3 pour les commentaires. Cette mauvaise approche peut être très coûteuse pour une base de données orientée documents. Pour résoudre ce problème, le principe de l'\textit{embedding} va imbriquer les documents.\\
 
   Avant d'imbriquer un document dans un autre, quelques questions sont à se poser :
   \vspace{10px}
   \begin{itemize}
     \item \textbf{L'objet imbriqué est-il nécessairement lié à son parent ?} Dans le cas d'un commentaire de texte par exemple, ce dernier n'a pas de raison d'être lu seul. Dans le cas d'un texte et son auteur ceci n'est pas forcément le cas : on peut vouloir afficher tous les textes sans pour autant les trier par auteur.
-    \item \textbf{Le ou les objets imbriqués ne vont-ils pas devenir trop gros ?} Si le nombre ou la taille des objets imbriqués peut croitre rapidement, il faut penser que les systèmes de gestion de bases de données orientées documents ne peuvent gérer que la récupération d'un document en entier. Il ne serait pas judicieux de récupérer l'intégralité des livres écrits par des auteurs uniquement pour afficher leurs noms et leurs prénoms.
+    \item \textbf{Le ou les objets imbriqués ne vont-ils pas devenir trop gros ?} Si le nombre ou la taille des objets imbriqués peut croître rapidement, il faut penser que les systèmes de gestion de bases de données orientées documents ne peuvent gérer que la récupération d'un document en entier. Il ne serait pas judicieux de récupérer l'intégralité des livres écrits par des auteurs uniquement pour afficher leurs noms et leurs prénoms.
     \item \textbf{L'objet imbriqué doit-il être présent en intégralité ?} Lors de l'imbrication de documents entre eux, il est possible d'avoir à faire à des problèmes de récursion, par exemple : dans le document d'un utilisateur sont imbriqués ses textes, dans les textes sont imbriqués les commentaires et dans les commentaires sont imbriqués leur auteur. Pour cette dernière imbrication, toutes les informations de l'auteur ne sont pas forcément nécessaires, nous pouvons juste sauvegarder son nom et son prénom (et pas tous ses textes avec tous leurs commentaires respectifs).
   \end{itemize}
 
@@ -46,7 +46,7 @@
 
   La base de données orientée documents est typiquement une base de données NoSQL de stockage de masse. Elle est très performante pour des applications nécessitant un grand volume de données non uniforme comme par exemple le résultat de traitements sur des textes via extraction d'informations. Elle est très utile dans l'objectif d'effectuer de la fouille de données sur ces informations en particulier avec des opérations de type \textit{map / reduce}.\\
 
-  De mon experience personnelle, mon utilisation de MongoDB provient de l'impossibilité de trouver une base de données performante pouvant gérer l'héritage de manière efficace. En effet, les objets parents ont des attributs légèrement différents de leurs enfants et ni les marqueurs NULL, ni le pseudo héritage de table de PostgreSQL ne m'ont permis de gérer efficacement cette problèmatique. J'ai donc conçu un module pour l'ORM Eloquent permettant de \textit{mapper} mes documents dans différents objets parents et enfants en fonction de méta-data. MongoDB m'a donc permis de regrouper dans une seule collection des objets possèdant des caractéristiques légèrement différentes mais en me laissant la possibilité d'effectuer des index et des recherches sur l'ensemble de la collection.
+  De mon expérience personnelle, mon utilisation de MongoDB provient de l'impossibilité de trouver une base de données performante pouvant gérer l'héritage de manière efficace. En effet, les objets parents ont des attributs légèrement différents de leurs enfants et ni les marqueurs NULL, ni le pseudo héritage de table de PostgreSQL ne m'ont permis de gérer efficacement cette problématique. J'ai donc conçu un module pour l'ORM Eloquent permettant de \textit{mapper} mes documents dans différents objets parents et enfants en fonction de méta-data. MongoDB m'a donc permis de regrouper dans une seule collection des objets possédant des caractéristiques légèrement différentes mais en me laissant la possibilité d'effectuer des index et des recherches sur l'ensemble de la collection.
 
 \subsection{Acteurs principaux}
 
