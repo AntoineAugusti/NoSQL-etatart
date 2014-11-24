@@ -23,7 +23,9 @@ class MongoRecipesRepository implements RecipesRepository {
 	 */
 	public function getBySlug($slug)
 	{
-		return Recipe::whereSlug($slug)->first();
+		return Recipe::with('location')
+			->whereSlug($slug)
+			->first();
 	}
 
 	/**
@@ -49,7 +51,7 @@ class MongoRecipesRepository implements RecipesRepository {
 	{
 		$skip = $this->computeSkip($page, $pagesize);
 
-		return Recipe::latest()
+		return Recipe::with('location')->latest()
 			->take($pagesize)
 			->skip($skip)
 			->get();
