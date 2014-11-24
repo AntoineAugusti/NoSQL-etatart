@@ -41,4 +41,13 @@ class Location extends Moloquent {
 	{
 		return [self::MANUSCRIPT, self::BOOK, self::URL, self::MAGAZINE];
 	}
+
+	/**
+	 * Get values for the type attribute that require a date attribute
+	 * @return array
+	 */
+	public static function getTypesWithDate()
+	{
+		return [self::MAGAZINE, self::URL];
+	}
 }
