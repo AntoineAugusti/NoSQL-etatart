@@ -9,12 +9,24 @@ $submitKey = 'recipes.submitTheseQuantities';
 	@foreach ($ingredients->chunk(2) as $ings)
 		<div class="row quantities__row">
 			@foreach ($ings as $ingredient)
-				<?php $ingredientSlug = Str::slug($ingredient); ?>
+				<?php 
+					$ingredientSlug = $ingredientsSlug[$ingredient];
+					
+					// Try to find the corresponding ingredient 
+					// in the collection
+					$ingredientInCollection = null;
+					if (in_array($ingredient, $ingredientsName))
+						$ingredientInCollection = $ingredientsData
+							->filter(function($a) use ($ingredient) {
+								return $a->name == $ingredient;
+							})
+							->first();
+				?>
 				<div class="col-lg-6">
 					<h4 class="orange">{{ $ingredient }}</h4>
-					@include('quantities.partials.radiosType', compact('ingredientSlug'))
-					@include('quantities.partials.inputPrice', compact('ingredientSlug'))
-					@include('quantities.partials.inputQuantity', compact('ingredientSlug'))
+					@include('quantities.partials.radiosType')
+					@include('quantities.partials.inputPrice')
+					@include('quantities.partials.inputQuantity')
 				</div>
 			@endforeach
 		</div>

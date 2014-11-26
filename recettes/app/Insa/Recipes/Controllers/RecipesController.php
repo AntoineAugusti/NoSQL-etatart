@@ -5,7 +5,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Insa\Exceptions\RecipeNotFoundException;
 use Insa\Ingredients\Models\Ingredient;
-use Insa\Quantities\Models\Quantity;
 use Insa\Recipes\Models\Recipe;
 use Insa\Recipes\Repositories\RecipesRepository;
 use Insa\Recipes\Validation\RecipeValidator;
@@ -69,7 +68,7 @@ class RecipesController extends Controller {
 
 	public function createIngredients()
 	{
-		$ingredients = $this->recipesRepo->getAllIngredients();
+		$ingredients = $this->recipesRepo->getAllIngredients()->lists('name');
 		
 		$data = [
 			// Keys and values are the same
@@ -81,10 +80,19 @@ class RecipesController extends Controller {
 
 	public function createQuantities()
 	{
+		$ingredientsData = $this->recipesRepo->getAllIngredients();
+		$ingredientsName = $ingredientsData->lists('name');
+
+		// Compute the slug foreach ingredient
+		$slugs = array_map(array($this, "computeSlug"), $ingredientsName);
+		
 		$data = [
-			'ingredients'   => new Collection(Session::get('ingredients')),
-			'recipe'        => Session::get('recipe'),
-			'possibleTypes' => Quantity::getAllowedUnitValues()
+			'ingredients'     => new Collection(Session::get('ingredients')),
+			'ingredientsData' => $ingredientsData,
+			'ingredientsName' => $ingredientsName,
+			'ingredientsSlug' => array_combine($ingredientsName, $slugs),
+			'possibleTypes'   => Ingredient::getAllowedUnitValues(),
+			'recipe'          => Session::get('recipe'),
 		];
 
 		return View::make('quantities.create', $data);
