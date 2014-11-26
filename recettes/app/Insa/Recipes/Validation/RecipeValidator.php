@@ -1,7 +1,7 @@
 <?php namespace Insa\Recipes\Validation;
 
 use Lang, Str;
-use Insa\Quantities\Models\Quantity;
+use Insa\Ingredients\Models\Ingredient;
 use Insa\Tools\Validation\Validator as BaseValidator;
 
 class RecipeValidator extends BaseValidator {
@@ -47,7 +47,7 @@ class RecipeValidator extends BaseValidator {
 	private function appendRules($ingredient, array $rules)
 	{
 		$slug = $this->computeSlug($ingredient);
-		$allowedUnits = Quantity::getAllowedUnitValues();
+		$allowedUnits = Ingredient::getAllowedUnitValues();
 		
 		$rules['unit-'.$slug]     = 'required|in:'.implode(',', $allowedUnits);
 		$rules['price-'.$slug]    = 'required|numeric|between:0,1000';
