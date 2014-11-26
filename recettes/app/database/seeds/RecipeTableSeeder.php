@@ -8,6 +8,8 @@ use Insa\Recipes\Models\Recipe;
 
 class RecipeTableSeeder extends Seeder {
 
+	private $unitsForIngredients = [];
+
 	public function run()
 	{
 		$this->command->info('Deleting existing Recipes table ...');
@@ -37,10 +39,14 @@ class RecipeTableSeeder extends Seeder {
 			// Create ingredients and quantities
 			foreach (range(1, $faker->numberBetween(3, 10)) as $dummy)
 			{
-				$ing = new Ingredient(['name' => $faker->sentence(2)]);
+				$name = $faker->sentence(2);
+				
+				$ing = new Ingredient([
+					'name'  => $name,
+					'unit'  => $this->getUnitForIngredient($name),
+					'price' => $faker->randomFloat(2, 1, 15),
+				]);
 				$q = new Quantity([
-					'unit'     => $faker->randomElement(Quantity::getAllowedUnitValues()),
-					'price'    => $faker->randomFloat(2, 1, 15),
 					'quantity' => $faker->randomFloat(2, 0.1, 10)
 				]);
 				
@@ -53,5 +59,19 @@ class RecipeTableSeeder extends Seeder {
 
 			$r->save();
 		}
+	}
+
+	private function getUnitForIngredient($name)
+	{
+		$faker = Faker::create();
+		
+		if (! array_key_exists($name, $this->unitsForIngredients)) {
+			$unit = $faker->randomElement(Ingredient::getAllowedUnitValues());
+			$this->unitsForIngredients[$name] = $unit;
+
+			return $unit;
+		}
+
+		return $this->unitsForIngredients[$name];
 	}
 }
