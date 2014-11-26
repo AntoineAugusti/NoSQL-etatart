@@ -62,8 +62,8 @@ interface RecipesRepository {
 	public function createWithIngredientsAndQuantities(array $recipeData, array $ingredients, array $quantities);
 
 	/**
-	 * Get an array of the name of all ingredients used in recipes
-	 * @return array
+	 * Get a collection representing all ingredients used in recipes, without duplicates
+	 * @return @return \Illuminate\Support\Collection
 	 */
 	public function getAllIngredients();
 }

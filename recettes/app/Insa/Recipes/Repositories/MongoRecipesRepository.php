@@ -1,11 +1,28 @@
 <?php namespace Insa\Recipes\Repositories;
 
-use Cache, Str;
+use Illuminate\Cache\Repository as Cache;
+use Illuminate\Support\Str;
 use Insa\Ingredients\Models\Ingredient;
 use Insa\Quantities\Models\Quantity;
 use Insa\Recipes\Models\Recipe;
 
 class MongoRecipesRepository implements RecipesRepository {
+
+	/**
+	 * @var Illuminate\Cache\Repository
+	 */
+	private $cache;
+
+	/**
+	 * @var \Illuminate\Support\Str
+	 */
+	private $str;
+
+	public function __construct(Cache $cache, Str $str)
+	{
+		$this->cache = $cache;
+		$this->str = $str;
+	}
 
 	/**
 	 * Get all recipes
@@ -111,34 +128,50 @@ class MongoRecipesRepository implements RecipesRepository {
 
 		// If a new ingredient was found, delete the cache
 		if ($this->listOfIngredientsNeedsUpdate($ingredients))
-			Cache::forget('recipes.allIngredients');
+			$this->cache->forget('recipes.allIngredients');
 
 		return $recipe;
 	}
 
 	/**
-	 * Get an array of the name of all ingredients used in recipes
-	 * @return array
+	 * Get a collection representing all ingredients used in recipes, without duplicates
+	 * @return \Illuminate\Support\Collection
 	 */
 	public function getAllIngredients()
 	{
 		$instance = $this;
 
-		return Cache::remember('recipes.allIngredients', 10, function() use ($instance)
+		return $this->cache->remember('recipes.allIngredients', 10, function() use ($instance)
 		{
+			// We have an array of collections
 			$ingredientsArray = $instance->getAll()->lists('ingredients');
-			$ingredientsCollections = new \Illuminate\Support\Collection($ingredientsArray);
+			// Merge the collections in a single array
+			$tmp = [];
+			foreach ($ingredientsArray as $ing) {
+				$tmp = array_merge($tmp, $ing->all());
+			}
+			$ingredientsArray = $tmp;
 
-			$ingredients = [];
-			foreach ($ingredientsCollections as $ingredientsCollection)
-				$ingredients = array_merge($ingredients, $ingredientsCollection->lists('name'));
+			$finalIngredients = [];
+			$ingredientsName = [];
+			$prices = [];
+			
+			foreach ($ingredientsArray as $ingredient) {
+				// Add the ingredient to the final collection
+				if (! in_array($ingredient, $ingredientsName)) {
+					$ingredientsName[] = $ingredient->name;
+					$finalIngredients[] = Ingredient::build($ingredient->name, $ingredient->unit);
+				}
 
-			// Remove duplicates
-			$ingredients = array_unique($ingredients);
-			// Sort alphabetically
-			sort($ingredients);
+				// Remember the price for this ingredient
+				$prices[$ingredient->name][] = $ingredient->price;
+			}
 
-			return $ingredients;
+			// Set the mean price for each ingredient
+			foreach ($finalIngredients as $ing)
+				$ing->price = round(array_sum($prices[$ing->name]) / count($prices[$ing->name]), 2);
+
+			return new \Illuminate\Support\Collection($finalIngredients);
 		});
 	}
 
@@ -149,7 +182,7 @@ class MongoRecipesRepository implements RecipesRepository {
 	 */
 	private function listOfIngredientsNeedsUpdate(array $ingredients)
 	{
-		$existingIngredients = $this->getAllIngredients();
+		$existingIngredients = $this->getAllIngredients()->lists('name');
 		
 		foreach ($ingredients as $ingredient) {
 			if ( ! in_array($ingredient, $existingIngredients))
@@ -169,10 +202,13 @@ class MongoRecipesRepository implements RecipesRepository {
 	{
 		$slug = $this->computeSlug($ingredient);
 		
-		$ing = new Ingredient(['name' => $ingredient]);
+		$ing = Ingredient::build([
+			'name'  => $ingredient,
+			'unit'  => $quantities['unit-'.$slug],
+			'price' => $quantities['price-'.$slug]
+		]);
+
 		$q = new Quantity([
-			'unit'     => $quantities['unit-'.$slug],
-			'price'    => $quantities['price-'.$slug],
 			'quantity' => $quantities['quantity-'.$slug],
 		]);
 		
@@ -183,7 +219,7 @@ class MongoRecipesRepository implements RecipesRepository {
 
 	private function computeSlug($value)
 	{
-		return Str::slug($value);
+		return $this->str->slug($value);
 	}
 
 	private function computeSkip($page, $pagesize)
