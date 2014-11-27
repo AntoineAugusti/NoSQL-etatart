@@ -1,5 +1,5 @@
 \subsection{Modélisation}
-	Une \bddGraphe{} enregistre des données dans un graphe. Pour simplifier, un graphe connecte des nœuds (des \enquote{entités}) entre eux à l'aide de liens, qui symbolisent les relations (les \enquote{associations}). On peut stocker les informations que l'on souhaite dans les nœuds ou dans les liens. Pour avoir une définition plus complète, il est possible de \enquote{lire} le graphe de la figure \ref{bddGrapheSVG} en suivant les flèches pour former des phrases.
+	Une \bddGraphe{} enregistre des données dans un graphe. Pour simplifier, un graphe connecte des nœuds (des \enquote{entités}) entre eux à l'aide de liens, qui symbolisent les relations (les \enquote{associations}). On peut stocker les informations que l'on souhaite dans les nœuds ou dans les liens. Pour avoir une définition plus complète, il est possible de \enquote{lire} le graphe de la figure \ref{bddGrapheSVG} en suivant les flèches. On forme des phrases en partant d'un nœud puis en empruntant une arête jusqu'au prochain nœud ; par exemple \enquote{\textit{A graph database manages a graph}}.
 
 	\begin{figure}[H]
 		\centering
@@ -50,6 +50,8 @@
 			\caption{Recherche des noms des personnes reliant Bertrand et Hélène.}
 			\label{connectingFriends}
 		\end{figure}
+
+		La dernière ligne de la requête présentée dans la figure~\ref{connectingFriends} est la plus compliquée. L'instruction \texttt{nodes(p)} permet de récupérer les nœuds du chemin le plus court trouvé. On itère ensuite sur chaque nœud de cette liste : \texttt{[n in nodes(p)[1..-1]]}. On part du nœud d'indice 1, car le nœud d'indice 0 correspond à \enquote{Bertrand} dans notre exemple. On va \enquote{jusqu'à l'index -1} car on ne connaît pas la longueur de la liste. Enfin, la dernière instruction \texttt{| n.name} indique que l'on va retourner l'attribut correspondant au nom de la personne, pour chaque nœud.
 
 \subsection{Cas d'utilisation}
 	Une \bddGraphe{} n'a pas pour vocation à être utilisée comme seul moteur de stockage, sauf dans le cas d'applications très spécifiques ou de modules d'un système d'information. Les bases de données orientée graphe sont adaptées lorsque les données manipulées possèdent un grand nombre de liaisons entre elles. Pour rappel, les bases de données orientée graphe accordent une importance égale pour les nœuds et les relations entre ces nœuds. Voici quelques cas d'utilisation où une \bddGraphe{} est particulièrement adaptée\footnote{Ces exemples sont tirés du site officiel de Neo4j : \url{http://neo4j.com}} :
