@@ -10,17 +10,8 @@ $submitKey = 'recipes.submitTheseQuantities';
 		<div class="row quantities__row">
 			@foreach ($ings as $ingredient)
 				<?php 
-					$ingredientSlug = $ingredientsSlug[$ingredient];
-					
-					// Try to find the corresponding ingredient 
-					// in the collection
-					$ingredientInCollection = null;
-					if (in_array($ingredient, $ingredientsName))
-						$ingredientInCollection = $ingredientsData
-							->filter(function($a) use ($ingredient) {
-								return $a->name == $ingredient;
-							})
-							->first();
+				$ingredientSlug = $ingredientsSlug[$ingredient];
+				$ingredientInCollection = $existingIngredients[$ingredientSlug];
 				?>
 				<div class="col-lg-6">
 					<h4 class="orange">{{ $ingredient }}</h4>
