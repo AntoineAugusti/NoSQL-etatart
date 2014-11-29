@@ -42,9 +42,9 @@ gulp.task('scripts', function() {
 			inputJSDir + 'chosen.min.js',
 			inputJSDir + 'chosen-create-option.min.js',
 			inputJSDir + 'app.js',
+			inputJSDir + 'recipe-create-rating.js',
 			inputJSDir + 'timers/preparation-time.js',
 			inputJSDir + 'timers/cooking-time.js',
-			inputJSDir + 'timers/rating.js',
 		])
 		.pipe(concat('scripts.min.js'))
 		.pipe(gulp.dest(outputJS))

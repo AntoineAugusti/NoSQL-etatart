@@ -37,3 +37,12 @@
 		color: $yellow;
 	}
 }
+
+#display-stars {
+	margin-top: 7px;
+
+	.recipes__star {
+		cursor: pointer;
+		margin-right: 8px;
+	}
+}

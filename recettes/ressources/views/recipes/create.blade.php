@@ -1,4 +1,4 @@
-<?php 
+<?php
 $pageTitle = trans('recipes.createRecipe');
 $postRoute = 'recipes.redirect';
 $submitKey = 'recipes.addMyRecipe';
@@ -18,12 +18,11 @@ $submitKey = 'recipes.addMyRecipe';
 	<div class="form-group">
 		<label for="rating" class="col-lg-2 control-label">{{ trans('recipes.rating') }}</label>
 		<div class="col-lg-10">
-			<div id="slider-rating" class="slider shor"></div>
 			<div id="display-stars"></div>
 			{{ Form::hidden('rating', 5, ['id' => 'rating']) }}
 		</div>
 	</div>
-	
+
 	<!-- TYPE -->
 	<div class="form-group">
 		<label class="col-lg-2 control-label">{{ trans('recipes.type') }}</label>
@@ -58,7 +57,7 @@ $submitKey = 'recipes.addMyRecipe';
 			{{ Form::hidden('cookingTime', 20, ['id' => 'cookingTime']) }}
 		</div>
 	</div>
-	
+
 	<!-- DESCRIPTION -->
 	<div class="form-group">
 		<label for="description" class="col-lg-2 control-label">{{ trans('recipes.description') }}</label>
