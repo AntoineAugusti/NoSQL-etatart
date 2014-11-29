@@ -13,14 +13,15 @@ class RecipesController extends Controller {
 
 	private $recipesRepo;
 	private $recipesValidator;
-	
+
 	public function __construct(RecipesRepository $recipesRepo, RecipeValidator $recipesValidator)
 	{
 		$this->recipesRepo = $recipesRepo;
 		$this->recipesValidator = $recipesValidator;
 
 		$this->beforeFilter('csrf', ['only' => ['redirectToIngredients', 'redirectToQuantities', 'store']]);
-		$this->beforeFilter('hasCreatedRecipe', ['only' => 'createIngredients']);
+		$this->beforeFilter('hasCreatedRecipe', ['only' => ['createIngredients', 'store']]);
+		$this->beforeFilter('hasChoosenIngredients', ['only' => ['createQuantities', 'store']]);
 	}
 
 	public function index()
@@ -42,7 +43,7 @@ class RecipesController extends Controller {
 		$data = [
 			'possibleTypes' => Recipe::getAllowedTypeValues()
 		];
-		
+
 		return View::make('recipes.create', $data);
 	}
 
@@ -69,12 +70,12 @@ class RecipesController extends Controller {
 	public function createIngredients()
 	{
 		$ingredients = $this->recipesRepo->getAllIngredients()->lists('name');
-		
+
 		$data = [
 			// Keys and values are the same
 			'ingredients' => array_combine($ingredients, $ingredients),
 		];
-		
+
 		return View::make('ingredients.create', $data);
 	}
 
@@ -109,7 +110,7 @@ class RecipesController extends Controller {
 	{
 		$ingredients = Session::get('ingredients');
 		$quantities = $this->getQuantitiesForIngredients($ingredients);
-		
+
 		// Perform validation
 		$this->recipesValidator->quantitiesAreCorrectForIngredients($ingredients, $quantities);
 
@@ -134,7 +135,7 @@ class RecipesController extends Controller {
 	private function computeExistingIngredients(array $ingredients, Collection $ingredientsData)
 	{
 		$instance = $this;
-		
+
 		$existingIngredients = array_map(function($a) use($ingredientsData, $instance)
 		{
 			return $instance->findByNameInCollection($a, $ingredientsData);
