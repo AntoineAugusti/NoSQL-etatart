@@ -4,11 +4,11 @@ use Lang;
 use Laracasts\Presenter\Presenter;
 
 class RecipePresenter extends Presenter {
-	
+
 	public function totalTime()
 	{
 		$time = $this->entity->cookingTime + $this->entity->preparationTime;
-		
+
 		return $this->htmlForTime($time);
 	}
 
@@ -29,25 +29,22 @@ class RecipePresenter extends Presenter {
 
 	public function type()
 	{
-		return Lang::get('recipes.'.$this->entity->type);	
+		return Lang::get('recipes.'.$this->entity->type);
 	}
 
 	public function rating()
 	{
 		$nbStars = floor($this->entity->rating / 2);
 		$nbStarsGray = 5 - $nbStars;
-		
+
 		$star = '<i class="recipes__star mdi-action-star-rate"></i>';
 		$starYellow = '<i class="recipes__star mdi-action-star-rate yellow"></i>';
-		$html = '';
 
 		// Yellow stars
-		for ($i = 1; $i <= $nbStars ; $i++)
-			$html .= $starYellow;
+		$html = str_repeat($starYellow, $nbStars);
 
 		// Gray stars
-		for ($i = 1; $i <= $nbStarsGray ; $i++)
-			$html .= $star;
+		$html .= str_repeat($star, $nbStarsGray);
 
 		return $html;
 	}
