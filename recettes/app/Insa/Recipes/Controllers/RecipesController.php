@@ -5,7 +5,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Insa\Exceptions\RecipeNotFoundException;
 use Insa\Ingredients\Models\Ingredient;
-use Insa\Quantities\Models\Quantity;
 use Insa\Recipes\Models\Recipe;
 use Insa\Recipes\Repositories\RecipesRepository;
 use Insa\Recipes\Validation\RecipeValidator;
@@ -69,7 +68,7 @@ class RecipesController extends Controller {
 
 	public function createIngredients()
 	{
-		$ingredients = $this->recipesRepo->getAllIngredients();
+		$ingredients = $this->recipesRepo->getAllIngredients()->lists('name');
 		
 		$data = [
 			// Keys and values are the same
@@ -81,11 +80,20 @@ class RecipesController extends Controller {
 
 	public function createQuantities()
 	{
-		$data = [
-			'ingredients'   => new Collection(Session::get('ingredients')),
-			'recipe'        => Session::get('recipe'),
-			'possibleTypes' => Quantity::getAllowedUnitValues()
-		];
+		$ingredientsData = $this->recipesRepo->getAllIngredients();
+		$ingredientsName = $ingredientsData->lists('name');
+		$ingredients     = new Collection(Session::get('ingredients'));
+		$recipe          = Session::get('recipe');
+
+		// Compute the slug for each ingredient
+		$slugs = $this->computeSlugs($ingredients->all());
+
+		// For existing ingredients, grab data from the ingredientsData collection
+		$existingIngredients = $this->computeExistingIngredients($ingredients->all(), $ingredientsData);
+
+		$data = compact('ingredients', 'ingredientsName', 'ingredientsData', 'recipe', 'existingIngredients');
+		$data['ingredientsSlug'] = array_combine($ingredients->all(), $slugs);
+		$data['possibleTypes']   = Ingredient::getAllowedUnitValues();
 
 		return View::make('quantities.create', $data);
 	}
@@ -116,6 +124,44 @@ class RecipesController extends Controller {
 			->withSuccess(trans('recipes.recipeCreated'));
 	}
 
+	/**
+	 * For each ingredient given, try to find a correspondance in the collection
+	 * @param  array      $ingredients
+	 * @param  \Illuminate\Support\Collection $ingredientsData
+	 * @return array Keys are slugs identifying an ingredient and the value is the ingredient
+	 * object if it was found, or null
+	 */
+	private function computeExistingIngredients(array $ingredients, Collection $ingredientsData)
+	{
+		$instance = $this;
+		
+		$existingIngredients = array_map(function($a) use($ingredientsData, $instance)
+		{
+			return $instance->findByNameInCollection($a, $ingredientsData);
+		}, $ingredients);
+
+		// Construct the final array, keys are ingredients' slugs
+		$existingIngredients = array_combine(array_map(array($this, "computeSlug"), $ingredients), $existingIngredients);
+
+		return $existingIngredients;
+	}
+
+	/**
+	 * Find an element by the value of its name attribute in a collection
+	 * @param  string $nameValue
+	 * @param  \Illuminate\Support\Collection $collection
+	 * @return mixed|null
+	 */
+	private function findByNameInCollection($nameValue, Collection $collection)
+	{
+		foreach ($collection as $element) {
+			if ($element->name == $nameValue)
+				return $element;
+		}
+
+		return null;
+	}
+
 	private function getQuantitiesForIngredients(array $ingredients)
 	{
 		$quantities = [];
@@ -134,6 +180,16 @@ class RecipesController extends Controller {
 		$quantities['quantity-'.$slug] = Input::get('quantity-'.$slug);
 
 		return $quantities;
+	}
+
+	/**
+	 * Compute slug for each element
+	 * @param  array $items
+	 * @return array
+	 */
+	private function computeSlugs(array $items)
+	{
+		return array_map(array($this, "computeSlug"), $items);
 	}
 
 	private function computeSlug($value)
