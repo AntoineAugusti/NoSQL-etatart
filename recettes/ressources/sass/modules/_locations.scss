@@ -2,6 +2,13 @@
 	margin: 50px inherit 25px inherit;
 }
 
+.locations__name {
+	.name {
+		color: $lightBlue !important;
+		font-weight: 400;
+	}
+}
+
 .locations__icon {
 	margin-top: 15px;
 }

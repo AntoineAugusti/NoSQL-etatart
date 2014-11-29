@@ -13,6 +13,11 @@ class LocationPresenter extends Presenter {
 		return '<i class="locations__icon '.$icon.'"></i>';
 	}
 
+	public function name()
+	{
+		return Lang::get('locations.tooltip'.ucfirst($this->entity->type), ['name' => $this->entity->name]);
+	}
+
 	public function date()
 	{
 		if (! $this->entity->hasDate())
