@@ -2,14 +2,14 @@
 <html>
 <head>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-	<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Crete+Round|Roboto:400,300,500' rel='stylesheet' type='text/css'>
 	<link href="/assets/css/styles.min.css" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>@yield('pageTitle')</title>
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">		
+		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
 					<span class="icon-bar"></span>
@@ -21,8 +21,8 @@
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
 				<ul class="nav navbar-nav">
 					@foreach (['recipes.index', 'recipes.create'] as $route)
-						<?php 
-						$active = (Route::currentRouteName() == $route) ? 'class="active"' : ''; 
+						<?php
+						$active = (Route::currentRouteName() == $route) ? 'class="active"' : '';
 						?>
 						<li {{ $active }}><a href="{{ URL::route($route) }}">{{ Lang::get('menu.'.$route) }}</a></li>
 					@endforeach
