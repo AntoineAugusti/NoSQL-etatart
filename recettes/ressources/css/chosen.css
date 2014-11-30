@@ -51,7 +51,7 @@
 .chosen-container .chosen-results li.group-result {
   display: list-item;
   cursor: default;
-  color: #999;
+  color: #e67e22;
   font-weight: bold;
 }
 .chosen-container .chosen-results li.group-option {

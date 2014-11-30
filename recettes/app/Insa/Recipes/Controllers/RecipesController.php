@@ -1,27 +1,34 @@
 <?php namespace Insa\Recipes\Controllers;
 
-use Config, Input, Paginator, Session, Redirect, Str, View;
+use Config, Input, Lang, Paginator, Session, Redirect, Str, View;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Insa\Exceptions\RecipeNotFoundException;
 use Insa\Ingredients\Models\Ingredient;
 use Insa\Recipes\Models\Recipe;
+use Insa\Recipes\Repositories\LocationsRepository;
 use Insa\Recipes\Repositories\RecipesRepository;
+use Insa\Recipes\Validation\LocationValidator;
 use Insa\Recipes\Validation\RecipeValidator;
 
 class RecipesController extends Controller {
 
+	private $locationsRepo;
+	private $locationValidator;
 	private $recipesRepo;
-	private $recipesValidator;
+	private $recipeValidator;
 
-	public function __construct(RecipesRepository $recipesRepo, RecipeValidator $recipesValidator)
+	public function __construct(LocationsRepository $locationsRepo, LocationValidator $locationValidator, RecipesRepository $recipesRepo, RecipeValidator $recipeValidator)
 	{
-		$this->recipesRepo = $recipesRepo;
-		$this->recipesValidator = $recipesValidator;
+		$this->locationsRepo     = $locationsRepo;
+		$this->locationValidator = $locationValidator;
+		$this->recipesRepo       = $recipesRepo;
+		$this->recipeValidator   = $recipeValidator;
 
-		$this->beforeFilter('csrf', ['only' => ['redirectToIngredients', 'redirectToQuantities', 'store']]);
-		$this->beforeFilter('hasCreatedRecipe', ['only' => ['createIngredients', 'store']]);
-		$this->beforeFilter('hasChoosenIngredients', ['only' => ['createQuantities', 'store']]);
+		$this->beforeFilter('csrf', ['only' => ['redirectToIngredients', 'redirectToQuantities', 'redirectToLocation', 'store']]);
+		$this->beforeFilter('hasCreatedRecipe', ['only' => ['createIngredients']]);
+		$this->beforeFilter('hasChoosenIngredients', ['only' => ['createQuantities']]);
+		$this->beforeFilter('hasChoosenQuantities', ['only' => ['createLocation', 'store']]);
 	}
 
 	public function index()
@@ -60,7 +67,7 @@ class RecipesController extends Controller {
 	{
 		$recipeData = Input::only(['title', 'rating', 'type', 'preparationTime', 'cookingTime', 'description']);
 
-		$this->recipesValidator->validateCreate($recipeData);
+		$this->recipeValidator->validateCreate($recipeData);
 
 		Session::set('recipe', $recipeData);
 
@@ -77,6 +84,13 @@ class RecipesController extends Controller {
 		];
 
 		return View::make('ingredients.create', $data);
+	}
+
+	public function redirectToQuantities()
+	{
+		Session::set('ingredients', Input::get('ingredients'));
+
+		return Redirect::route('recipes.ingredients.quantities.create');
 	}
 
 	public function createQuantities()
@@ -99,27 +113,48 @@ class RecipesController extends Controller {
 		return View::make('quantities.create', $data);
 	}
 
-	public function redirectToQuantities()
-	{
-		Session::set('ingredients', Input::get('ingredients'));
-
-		return Redirect::route('recipes.ingredients.quantities.create');
-	}
-
-	public function store()
+	public function redirectToLocation()
 	{
 		$ingredients = Session::get('ingredients');
 		$quantities = $this->getQuantitiesForIngredients($ingredients);
 
 		// Perform validation
-		$this->recipesValidator->quantitiesAreCorrectForIngredients($ingredients, $quantities);
+		$this->recipeValidator->quantitiesAreCorrectForIngredients($ingredients, $quantities);
+
+		// Store quantities in session
+		Session::set('quantities', $quantities);
+
+		return Redirect::route('recipes.location.create');
+	}
+
+	public function createLocation()
+	{
+		$locations = $this->computeLocationsForSelect(
+			$this->locationsRepo->getAll()
+		);
+
+		return View::make('locations.choose', compact('locations'));
+	}
+
+	public function store()
+	{
+		$ingredients = Session::get('ingredients');
+		$quantities = Session::get('quantities');
+		$locationID = Input::get('location');
+
+		// Perform validaton
+		$this->locationValidator->validateChoose(['id' => $locationID]);
 
 		// Store the recipe
 		$recipe = $this->recipesRepo->createWithIngredientsAndQuantities(Session::get('recipe'), $ingredients, $quantities);
 
+		// Set the location
+		$this->recipesRepo->addLocation($recipe, $this->locationsRepo->findById($locationID));
+
 		// Forget values stored in session
 		Session::forget('recipe');
 		Session::forget('ingredients');
+		Session::forget('quantities');
 
 		return Redirect::route('recipes.show', $recipe->slug)
 			->withSuccess(trans('recipes.recipeCreated'));
@@ -181,6 +216,39 @@ class RecipesController extends Controller {
 		$quantities['quantity-'.$slug] = Input::get('quantity-'.$slug);
 
 		return $quantities;
+	}
+
+	/**
+	 * Create an array of locations in order to select a location, by its type
+	 * @param  Illuminate\Support\Collection $locations
+	 * @return array
+	 * @example [
+	 *   'book' => ['22' => 'Awesome', '23' => 'Amazing'],
+	 *   'URL' => ['42' => 'Awesome 2', '43' => 'Amazing 2'],
+	 * ]
+	 */
+	private function computeLocationsForSelect(Collection $locations)
+	{
+		$groupedByType = $locations->groupBy('type');
+
+		$results = [];
+
+		foreach ($groupedByType as $key => $value) {
+			$results[Lang::get('locations.type'.ucfirst($key))] = $this->extractKeyAndNameFromLocations($value);
+		}
+
+		return $results;
+	}
+
+	private function extractKeyAndNameFromLocations(array $locations)
+	{
+		$out = [];
+		
+		foreach ($locations as $loc) {
+			$out[$loc->_id] = $loc->name;
+		}
+
+		return $out;
 	}
 
 	/**

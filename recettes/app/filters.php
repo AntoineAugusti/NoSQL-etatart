@@ -82,6 +82,12 @@ Route::filter('hasChoosenIngredients', function()
 		return Redirect::route('recipes.create')->withWarning(Lang::get('recipes.mustCreateRecipe'));
 });
 
+Route::filter('hasChoosenQuantities', function()
+{
+	if ( ! Session::has('recipe') OR ! Session::has('ingredients') OR ! Session::has('quantities'))
+		return Redirect::route('recipes.create')->withWarning(Lang::get('recipes.mustCreateRecipe'));
+});
+
 /*
 |--------------------------------------------------------------------------
 | CSRF Protection Filter
