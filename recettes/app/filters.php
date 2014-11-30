@@ -78,7 +78,7 @@ Route::filter('hasCreatedRecipe', function()
 
 Route::filter('hasChoosenIngredients', function()
 {
-	if ( ! Session::has('recipe') OR ! Session::has('choosenIngredients'))
+	if ( ! Session::has('recipe') OR ! Session::has('ingredients'))
 		return Redirect::route('recipes.create')->withWarning(Lang::get('recipes.mustCreateRecipe'));
 });
 
