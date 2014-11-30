@@ -11,7 +11,11 @@
 		<div class="panel-body">
 			<h1 class="recipes__big-title"><i class="mdi-maps-restaurant-menu"></i> {{ $pageTitle }}</h1>
 			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
+				@if (isset($bigForm) AND $bigForm)
+					<div class="col-lg-10 col-lg-offset-1">
+				@else
+					<div class="col-lg-8 col-lg-offset-2">
+				@endif
 					<!-- FORM ERRORS -->
 					
 					@include('layouts.partials.formErrors')				
