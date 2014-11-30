@@ -202,11 +202,7 @@ class MongoRecipesRepository implements RecipesRepository {
 	{
 		$slug = $this->computeSlug($ingredient);
 		
-		$ing = Ingredient::build([
-			'name'  => $ingredient,
-			'unit'  => $quantities['unit-'.$slug],
-			'price' => $quantities['price-'.$slug]
-		]);
+		$ing = Ingredient::build($ingredient, $quantities['unit-'.$slug], $quantities['price-'.$slug]);
 
 		$q = new Quantity([
 			'quantity' => $quantities['quantity-'.$slug],
