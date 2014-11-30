@@ -12,4 +12,14 @@ class MongoLocationsRepository implements LocationsRepository {
 	{
 		return Location::all();
 	}
+
+	/**
+	 * Get a location by its ID
+	 * @param  string $id
+	 * @return Insa\Recipes\Models\Location
+	 */
+	public function findById($id)
+	{
+		return Location::find($id);
+	}
 }
