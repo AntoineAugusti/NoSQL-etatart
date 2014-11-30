@@ -7,7 +7,7 @@ class Location extends Moloquent {
 
 	use PresentableTrait;
 
-	const MANUSCRIPT = 'manuscript';
+	const MANUSCRIPT = 'handwritten';
 	const BOOK       = 'book';
 	const URL        = 'url';
 	const MAGAZINE   = 'magazine';
