@@ -1,7 +1,8 @@
 <?php 
 $pageTitle = trans('recipes.chooseYourQuantities');
-$postRoute = 'recipes.store';
+$postRoute = 'recipes.ingredients.quantities.redirect';
 $submitKey = 'recipes.submitTheseQuantities';
+$bigForm   = true;
 ?>
 @extends('recipes.partials.addRecipeStep')
 
