@@ -4,6 +4,7 @@ use Illuminate\Cache\Repository as Cache;
 use Illuminate\Support\Str;
 use Insa\Ingredients\Models\Ingredient;
 use Insa\Quantities\Models\Quantity;
+use Insa\Recipes\Models\Location;
 use Insa\Recipes\Models\Recipe;
 
 class MongoRecipesRepository implements RecipesRepository {
@@ -43,6 +44,20 @@ class MongoRecipesRepository implements RecipesRepository {
 		return Recipe::with('location')
 			->whereSlug($slug)
 			->first();
+	}
+
+	/**
+	 * Set the location of a recipe
+	 * @param \Insa\Recipes\Models\Recipe   $r
+	 * @param \Insa\Recipes\Models\Location $l
+	 * @return \Insa\Recipes\Models\Recipe
+	 */
+	public function addLocation(Recipe $r, Location $l)
+	{
+		$r->location()->associate($l);
+		$r->save();
+
+		return $r;
 	}
 
 	/**
