@@ -1,26 +1,26 @@
-\subsection{La modélisation relationnelle}
+\subsection*{La modélisation relationnelle}
 \label{subsec:modelisationRelationnelle}
 	Les modèles de données des bases de données relationnelles et des bases de données NoSQL sont très différentes. Le modèle relationnel sépare les données au sein de plusieurs tables qui contiennent des lignes et des colonnes. Les tables se référencent entre elles à l'aide de clés étrangères qui sont stockées dans les colonnes. Quand on recherche des données, l'information a besoin d'être collectée depuis plusieurs tables (parfois plusieurs dizaines ou centaines pour des modèles de données d'entreprise) et rassemblée avant d'être envoyée à l'application. C'est ce que l'on appelle les jointures. De manière similaire, lors d'une écriture, l'écriture doit être effectuée souvent sur plusieurs tables.
 
-\subsection{La modélisation NoSQL}
-	Les bases de données ont une modélisation des données très différente du modèle relationnel. Ces différences sont tellement importantes que nous les étudierons dans un chapitre dédié. Par exemple, dans une base de données orientée document, les données sont agrégées dans un document en utilisant le format JSON.\\
+% \subsection*{La modélisation NoSQL}
+% 	Les bases de données ont une modélisation des données très différente du modèle relationnel. Ces différences sont tellement importantes que nous les étudierons dans un chapitre dédié. Par exemple, dans une base de données orientée document, les données sont agrégées dans un document en utilisant le format JSON.\\
 
-	Un document JSON peut être imaginé comme un objet prêt à être utilisé dans l'application finale. Un document JSON peut par exemple prendre toutes les données d'une ligne dans 10 tables d'une base de données relationnelle et les agréger dans un seul document. L’agrégation de cette information conduit à la duplication de l'information mais depuis que les coûts de stockage sont devenus faibles, la flexibilité de la modélisation des données, la facilité d'utilisation des documents et les améliorations en lecture / écriture facilitent beaucoup le stockage de données pour des applications web.
+% 	Un document JSON peut être imaginé comme un objet prêt à être utilisé dans l'application finale. Un document JSON peut par exemple prendre toutes les données d'une ligne dans 10 tables d'une base de données relationnelle et les agréger dans un seul document. L’agrégation de cette information conduit à la duplication de l'information mais depuis que les coûts de stockage sont devenus faibles, la flexibilité de la modélisation des données, la facilité d'utilisation des documents et les améliorations en lecture / écriture facilitent beaucoup le stockage de données pour des applications web.
 
-	\begin{listing}[H]
-		\inputminted{json}{code/commentaire.json}
-		\caption{Un commentaire sur une citation au format JSON. Exemple tiré de l'API de Teen Quotes.\cite{teenquotes_api_commentaire}}
-	\end{listing}
-	Dans ce document on voit que les données de l'utilisateur auteur du commentaire et de la citation sur laquelle ce commentaire a été posté ont été enchâssées (principe de l'\textit{embedding}).\\
+% 	\begin{listing}[H]
+% 		\inputminted{json}{code/commentaire.json}
+% 		\caption{Un commentaire sur une citation au format JSON. Exemple tiré de l'API de Teen Quotes.\cite{teenquotes_api_commentaire}}
+% 	\end{listing}
+% 	Dans ce document on voit que les données de l'utilisateur auteur du commentaire et de la citation sur laquelle ce commentaire a été posté ont été enchâssées (principe de l'\textit{embedding}).\\
 
-	À titre de comparaison, la requête SQL équivalente pour obtenir le résultat précédent serait la suivante.
-	\begin{listing}[H]
-		\inputminted{sql}{code/commentaireSQL.sql}
-		\caption{La requête SQL équivalente au résultat précédent.}
-	\end{listing}
-	Ce résultat, tout à fait ordinaire, requiert déjà 4 jointures pour une base de données relationnelles. Il est ensuite nécessaire d'effectuer des modifications par rapport au retour brut de la base de données pour former des objets imbriqués qui seront exploités par l'application.
+% 	À titre de comparaison, la requête SQL équivalente pour obtenir le résultat précédent serait la suivante.
+% 	\begin{listing}[H]
+% 		\inputminted{sql}{code/commentaireSQL.sql}
+% 		\caption{La requête SQL équivalente au résultat précédent.}
+% 	\end{listing}
+% 	Ce résultat, tout à fait ordinaire, requiert déjà 4 jointures pour une base de données relationnelles. Il est ensuite nécessaire d'effectuer des modifications par rapport au retour brut de la base de données pour former des objets imbriqués qui seront exploités par l'application.
 
-\subsection{Un schéma \enquote{relaxé}}
+\subsection*{Un schéma \enquote{relaxé}}
 	Comme nous l'avons rappelé dans la partie~\ref{subsec:modelisationRelationnelle}, le modèle relationnel repose sur une stabilité du schéma des données et donc sur une modélisation poussée, idéalement complète, effectuée au préalable. Il est malheureusement difficile de respecter cette contrainte à la perfection et il est quasiment inimaginable de ne pas faire évoluer son schéma au fil des années, suite à la première mise en production. Changer le schéma d'une base de données relationnelle est compliqué pour garantir une cohérence avec les applications et est très souvent évité. Ceci est totalement opposé au comportement désiré à l'ère du \textit{Big Data} où les développeurs doivent constamment et rapidement incorporer de nouveaux types de données pour enrichir les applications. Ainsi, l'ajout d'une nouvelle source d'information peut se faire plus rapidement car on ne doit pas avoir exactement la même structure de données que les autres sources d'information utilisées pour remplir la base de données. Cette souplesse que l'on s'autorise possède bien évidemment des inconvénients.\\
 
 	Les bases de données NoSQL cherchent à assouplir la contrainte d'un schéma figé en proposant une approche dite \enquote{sans schéma} ou à schéma \enquote{relaxé}, ce qui veut dire que le moteur n'effectue aucune vérification ou contrainte de schéma. C'est alors au développeur qui utilise ces systèmes de décider comment il organise les données, et ceci dans son code client.\\
