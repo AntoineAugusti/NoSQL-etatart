@@ -25,7 +25,7 @@
 
   Comme nous l'avons vu précédemment, dans une base de données orientée documents, il est possible d'imbriquer des documents entre eux. De plus, le langage JSON permet d'effectuer cette imbrication très simplement. C'est le principe de l'\textit{embedding}.\\
 
-  Il est très compliqué pour une base de données orientée documents de gérer les relations, là où une base de données relationnelle va optimiser soit automatiquement (via le SGBD) ou manuellement (via des vues) les relations entre les tables, les SGBD des bases de données documents ne connaissent pas ce principe. Une erreur courante pour un architecte BD venant du monde du relationnel est de faire des jointures entre ses différents documents en plaçant des clés étrangères. Si nous reprenons l'exemple précédent, le mauvais schéma pourrait ressembler à ceci :
+  Il est très compliqué pour une base de données orientée documents de gérer les relations, là où une base de données relationnelle va proposer un système de jointure pour représenter les relations entre les tables, les SGBD des bases de données documents ne savent effectuer une requête que sur une seule collection à la fois. Une erreur courante pour un architecte BD venant du monde du relationnel est de faire des jointures entre ses différents documents en plaçant des clés étrangères. Si nous reprenons l'exemple précédent, le mauvais schéma pourrait ressembler à ceci :
 
   \begin{listing}[H]
     \inputminted{json}{code/exempleMauvaisSchema.json}
