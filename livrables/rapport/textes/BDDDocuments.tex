@@ -58,28 +58,28 @@
   Les requêtes des bases de données orientée documents sont écrites en JavaScript et en JSON. Elles fonctionnent sur la base de l'appel d'une méthode JavaScript sur un objet \verb|collection|. En JavaScript, l'accès aux variables et aux méthodes d'un objet se fait avec un point. L'objet \verb|db| contient l'ensemble des collections de la base. Chaque \verb|collection| possède des méthodes permettant d'accéder aux données. Ces méthodes prennent en paramètre une chaîne de caractère formatée en JSON. 
 
   \begin{listing}[H]
-    \inputminted{JavaScript}{code/requeteMongoFind.js}
+    \inputminted{javascript}{code/requeteMongoFind.js}
     \caption{Exemple de requête find sur MongoDB.}
   \end{listing}
 
   MongoDB met à disposition des opérateurs spéciaux permettant d'effectuer des conditions plus complexes : ou (\verb|$or|), supérieur à (\verb|$gt| pour \textit{greater than}), inférieur à (\verb|$lt| pour \textit{lower than}), présent dans le tableau (\verb|$in|)\dots
 
   \begin{listing}[H]
-    \inputminted{JavaScript}{code/requeteMongoFindOperator.js}
+    \inputminted{javascript}{code/requeteMongoFindOperator.js}
     \caption{Exemple de requête find sur MongoDB avec des opérateurs spéciaux.}
   \end{listing}
 
   Afin d'insérer un nouveau document, il suffit de le formater en JSON et de le passer en paramètre à la méthode \verb|insert|. Pour insérer plusieurs documents à la fois, il est possible de passer un tableau de documents à la méthode \verb|insert|.
 
   \begin{listing}[H]
-    \inputminted{JavaScript}{code/requeteMongoInsert.js}
+    \inputminted{javascript}{code/requeteMongoInsert.js}
     \caption{Exemple de requête insert sur MongoDB.}
   \end{listing}
 
   Pour modifier un document existant, la méthode \verb|update| prend en premier paramètre une condition avec le même formatage que la méthode \verb|find|, puis en second paramètre les modifications. L'opérateur \verb|$set| permet de modifier les éléments voulus. Il est possible d'utiliser l'opérateur \verb|$currentDate| pour mettre à jour une date. Les champs des documents imbriqués sont accessibles via le nom du document suivi d'un point puis du nom du champ. 
 
   \begin{listing}[H]
-    \inputminted{JavaScript}{code/requeteMongoUpdate.js}
+    \inputminted{javascript}{code/requeteMongoUpdate.js}
     \caption{Exemple de requête update sur MongoDB.}
   \end{listing}
 
