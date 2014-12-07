@@ -42,6 +42,18 @@
     \item \textbf{L'objet imbriqué doit-il être présent en intégralité ?} Lors de l'imbrication de documents entre eux, il est possible d'avoir à faire à des problèmes de récursion, par exemple : dans le document d'un utilisateur sont imbriqués ses textes, dans les textes sont imbriqués les commentaires et dans les commentaires sont imbriqués leur auteur. Pour cette dernière imbrication, toutes les informations de l'auteur ne sont pas forcément nécessaires, nous pouvons juste sauvegarder son nom et son prénom (et pas tous ses textes avec tous leurs commentaires respectifs).
   \end{itemize}
 
+\subsubsection{La redondance dans le monde du NoSQL}
+
+  Lorsque nous imbriquons dans un document certains éléments d'un autre document, nous pouvons parler de redondance. Contrairement au modèle relationnel, la redondance n'est pas une mauvaise pratique dans le monde du NoSQL. De nos jours, l'espace disque n'est pas cher et nous pouvons nous permettre de stocker des tera-octets de données sans problème. En revanche, l'accès à ces données peut se trouver ralenti car les données ne sont plus stockées sur une seule machine mais sur des systèmes de fichiers distribués. Il est donc préférable de multiplier l'information à plusieurs endroits différents. Les données sont ainsi sécurisées et n'ont aucun risque d'être perdues mais, plus important encore, elles sont accessibles beaucoup plus rapidement.\\
+
+  D'un autre côté, la multiplication de l'information pose des problèmes lors de l'écriture. Le modèle relationnel est performant de ce point du vu car l'information est toujours présente à un seul endroit de manière cohérente. À partir du moment où la même donnée est présente à deux emplacements différents, sa mise à jour devient plus complexe.\\
+
+  \begin{itemize}
+    \item \textbf{Si la donnée est sauvegardé à plusieurs endroits physiques} : c'est le problème du système de fichier distribué, ce dernier doit minimiser les temps de mise à jour. Pour cela, la connexion entre les différents serveurs du clusters de stockage doit être très importante, on parle de connexion 10Gbits/s au minimum. Cette vitesse permet de gérer de gros volumes de données, en limitant les temps d'incohérence de la base (lorsque la donnée a été mise à jour sur l'un des serveurs et pas sur l'autre).
+    \item \textbf{Si la donnée est sauvegardé à plusieurs endroits logiques} : c'est le problème des développeurs et de l'architecte base de données. Les développeurs doivent prendre en compte les différents documents où est présente l'information afin de mettre à jour la donnée de manière cohérente. Si l'on stocke les pseudos des utilisateurs dans les commentaires par exemple, le jour où l'utilisateur change son pseudo, il faut modifier tous ses commentaires avec le nouveau pseudo. Cette mise à jour peut être très coûteuse, c'est là que l'architecte base de données doit intervenir en prenant en compte les fréquences de lecture et de mise à jour de chaque donnée lors de la conception de la base. Concernant le pseudo d'un utilisateur, la fréquence de lecture de ses commentaires est bien plus importante que la fréquence de modification ce qui permet de redonder l'information de manière efficace.
+  \end{itemize}
+
+
 \subsection{Cas d'utilisation}
 
   La base de données orientée documents est typiquement une base de données NoSQL de stockage de masse. Elle est très performante pour des applications nécessitant un grand volume de données non uniforme comme par exemple le résultat de traitements sur des textes via extraction d'informations. Elle est très utile dans l'objectif d'effectuer de la fouille de données sur ces informations en particulier avec des opérations de type \textit{map / reduce}.\\
