@@ -53,6 +53,39 @@
     \item \textbf{Si la donnée est sauvegardée à plusieurs endroits logiques} : c'est le problème des développeurs et de l'architecte base de données. Les développeurs doivent prendre en compte les différents documents où est présente l'information afin de mettre à jour la donnée de manière cohérente. Si l'on stocke les pseudos des utilisateurs dans les commentaires par exemple, le jour où l'utilisateur change son pseudo, il faut modifier tous ses commentaires avec le nouveau pseudo. Cette mise à jour peut être très coûteuse, c'est là que l'architecte base de données doit intervenir en prenant en compte les fréquences de lecture et de mise à jour de chaque donnée lors de la conception de la base. Concernant le pseudo d'un utilisateur, la fréquence de lecture de ses commentaires est bien plus importante que la fréquence de modification ce qui permet de redonder l'information de manière efficace.
   \end{itemize}
 
+\subsubsection{Exemples de requêtes}
+
+  Les requêtes des bases de données orientée documents sont écrites en JavaScript et en JSON. Elles fonctionnent sur la base de l'appel d'une méthode JavaScript sur un objet \verb|collection|. En JavaScript, l'accès aux variables et aux méthodes d'un objet se fait avec un point. L'objet \verb|db| contient l'ensemble des collections de la base. Chaque \verb|collection| possède des méthodes permettant d'accéder aux données. Ces méthodes prennent en paramètre une chaîne de caractère formatée en JSON. 
+
+  \begin{listing}[H]
+    \inputminted{json}{code/requeteMongoFind.json}
+    \caption{Exemple de requête find sur MongoDB.}
+  \end{listing}
+
+  MongoDB met à disposition des opérateurs spéciaux permettant d'effectuer des conditions plus complexes : ou (\verb|$or|), supérieur à (\verb|$gt|), inférieur à (\verb|$lt|), présent dans le tableau (\verb|$in|)\dots
+
+  \begin{listing}[H]
+    \inputminted{json}{code/requeteMongoFindOperator.json}
+    \caption{Exemple de requête find sur MongoDB avec des opérateurs spéciaux.}
+  \end{listing}
+
+  Afin d'insérer un nouveau document, il suffit de le formater en JSON et de le passer en paramètre à la méthode \verb|insert|. Pour insérer plusieurs documents à la fois, il est possible de passer un tableau de documents à la méthode \verb|insert|.
+
+  \begin{listing}[H]
+    \inputminted{json}{code/requeteMongoInsert.json}
+    \caption{Exemple de requête insert sur MongoDB.}
+  \end{listing}
+
+  Pour modifier un document existant, la méthode \verb|update| prend en premier paramètre une condition avec le même formatage que la méthode \verb|find|, puis en second paramètre les modifications. L'opérateur \verb|$set| permet de modifier les éléments voulus. Il est possible d'utiliser l'opérateur \verb|$currentDate| pour mettre à jour une date. Les champs des documents imbriqués sont accessibles via le nom du document suivi d'un point puis du nom du champ. 
+
+  \begin{listing}[H]
+    \inputminted{json}{code/requeteMongoUpdate.json}
+    \caption{Exemple de requête update sur MongoDB.}
+  \end{listing}
+
+  De nombreuses méthodes et de nombreux opérateurs sont accessibles pour manipuler une base de données MongoDB, ces différents exemples (tirés de la documentation en ligne) sont loin d'être exhaustifs. Pour plus de possibilités, la documentation MongoDB est très bien conçue : \url{http://docs.mongodb.org/manual/}.\\
+
+  Fait intéressant : il n'existe pas de méthode permettant la création de collections en MongoDB, en effet, le système de gestion de base de données crée automatiquement les collections nécessaires à la première insertion.
 
 \subsection{Cas d'utilisation}
 
