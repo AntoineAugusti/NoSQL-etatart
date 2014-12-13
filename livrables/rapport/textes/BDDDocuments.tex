@@ -55,32 +55,36 @@
 
 \subsubsection{Exemples de requêtes}
 
-  Les requêtes des bases de données orientée documents sont écrites en JavaScript et en JSON. Elles fonctionnent sur la base de l'appel d'une méthode JavaScript sur un objet \verb|collection|. En JavaScript, l'accès aux variables et aux méthodes d'un objet se fait avec un point. L'objet \verb|db| contient l'ensemble des collections de la base. Chaque \verb|collection| possède des méthodes permettant d'accéder aux données. Ces méthodes prennent en paramètre une chaîne de caractère formatée en JSON. 
+  Les requêtes des bases de données orientée documents sont écrites en JavaScript et en JSON. Elles fonctionnent sur la base de l'appel d'une méthode JavaScript sur un objet \verb|collection|. En JavaScript, l'accès aux variables et aux méthodes d'un objet se fait avec un point. L'objet \verb|db| contient l'ensemble des collections de la base. Chaque \verb|collection| possède des méthodes permettant d'accéder aux données. Ces méthodes prennent en paramètre une chaîne de caractère formatée en JSON comme nous pouvons le voir dans la requête très simple présentée par le listing \ref{findMongoDB}.
 
   \begin{listing}[H]
     \inputminted{javascript}{code/requeteMongoFind.js}
     \caption{Exemple de requête find sur MongoDB.}
+    \label{findMongoDB}
   \end{listing}
 
-  MongoDB met à disposition des opérateurs spéciaux permettant d'effectuer des conditions plus complexes : ou (\verb|$or|), supérieur à (\verb|$gt| pour \textit{greater than}), inférieur à (\verb|$lt| pour \textit{lower than}), présent dans le tableau (\verb|$in|)\dots
+  MongoDB met à disposition des opérateurs spéciaux permettant d'effectuer des conditions plus complexes : ou (\verb|$or|), supérieur à (\verb|$gt| pour \textit{greater than}), inférieur à (\verb|$lt| pour \textit{lower than}), présent dans le tableau (\verb|$in|)\dots{} La requête présentée par le listing \ref{findOperatorMongoDB} récupère les objets de l'inventaire de type \textit{food} ayant une quantité plus grande que 100 ou un prix inférieur à 9,95.
 
   \begin{listing}[H]
     \inputminted{javascript}{code/requeteMongoFindOperator.js}
     \caption{Exemple de requête find sur MongoDB avec des opérateurs spéciaux.}
+    \label{findOperatorMongoDB}
   \end{listing}
 
-  Afin d'insérer un nouveau document, il suffit de le formater en JSON et de le passer en paramètre à la méthode \verb|insert|. Pour insérer plusieurs documents à la fois, il est possible de passer un tableau de documents à la méthode \verb|insert|.
+  Afin d'insérer un nouveau document, il suffit de le formater en JSON et de le passer en paramètre à la méthode \verb|insert|. Pour insérer plusieurs documents à la fois, il est possible de passer un tableau de documents à la méthode \verb|insert|. Dans le listing \ref{insertMongoDB}, nous créons un objet dans l'inventaire. Ce dernier imbrique un objet \textit{details} et un tableau d'objet appelé \textit{stock}.
 
   \begin{listing}[H]
     \inputminted{javascript}{code/requeteMongoInsert.js}
     \caption{Exemple de requête insert sur MongoDB.}
+    \label{insertMongoDB}
   \end{listing}
 
-  Pour modifier un document existant, la méthode \verb|update| prend en premier paramètre une condition avec le même formatage que la méthode \verb|find|, puis en second paramètre les modifications. L'opérateur \verb|$set| permet de modifier les éléments voulus. Il est possible d'utiliser l'opérateur \verb|$currentDate| pour mettre à jour une date. Les champs des documents imbriqués sont accessibles via le nom du document suivi d'un point puis du nom du champ. 
+  Pour modifier un document existant, la méthode \verb|update| prend en premier paramètre une condition avec le même formatage que la méthode \verb|find|, puis en second paramètre les modifications à appliquer. L'opérateur \verb|$set| permet de modifier les éléments voulus. Il est possible d'utiliser l'opérateur \verb|$currentDate| pour mettre à jour une date. Comme nous pouvons le voir dans le listing \ref{updateMongoDB}, les champs des documents imbriqués sont accessibles via le nom du document suivi d'un point puis du nom du champ. Dans cet exemple, nous modifions le champ \textit{model} du document imbriqué appelé \textit{details}, ainsi que la catégorie et la date de dernière modification du document principal.
 
   \begin{listing}[H]
     \inputminted{javascript}{code/requeteMongoUpdate.js}
     \caption{Exemple de requête update sur MongoDB.}
+    \label{updateMongoDB}
   \end{listing}
 
   De nombreuses méthodes et de nombreux opérateurs sont accessibles pour manipuler une base de données MongoDB, ces différents exemples (tirés de la documentation en ligne) sont loin d'être exhaustifs. Pour plus de possibilités, la documentation MongoDB est très bien conçue : \url{http://docs.mongodb.org/manual/}.\\
