@@ -1,117 +1,119 @@
 \subsection{Modélisation}
 
-  Les bases de données orientées documents sont les bases de données NoSQL qui ressemblent le plus aux bases de données relationnelles. Chaque document peut être considéré comme un tuple dans une table d'une base de donnée relationnelle. Ces documents sont la plupart du temps stocké dans le format JSON, un format structuré et lisible par le moteur NoSQL et regroupés dans des équivalents de tables appelés \enquote{collections}. De nombreuses données peuvent être stockées dans un document : des textes, des chiffres mais aussi des tableaux ou encore d'autres documents. Contrairement aux tuples d'une base de données relationnelle classique, un document ne possède pas de structure prédéfinie, chaque document peut donc être différent et présenter des données variables. Il faut cependant faire attention à garder une structure cohérente afin de pouvoir traiter les données plus tard.\\
+	Les bases de données orientées documents sont les bases de données NoSQL qui ressemblent le plus aux bases de données relationnelles. Chaque document peut être considéré comme un tuple dans une table d'une base de donnée relationnelle. Ces documents sont la plupart du temps stocké dans le format JSON, un format structuré et lisible par le moteur NoSQL et regroupés dans des équivalents de tables appelés \enquote{collections}. De nombreuses données peuvent être stockées dans un document : des textes, des chiffres mais aussi des tableaux ou encore d'autres documents. Contrairement aux tuples d'une base de données relationnelle classique, un document ne possède pas de structure prédéfinie, chaque document peut donc être différent et présenter des données variables. Il faut cependant faire attention à garder une structure cohérente afin de pouvoir traiter les données plus tard.\\
 
-  Les requêtes des base de données orientées documents se font majoritairement en JSON mais certaines implémentations fournissent une API de type REST afin d’accéder aux données de manière simple et efficace. L'objectif des documents est de stocker des informations (souvent de manière répartie) et de les restituer le plus efficacement possible. Le langage est donc simple et ne permet pas toutes les possibilités d'un langage comme le SQL. Il permet néanmoins d'effectuer des agrégats de documents, des calculs simples ainsi que de tester la présence ou non d'éléments ce qui peut s'avérer très utile car la structure des documents peut changer au sein même d'une collection.
+	Les requêtes des base de données orientées documents se font majoritairement en JSON mais certaines implémentations fournissent une API de type REST afin d’accéder aux données de manière simple et efficace. L'objectif des documents est de stocker des informations (souvent de manière répartie) et de les restituer le plus efficacement possible. Le langage est donc simple et ne permet pas toutes les possibilités d'un langage comme le SQL. Il permet néanmoins d'effectuer des agrégats de documents, des calculs simples ainsi que de tester la présence ou non d'éléments ce qui peut s'avérer très utile car la structure des documents peut changer au sein même d'une collection.
 
 \subsubsection{Le format JSON}
 
-  Le format JSON pour \textit{JavaScript Objet Notation} est un format de représentation de données similaire au XML (\textit{Extensible Markup Language}). Il permet aussi bien de sérialiser l'état des classes que de structurer des données. Son format texte le rend reconnaissable et lisible sur toutes les plate-formes et tout système. Il est aussi très simple à traiter (génération et \textit{parsing}). Il est préféré au XML dans les bases de données NoSQL pour quelques raisons :
-  \vspace{10px}
-  \begin{enumerate}
-    \item Plus compact
-    \item Moins verbeux
-    \item Plus simple à lire et à manipuler
-  \end{enumerate}
+	Le format JSON pour \textit{JavaScript Objet Notation} est un format de représentation de données similaire au XML (\textit{Extensible Markup Language}). Il permet aussi bien de sérialiser l'état des classes que de structurer des données. Son format texte le rend reconnaissable et lisible sur toutes les plate-formes et tout système. Il est aussi très simple à traiter (génération et \textit{parsing}). Il est préféré au XML dans les bases de données NoSQL pour quelques raisons :
+	\vspace{10px}
+	\begin{enumerate}
+		\item Plus compact
+		\item Moins verbeux
+		\item Plus simple à lire et à manipuler
+	\end{enumerate}
 
-  \begin{listing}[H]
-    \inputminted{json}{code/exemple.json}
-    \caption{Exemple de document JSON.}
-  \end{listing}
+	\begin{listing}[H]
+		\inputminted{json}{code/exemple.json}
+		\caption{Exemple de document JSON.}
+		\label{exempleDocumentJSON}
+	\end{listing}
 
-  Comme montré dans l'exemple, le JSON utilise des accolades pour représenter les objets et des crochets pour représenter les tableaux. Cette notation est bien plus économe que celle du XML mais ne permet pas de conserver une sémantique pour chaque information. En JSON, nous ne pouvons pas comprendre la nature d'un objet sans se référer à la documentation alors que les balises XML permettent de conserver cette sémantique.
+	Comme montré dans le listing \ref{exempleDocumentJSON}, le JSON utilise des accolades pour représenter les objets et des crochets pour représenter les tableaux. Cette notation est bien plus économe que celle du XML mais ne permet pas de conserver une sémantique pour chaque information. En JSON, nous ne pouvons pas comprendre la nature d'un objet sans se référer à la documentation alors que les balises XML permettent de conserver cette sémantique.
 
-  \subsubsection{Le principe de l'\textit{embedding}}
+	\subsubsection{Le principe de l'\textit{embedding}}
 
-  Comme nous l'avons vu précédemment, dans une base de données orientée documents, il est possible d'imbriquer des documents entre eux. De plus, le langage JSON permet d'effectuer cette imbrication très simplement. C'est le principe de l'\textit{embedding}.\\
+	Comme nous l'avons vu précédemment, dans une base de données orientée documents, il est possible d'imbriquer des documents entre eux. De plus, le langage JSON permet d'effectuer cette imbrication très simplement. C'est le principe de l'\textit{embedding}.\\
 
-  Il est très compliqué pour une base de données orientée documents de gérer les relations, là où une base de données relationnelle va proposer un système de jointure pour représenter les relations entre les tables, les SGBD des bases de données documents ne savent effectuer une requête que sur une seule collection à la fois. Une erreur courante pour un architecte BD venant du monde du relationnel est de faire des jointures entre ses différents documents en plaçant des clés étrangères. Si nous reprenons l'exemple précédent, le mauvais schéma pourrait ressembler à ceci :
+	Il est très compliqué pour une base de données orientée documents de gérer les relations, là où une base de données relationnelle va proposer un système de contraintes d'intégrité référentielle pour représenter les relations entre les tables, les SGBD des bases de données documents ne savent effectuer une requête que sur une seule collection à la fois. Une erreur courante pour un architecte BD venant du monde du relationnel est de faire des jointures entre ses différents documents en plaçant des clés étrangères. Si nous reprenons l'exemple précédent, un mauvais schéma pourrait ressembler au listing \ref{exempleMauvaisSchema}.
 
-  \begin{listing}[H]
-    \inputminted{json}{code/exempleMauvaisSchema.json}
-    \caption{Exemple de mauvais schéma.}
-  \end{listing}
+	\begin{listing}[H]
+		\inputminted{json}{code/exempleMauvaisSchema.json}
+		\caption{Exemple de mauvais schéma.}
+		\label{exempleMauvaisSchema}
+	\end{listing}
 
-  Lorsque l'application va demander à la base de données de récupérer le texte, mais aussi l'utilisateur qui l'a écrit et les commentaires sur ce texte, le système de gestion de base de données va effectuer 5 requêtes distinctes : une pour le texte, une pour l'utilisateur et 3 pour les commentaires. Cette mauvaise approche peut être très coûteuse pour une base de données orientée documents. Pour résoudre ce problème, le principe de l'\textit{embedding} va imbriquer les documents.\\
+	Lorsque l'application va demander à la base de données de récupérer le texte, mais aussi l'utilisateur qui l'a écrit et les commentaires sur ce texte, le système de gestion de base de données va effectuer 5 requêtes distinctes : une pour le texte, une pour l'utilisateur et 3 pour les commentaires. Cette mauvaise approche peut être très coûteuse pour une base de données orientée documents. Pour résoudre ce problème, le principe de l'\textit{embedding} va imbriquer les documents.\\
 
-  Avant d'imbriquer un document dans un autre, quelques questions sont à se poser :
-  \vspace{10px}
-  \begin{itemize}
-    \item \textbf{L'objet imbriqué est-il nécessairement lié à son parent ?} Dans le cas d'un commentaire de texte par exemple, ce dernier n'a pas de raison d'être lu seul. Dans le cas d'un texte et son auteur ceci n'est pas forcément le cas : on peut vouloir afficher tous les textes sans pour autant les trier par auteur.
-    \item \textbf{Le ou les objets imbriqués ne vont-ils pas devenir trop gros ?} Si le nombre ou la taille des objets imbriqués peut croître rapidement, il faut penser que les systèmes de gestion de bases de données orientées documents ne peuvent gérer que la récupération d'un document en entier. Il ne serait pas judicieux de récupérer l'intégralité des livres écrits par des auteurs uniquement pour afficher leurs noms et leurs prénoms.
-    \item \textbf{L'objet imbriqué doit-il être présent en intégralité ?} Lors de l'imbrication de documents entre eux, il est possible d'avoir à faire à des problèmes de récursion, par exemple : dans le document d'un utilisateur sont imbriqués ses textes, dans les textes sont imbriqués les commentaires et dans les commentaires sont imbriqués leur auteur. Pour cette dernière imbrication, toutes les informations de l'auteur ne sont pas forcément nécessaires, nous pouvons juste sauvegarder son nom et son prénom (et pas tous ses textes avec tous leurs commentaires respectifs).
-  \end{itemize}
+	Avant d'imbriquer un document dans un autre, quelques questions sont à se poser :
+	\vspace{10px}
+	\begin{itemize}
+		\item \textbf{L'objet imbriqué est-il nécessairement lié à son parent ?} Dans le cas d'un commentaire de texte par exemple, ce dernier n'a pas de raison d'être lu seul. Dans le cas d'un texte et son auteur ceci n'est pas forcément le cas : on peut vouloir afficher tous les textes sans pour autant les trier par auteur.
+		\item \textbf{Le ou les objets imbriqués ne vont-ils pas devenir trop gros ?} Si le nombre ou la taille des objets imbriqués peut croître rapidement, il faut penser que les systèmes de gestion de bases de données orientées documents ne peuvent gérer que la récupération d'un document en entier. Il ne serait pas judicieux de récupérer l'intégralité des livres écrits par des auteurs uniquement pour afficher leurs noms et leurs prénoms.
+		\item \textbf{L'objet imbriqué doit-il être présent en intégralité ?} Lors de l'imbrication de documents entre eux, il est possible d'avoir à faire à des problèmes de récursion, par exemple : dans le document d'un utilisateur sont imbriqués ses textes, dans les textes sont imbriqués les commentaires et dans les commentaires sont imbriqués leur auteur. Pour cette dernière imbrication, toutes les informations de l'auteur ne sont pas forcément nécessaires, nous pouvons juste sauvegarder son nom et son prénom (et pas tous ses textes avec tous leurs commentaires respectifs).
+	\end{itemize}
 
 \subsubsection{La redondance dans le monde du NoSQL}
 
-  Lorsque nous imbriquons dans un document certains éléments d'un autre document, nous pouvons parler de redondance. Contrairement au modèle relationnel, la redondance n'est pas une mauvaise pratique dans le monde du NoSQL. De nos jours, l'espace disque n'est pas cher et nous pouvons nous permettre de stocker des téraoctets de données sans problème. En revanche, l'accès à ces données peut se trouver ralenti car les données ne sont plus stockées sur une seule machine mais sur des systèmes de fichiers distribués. Il est donc préférable de multiplier l'information à plusieurs endroits différents. Les données sont ainsi sécurisées et n'ont aucun risque d'être perdues mais, plus important encore, elles sont accessibles beaucoup plus rapidement.\\
+	Lorsque nous imbriquons dans un document certains éléments d'un autre document, nous pouvons parler de redondance. Contrairement au modèle relationnel, la redondance n'est pas une mauvaise pratique dans le monde du NoSQL. De nos jours, l'espace disque n'est pas cher et nous pouvons nous permettre de stocker des téraoctets de données sans problème. En revanche, l'accès à ces données peut se trouver ralenti car les données ne sont plus stockées sur une seule machine mais sur des systèmes de fichiers distribués. Il est donc préférable de multiplier l'information à plusieurs endroits différents. Les données sont ainsi sécurisées et n'ont aucun risque d'être perdues mais, plus important encore, elles sont accessibles beaucoup plus rapidement.\\
 
-  D'un autre côté, la multiplication de l'information pose des problèmes lors de l'écriture. Le modèle relationnel est performant de ce point de vue car l'information est toujours présente à un seul endroit de manière cohérente. À partir du moment où la même donnée est présente à deux emplacements différents, sa mise à jour devient plus complexe.\\
+	D'un autre côté, la multiplication de l'information pose des problèmes lors de l'écriture. Le modèle relationnel est performant de ce point de vue car l'information est toujours présente à un seul endroit de manière cohérente. À partir du moment où la même donnée est présente à deux emplacements différents, sa mise à jour devient plus complexe.\\
 
-  \begin{itemize}
-    \item \textbf{Si la donnée est sauvegardée à plusieurs endroits physiques} : c'est le problème du système de fichier distribué, ce dernier doit minimiser les temps de mise à jour. Pour cela, la connexion entre les différents serveurs du clusters de stockage doit être très importante, on parle de connexion 10 Gbits/s au minimum. Cette vitesse permet de gérer de gros volumes de données, en limitant les temps d'incohérence de la base (lorsque la donnée a été mise à jour sur l'un des serveurs et pas sur l'autre).
-    \item \textbf{Si la donnée est sauvegardée à plusieurs endroits logiques} : c'est le problème des développeurs et de l'architecte base de données. Les développeurs doivent prendre en compte les différents documents où est présente l'information afin de mettre à jour la donnée de manière cohérente. Si l'on stocke les pseudos des utilisateurs dans les commentaires par exemple, le jour où l'utilisateur change son pseudo, il faut modifier tous ses commentaires avec le nouveau pseudo. Cette mise à jour peut être très coûteuse, c'est là que l'architecte base de données doit intervenir en prenant en compte les fréquences de lecture et de mise à jour de chaque donnée lors de la conception de la base. Concernant le pseudo d'un utilisateur, la fréquence de lecture de ses commentaires est bien plus importante que la fréquence de modification ce qui permet de redonder l'information de manière efficace.
-  \end{itemize}
+	\begin{itemize}
+		\item \textbf{Si la donnée est sauvegardée à plusieurs endroits physiques} : c'est le problème du système de fichier distribué, ce dernier doit minimiser les temps de mise à jour. Pour cela, la connexion entre les différents serveurs du clusters de stockage doit être très importante, on parle de connexion 10 Gbits/s au minimum. Cette vitesse permet de gérer de gros volumes de données, en limitant les temps d'incohérence de la base (lorsque la donnée a été mise à jour sur l'un des serveurs et pas sur l'autre).
+		\item \textbf{Si la donnée est sauvegardée à plusieurs endroits logiques} : c'est le problème des développeurs et de l'architecte base de données. Les développeurs doivent prendre en compte les différents documents où est présente l'information afin de mettre à jour la donnée de manière cohérente. Si l'on stocke les pseudos des utilisateurs dans les commentaires par exemple, le jour où l'utilisateur change son pseudo, il faut modifier tous ses commentaires avec le nouveau pseudo. Cette mise à jour peut être très coûteuse, c'est là que l'architecte base de données doit intervenir en prenant en compte les fréquences de lecture et de mise à jour de chaque donnée lors de la conception de la base. Concernant le pseudo d'un utilisateur, la fréquence de lecture de ses commentaires est bien plus importante que la fréquence de modification ce qui permet de redonder l'information de manière efficace.
+	\end{itemize}
 
 \subsubsection{Exemples de requêtes}
 
-  Les requêtes des bases de données orientée documents sont écrites en JavaScript et en JSON. Elles fonctionnent sur la base de l'appel d'une méthode JavaScript sur un objet \verb|collection|. En JavaScript, l'accès aux variables et aux méthodes d'un objet se fait avec un point. L'objet \verb|db| contient l'ensemble des collections de la base. Chaque \verb|collection| possède des méthodes permettant d'accéder aux données. Ces méthodes prennent en paramètre une chaîne de caractère formatée en JSON comme nous pouvons le voir dans la requête très simple présentée par le listing \ref{findMongoDB}.
+	Les requêtes des bases de données orientée documents sont écrites en JavaScript et en JSON. Elles fonctionnent sur la base de l'appel d'une méthode JavaScript sur un objet \verb|collection|. En JavaScript, l'accès aux variables et aux méthodes d'un objet se fait avec un point. L'objet \verb|db| contient l'ensemble des collections de la base. Chaque \verb|collection| possède des méthodes permettant d'accéder aux données. Ces méthodes prennent en paramètre une chaîne de caractère formatée en JSON comme nous pouvons le voir dans la requête très simple présentée par le listing \ref{findMongoDB}.
 
-  \begin{listing}[H]
-    \inputminted{javascript}{code/requeteMongoFind.js}
-    \caption{Exemple de requête find sur MongoDB.}
-    \label{findMongoDB}
-  \end{listing}
+	\begin{listing}[H]
+		\inputminted{javascript}{code/requeteMongoFind.js}
+		\caption{Exemple de requête find sur MongoDB.}
+		\label{findMongoDB}
+	\end{listing}
 
-  MongoDB met à disposition des opérateurs spéciaux permettant d'effectuer des conditions plus complexes : ou (\verb|$or|), supérieur à (\verb|$gt| pour \textit{greater than}), inférieur à (\verb|$lt| pour \textit{lower than}), présent dans le tableau (\verb|$in|)\dots{} La requête présentée par le listing \ref{findOperatorMongoDB} récupère les objets de l'inventaire de type \textit{food} ayant une quantité plus grande que 100 ou un prix inférieur à 9,95.
+	MongoDB met à disposition des opérateurs spéciaux permettant d'effectuer des conditions plus complexes : ou (\verb|$or|), supérieur à (\verb|$gt| pour \textit{greater than}), inférieur à (\verb|$lt| pour \textit{lower than}), présent dans le tableau (\verb|$in|)\dots{} La requête présentée par le listing \ref{findOperatorMongoDB} récupère les objets de l'inventaire de type \textit{food} ayant une quantité plus grande que 100 ou un prix inférieur à 9,95.
 
-  \begin{listing}[H]
-    \inputminted{javascript}{code/requeteMongoFindOperator.js}
-    \caption{Exemple de requête find sur MongoDB avec des opérateurs spéciaux.}
-    \label{findOperatorMongoDB}
-  \end{listing}
+	\begin{listing}[H]
+		\inputminted{javascript}{code/requeteMongoFindOperator.js}
+		\caption{Exemple de requête find sur MongoDB avec des opérateurs spéciaux.}
+		\label{findOperatorMongoDB}
+	\end{listing}
 
-  Afin d'insérer un nouveau document, il suffit de le formater en JSON et de le passer en paramètre à la méthode \verb|insert|. Pour insérer plusieurs documents à la fois, il est possible de passer un tableau de documents à la méthode \verb|insert|. Dans le listing \ref{insertMongoDB}, nous créons un objet dans l'inventaire. Ce dernier imbrique un objet \textit{details} et un tableau d'objet appelé \textit{stock}.
+	Afin d'insérer un nouveau document, il suffit de le formater en JSON et de le passer en paramètre à la méthode \verb|insert|. Pour insérer plusieurs documents à la fois, il est possible de passer un tableau de documents à la méthode \verb|insert|. Dans le listing \ref{insertMongoDB}, nous créons un objet dans l'inventaire. Ce dernier imbrique un objet \textit{details} et un tableau d'objet appelé \textit{stock}.
 
-  \begin{listing}[H]
-    \inputminted{javascript}{code/requeteMongoInsert.js}
-    \caption{Exemple de requête insert sur MongoDB.}
-    \label{insertMongoDB}
-  \end{listing}
+	\begin{listing}[H]
+		\inputminted{javascript}{code/requeteMongoInsert.js}
+		\caption{Exemple de requête insert sur MongoDB.}
+		\label{insertMongoDB}
+	\end{listing}
 
-  Pour modifier un document existant, la méthode \verb|update| prend en premier paramètre une condition avec le même formatage que la méthode \verb|find|, puis en second paramètre les modifications à appliquer. L'opérateur \verb|$set| permet de modifier les éléments voulus. Il est possible d'utiliser l'opérateur \verb|$currentDate| pour mettre à jour une date. Comme nous pouvons le voir dans le listing \ref{updateMongoDB}, les champs des documents imbriqués sont accessibles via le nom du document suivi d'un point puis du nom du champ. Dans cet exemple, nous modifions le champ \textit{model} du document imbriqué appelé \textit{details}, ainsi que la catégorie et la date de dernière modification du document principal.
+	Pour modifier un document existant, la méthode \verb|update| prend en premier paramètre une condition avec le même formatage que la méthode \verb|find|, puis en second paramètre les modifications à appliquer. L'opérateur \verb|$set| permet de modifier les éléments voulus. Il est possible d'utiliser l'opérateur \verb|$currentDate| pour mettre à jour une date. Comme nous pouvons le voir dans le listing \ref{updateMongoDB}, les champs des documents imbriqués sont accessibles via le nom du document suivi d'un point puis du nom du champ. Dans cet exemple, nous modifions le champ \textit{model} du document imbriqué appelé \textit{details}, ainsi que la catégorie et la date de dernière modification du document principal.
 
-  \begin{listing}[H]
-    \inputminted{javascript}{code/requeteMongoUpdate.js}
-    \caption{Exemple de requête update sur MongoDB.}
-    \label{updateMongoDB}
-  \end{listing}
+	\begin{listing}[H]
+		\inputminted{javascript}{code/requeteMongoUpdate.js}
+		\caption{Exemple de requête update sur MongoDB.}
+		\label{updateMongoDB}
+	\end{listing}
 
-  De nombreuses méthodes et de nombreux opérateurs sont accessibles pour manipuler une base de données MongoDB, ces différents exemples (tirés de la documentation en ligne) sont loin d'être exhaustifs. Pour plus de possibilités, la documentation MongoDB est très bien conçue : \url{http://docs.mongodb.org/manual/}.\\
+	De nombreuses méthodes et de nombreux opérateurs sont accessibles pour manipuler une base de données MongoDB, ces différents exemples (tirés de la documentation en ligne) sont loin d'être exhaustifs. Pour plus de possibilités, la documentation MongoDB est très bien conçue : \url{http://docs.mongodb.org/manual/}.\\
 
-  Fait intéressant : il n'existe pas de méthode permettant la création de collections en MongoDB, en effet, le système de gestion de base de données crée automatiquement les collections nécessaires à la première insertion.
+	Fait intéressant : il n'existe pas de méthode permettant la création de collections en MongoDB, en effet, le système de gestion de base de données crée automatiquement les collections nécessaires à la première insertion.
 
 \subsection{Cas d'utilisation}
 
-  La base de données orientée documents est typiquement une base de données NoSQL de stockage de masse. Elle est très performante pour des applications nécessitant un grand volume de données non uniforme comme par exemple le résultat de traitements sur des textes via extraction d'informations. Elle est très utile dans l'objectif d'effectuer de la fouille de données sur ces informations en particulier avec des opérations de type \textit{map / reduce}.\\
+	La base de données orientée documents est typiquement une base de données NoSQL de stockage de masse. Elle est très performante pour des applications nécessitant un grand volume de données non uniforme comme par exemple le résultat de traitements sur des textes via extraction d'informations. Elle est très utile dans l'objectif d'effectuer de la fouille de données sur ces informations en particulier avec des opérations de type \textit{map / reduce}.\\
 
-  Les bases de données orientées documents sont parfaites pour le stockage de masse mais elles peuvent aussi servir dans d'autre cas d'utilisation plus classiques. Dès lors que vous possédez un grand nombre d'objets, l'approche classique des ORM relationnels est de créer un grand nombre de tables. Deux problèmes résultent de cette approche : \\
-  \begin{itemize}
-    \item \textbf{La mise à jour de certains champs.} Par exemple, une table \texttt{ClientsHumains} (identifiant client, nom, prénom, adresse) et une table \texttt{ClientsEntreprises} (identifiant client, intitulé, adresse). La modification du champ \textit{adresse} par deux champs \textit{numéro de rue} et \textit{nom de la rue} peut être compliquée.
-    \item \textbf{La cohérence entre les tables.} Dans le monde des bases de données, les tables ou les collections sont totalement indépendantes. Dans le cas de l'exemple précédent, il est difficile de garder l'identifiant client unique entre les tables \texttt{ClientsHumains} et \texttt{ClientEntreprises}. Il est encore plus compliqué de gérer l'auto incrémentation dans cette situation.
-  \end{itemize}
+	Les bases de données orientées documents sont parfaites pour le stockage de masse mais elles peuvent aussi servir dans d'autre cas d'utilisation plus classiques. Dès lors que vous possédez un grand nombre d'objets, l'approche classique des ORM relationnels est de créer un grand nombre de tables. Deux problèmes résultent de cette approche : \\
+	\begin{itemize}
+		\item \textbf{La mise à jour de certains champs.} Par exemple, une table \texttt{ClientsHumains} (identifiant client, nom, prénom, adresse) et une table \texttt{ClientsEntreprises} (identifiant client, intitulé, adresse). La modification du champ \textit{adresse} par deux champs \textit{numéro de rue} et \textit{nom de la rue} peut être compliquée.
+		\item \textbf{La cohérence entre les tables.} Dans le monde des bases de données, les tables ou les collections sont totalement indépendantes. Dans le cas de l'exemple précédent, il est difficile de garder l'identifiant client unique entre les tables \texttt{ClientsHumains} et \texttt{ClientEntreprises}. Il est encore plus compliqué de gérer l'auto incrémentation dans cette situation.
+	\end{itemize}
 
-  \vspace{10px}
+	\vspace{10px}
 
-  Des solutions du monde relationnel à ces problématiques existent. Le système de gestion de base de données PostgreSQL a mis en place une approche orientée objet de la gestion des tables permettant aux tables \texttt{ClientsHumains} (nom, prénom) et \texttt{ClientsEntreprises} (intitulé) d'hériter des champs de la table \texttt{clients} (identifiant, adresse). Si cette approche permet la simplification des mises à jour, elle ne permet toujours pas de gérer les contraintes et les indexes. D'après la documentation de PostgreSQL, l'héritage des tables dans sa version actuelle n'est pas forcément très utile et mériterai d'être amélioré :
-  \enquote{\textit{These deficiencies will probably be fixed in some future release, but in the meantime considerable care is needed in deciding whether inheritance is useful for your application.}}\cite{Postgre_inheritance}\\
+	Des solutions du monde relationnel à ces problématiques existent. Le système de gestion de base de données PostgreSQL a mis en place une approche orientée objet de la gestion des tables permettant aux tables \texttt{ClientsHumains} (nom, prénom) et \texttt{ClientsEntreprises} (intitulé) d'hériter des champs de la table \texttt{clients} (identifiant, adresse). Si cette approche permet la simplification des mises à jour, elle ne permet toujours pas de gérer les contraintes et les indexes. D'après la documentation de PostgreSQL, l'héritage des tables dans sa version actuelle n'est pas forcément très utile et mériterai d'être amélioré :
+	\enquote{\textit{These deficiencies will probably be fixed in some future release, but in the meantime considerable care is needed in deciding whether inheritance is useful for your application.}}\cite{Postgre_inheritance}\\
 
-  Le pattern \textbf{single table inheritance} permet de stocker dans une seule table des objets légèrement différents et de récupérer les bons objets du côté client grâce à l'ORM. Dans l'exemple précédent, une table \texttt{Clients} (objet, identifiant, intitulé, nom, prénom, adresse) serait créée. Avec des enregistrements du type ("ClientEntreprise", 1, "Entreprise bidon", null, null, "1 rue bidonne") et ("ClientHumain", 2, null, "Jonh", "Doe", "1 rue humaine"). Cette approche, même si elle permet l'utilisation de clés et de contraintes, pousse l'utilisation des marqueurs \textit{null} ce qui n'est pas optimal pour une modélisation relationnelle. Une base de données NoSQL orientée documents est en revanche parfaite pour ce genre de collection regroupant des éléments structurés se ressemblant mais sans être identiques.
+	Le pattern \textbf{single table inheritance} permet de stocker dans une seule table des objets légèrement différents et de récupérer les bons objets du côté client grâce à l'ORM. Dans l'exemple précédent, une table \texttt{Clients} (objet, identifiant, intitulé, nom, prénom, adresse) serait créée. Avec des enregistrements du type ("ClientEntreprise", 1, "Entreprise bidon", null, null, "1 rue bidonne") et ("ClientHumain", 2, null, "Jonh", "Doe", "1 rue humaine"). Cette approche, même si elle permet l'utilisation de clés et de contraintes, pousse l'utilisation des marqueurs \textit{null} ce qui n'est pas optimal pour une modélisation relationnelle. Une base de données NoSQL orientée documents est en revanche parfaite pour ce genre de collection regroupant des éléments structurés se ressemblant mais sans être identiques.
 
 \subsection{Acteurs principaux}
 
-  \begin{enumerate}
-    \item \textbf{MongoDB}. Première version en 2009, écrit en C++, open-source sous licence GNU AGPL et Apache. Le format utilisé est le format BSON, pour \textit{Binary JSON}. MongoDB est le premier système de gestion de base de données orientée document et le 5ème tout type confondu d'après \url{db-engines.com}. Utilisé par SAP, le CERN, Foursquare, eBay\dots\cite{Wikipedia_mongodb}
-    \item \textbf{CouchDB}. Première version en 2005, écrit en Erlang, open-source sous licence Apache. CouchDB implémente les propriétés ACID via son système de \textit{Multi-Version Concurrency Control}. Stocke les données dans des vues implémentant la partie \textit{map} des opérations de fouille de données via \textit{map / reduce}. Utilisé par Ubuntu, BBC, Meebo\dots\cite{Wikipedia_couchdb}
-    \item \textbf{CouchBase} anciennement Membase. Première version en 20012, écrit en C++, Erlang et C, open-source sous licence Apache 2.0. Le développement de cette solution a été effectué par d'anciens développeur de la base de données clé / valeur Memcached, l'objectif était de founrir une solution offrant la simplicité et la rapidité d'une base de données clé / valeur avec la persistance et la puissance des requêtes d'une base de données orientée documents.\cite{Wikipedia_couchbase}
-  \end{enumerate}
+	\begin{enumerate}
+		\item \textbf{MongoDB}. Première version en 2009, écrit en C++, open-source sous licence GNU AGPL et Apache. Le format utilisé est le format BSON, pour \textit{Binary JSON}. MongoDB est le premier système de gestion de base de données orientée document et le 5ème tout type confondu d'après \url{db-engines.com}. Utilisé par SAP, le CERN, Foursquare, eBay\dots\cite{Wikipedia_mongodb}
+		\item \textbf{CouchDB}. Première version en 2005, écrit en Erlang, open-source sous licence Apache. CouchDB implémente les propriétés ACID via son système de \textit{Multi-Version Concurrency Control}. Stocke les données dans des vues implémentant la partie \textit{map} des opérations de fouille de données via \textit{map / reduce}. Utilisé par Ubuntu, BBC, Meebo\dots\cite{Wikipedia_couchdb}
+		\item \textbf{CouchBase} anciennement Membase. Première version en 20012, écrit en C++, Erlang et C, open-source sous licence Apache 2.0. Le développement de cette solution a été effectué par d'anciens développeur de la base de données clé / valeur Memcached, l'objectif était de founrir une solution offrant la simplicité et la rapidité d'une base de données clé / valeur avec la persistance et la puissance des requêtes d'une base de données orientée documents.\cite{Wikipedia_couchbase}
+	\end{enumerate}
