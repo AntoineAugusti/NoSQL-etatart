@@ -32,17 +32,16 @@
 			\label{requeteNeo4j}
 		\end{figure}
 
-		Cypher utilise l'art ASCII\footnote{L'art ASCII consiste à réaliser des images uniquement à l'aide des lettres et caractères spéciaux contenus dans le code ASCII.\cite{Wikipedia_artASCII}} pour représenter les liaisons entre des nœuds. Ainsi, la partie de requête \texttt{(A:Person)-[B:ACTED\_IN]->(C:Movie)} cherche à trouver dans le graphe un nœud A, de type \enquote{Person}, lié par la relation \enquote{ACTED\_IN} à un nœud C, de type \enquote{Movie}. Les \textit{labels} représentent les classes des nœuds ou des liaisons, les \textit{identifiers} sont les variables qui sont créées dynamiquement et les \textit{properties} sont les attributs des nœuds ou des liaisons. Les nœuds et les liaisons ont une importance égale : ils peuvent avoir des classes, des attributs et on peut appliquer des critères de recherche ainsi que des agrégats sur chacun.\\
-
-		Imaginons que l'on veuille cette fois-ci trouver les noms des personnes qui relient deux personnes qui ne sont pas amies. On a donc un graphe plutôt simple : les nœuds sont des personnes, et il n'y a qu'un seul type de liaison que l'on appelle \textit{KNOWS} quand deux personnes se connaissent.
+		Cypher utilise l'art ASCII\footnote{L'art ASCII consiste à réaliser des images uniquement à l'aide des lettres et caractères spéciaux contenus dans le code ASCII.\cite{Wikipedia_artASCII}} pour représenter les liaisons entre des nœuds. Ainsi, la partie de requête \texttt{(A:Person)-[B:ACTED\_IN]->(C:Movie)} cherche à trouver dans le graphe un nœud A, de type \enquote{Person}, lié par la relation \enquote{ACTED\_IN} à un nœud C, de type \enquote{Movie}. Les \textit{labels} représentent les classes des nœuds ou des liaisons, les \textit{identifiers} sont les variables qui sont créées dynamiquement et les \textit{properties} sont les attributs des nœuds ou des liaisons. Les nœuds et les liaisons ont une importance égale : ils peuvent avoir des classes, des attributs et on peut appliquer des critères de recherche ainsi que des agrégats sur chacun. Une manière élégante de sélectionner un noeud ou une liaison selon un critère est présentée dans la figure \ref{raccourciSelection}.\\
 
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.8\textwidth]{images/shortSelect.png}
 			\caption{La sélection sur un attribut peut se faire plus facilement.}
+			\label{raccourciSelection}
 		\end{figure}
 
-		Neo4j inclut par défaut la plupart des algorithmes les plus utilisés sur les graphes, en particulier celui du plus court chemin sous un ensemble de contraintes. Neo4j supporte également les expressions rationnelles. Ainsi, pour trouver les noms des personnes qui relient deux personnes qui ne sont pas amies, on devrait exécuter la requête présentée dans la figure~\ref{connectingFriends}.
+		Imaginons que l'on veuille cette fois-ci trouver les noms des personnes qui relient deux personnes qui ne sont pas amies. On a donc un graphe plutôt simple : les nœuds sont des personnes, et il n'y a qu'un seul type de liaison que l'on appelle \textit{KNOWS} quand deux personnes se connaissent. Neo4j inclut par défaut la plupart des algorithmes les plus utilisés sur les graphes, en particulier celui du plus court chemin sous un ensemble de contraintes. Neo4j supporte également les expressions rationnelles. Ainsi, pour trouver les noms des personnes qui relient deux personnes qui ne sont pas amies, on devrait exécuter la requête présentée dans la figure~\ref{connectingFriends}.
 
 		\begin{figure}[H]
 			\centering
