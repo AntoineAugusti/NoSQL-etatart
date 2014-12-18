@@ -29,18 +29,24 @@ class RecipesServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register()
-	{		
+	{
+		$this->registerPatterns();
 		$this->registerRecipesRoutes();
 		$this->registerRecipesBindings();
+	}
+
+	private function registerPatterns()
+	{
+		$this->app['router']->pattern('rank', implode('|', $this->getPossibleRanks()));
 	}
 
 	private function registerRecipesRoutes()
 	{
 		$controller = 'RecipesController';
-		
+
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
 			$this->app['router']->get('/', ['as' => 'recipes.index', 'uses' => $controller.'@index']);
-			
+
 			// Step 1
 			$this->app['router']->get('recipes/create', ['as' => 'recipes.create', 'uses' => $controller.'@create']);
 			$this->app['router']->post('recipes/create', ['as' => 'recipes.redirect', 'uses' => $controller.'@redirectToIngredients']);
@@ -53,9 +59,15 @@ class RecipesServiceProvider extends ServiceProvider {
 			// Step 4
 			$this->app['router']->get('recipes/location/create', ['as' => 'recipes.location.create', 'uses' => $controller.'@createLocation']);
 			$this->app['router']->post('recipes', ['as' => 'recipes.store', 'uses' => $controller.'@store']);
-			
+
+			$this->app['router']->get('recipes/ranks/{rank?}', ['as' => 'recipes.ranking', 'uses' => $controller.'@getRanking']);
 			$this->app['router']->get('recipes/{slug}', ['as' => 'recipes.show', 'uses' => $controller.'@show']);
 		});
+	}
+
+	private function getPossibleRanks()
+	{
+		return $this->app['config']->get('recipes.possibleRanks');
 	}
 
 	private function registerRecipesBindings()
