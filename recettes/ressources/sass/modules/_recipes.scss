@@ -11,6 +11,35 @@
 	}
 }
 
+.recipes__rating-title {
+	color: $orange;
+	font-style: italic;
+}
+
+.recipes__rating-container {
+	background: $orange;
+	color: white;
+	padding: 10px 15px;
+	border-bottom: 3px solid $lightGray;
+	margin-bottom: 30px;
+}
+
+.recipes__rank-name {
+	text-align: center;
+
+	a {
+		background: darken($orange, 10%);
+		padding: 8px 12px;
+		color: white;
+		@include element-transition;
+
+		&:hover {
+			background: darken($orange, 20%);
+			text-decoration: none;
+		}
+	}
+}
+
 .recipes__breadcrumb-steps li.active {
 	color: $lightBlue;
 	i {

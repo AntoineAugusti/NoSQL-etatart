@@ -22,6 +22,9 @@ return [
 	'location'                    => 'Location',
 	'main'                        => 'Main',
 	'mustCreateRecipe'            => 'You need to create a recipe before you can do this!',
+	'noteAwesome'                 => 'Awesome',
+	'noteFine'                    => 'Fine',
+	'noteGreat'                   => 'Great',
 	'ourRecipes'                  => 'Our recipes',
 	'preparationTime'             => 'Preparation time',
 	'preparationTimeLabel'        => 'Preparation time',
@@ -33,4 +36,5 @@ return [
 	'title'                       => 'Title',
 	'totalTimeLabel'              => 'Total time',
 	'type'                        => 'Type',
+	'withRating'                  => 'Recipes rated as <span class="recipes__rating-title">:rating</span>',
 ];
