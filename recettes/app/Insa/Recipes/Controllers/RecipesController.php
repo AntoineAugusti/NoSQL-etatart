@@ -162,15 +162,18 @@ class RecipesController extends Controller {
 
 	public function getRanking($note = null)
 	{
+		$possibleRanks = Config::get('recipes.possibleRanks');
+
+		// Display best recipes by default
 		if (is_null($note))
-			return Redirect::route('recipes.ranking', 'awesome');
+			return Redirect::route('recipes.ranking', end($possibleRanks));
 
 		$pagesize = Config::get('recipes.perPage');
 		$recipes = $this->recipesRepo->getForRank($note, Input::get('page', 1), $pagesize);
 		$totalRecipes = $this->recipesRepo->getTotalForRank($note);
 
 		$data = [
-			'notes'     => Config::get('recipes.possibleRanks'),
+			'notes'     => $possibleRanks,
 			'rating'    => $note,
 			'recipes'   => $recipes,
 			'paginator' => Paginator::make($recipes->toArray(), $totalRecipes, $pagesize),
