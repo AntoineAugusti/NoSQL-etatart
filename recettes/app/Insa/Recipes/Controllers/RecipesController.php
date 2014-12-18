@@ -160,6 +160,25 @@ class RecipesController extends Controller {
 			->withSuccess(trans('recipes.recipeCreated'));
 	}
 
+	public function getRanking($note = null)
+	{
+		if (is_null($note))
+			return Redirect::route('recipes.ranking', 'awesome');
+
+		$pagesize = Config::get('recipes.perPage');
+		$recipes = $this->recipesRepo->getForRank($note, Input::get('page', 1), $pagesize);
+		$totalRecipes = $this->recipesRepo->getTotalForRank($note);
+
+		$data = [
+			'notes'     => Config::get('recipes.possibleRanks'),
+			'rating'    => $note,
+			'recipes'   => $recipes,
+			'paginator' => Paginator::make($recipes->toArray(), $totalRecipes, $pagesize),
+		];
+
+		return View::make('recipes.ranking', $data);
+	}
+
 	/**
 	 * For each ingredient given, try to find a correspondance in the collection
 	 * @param  array      $ingredients
@@ -243,7 +262,7 @@ class RecipesController extends Controller {
 	private function extractKeyAndNameFromLocations(array $locations)
 	{
 		$out = [];
-		
+
 		foreach ($locations as $loc) {
 			$out[$loc->_id] = $loc->name;
 		}
