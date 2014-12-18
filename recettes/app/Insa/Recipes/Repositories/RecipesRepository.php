@@ -75,4 +75,18 @@ interface RecipesRepository {
 	 * @return @return \Illuminate\Support\Collection
 	 */
 	public function getAllIngredients();
+
+	/**
+	 * Get recipes for a rating description
+	 * @param  string $rank
+	 * @return \Illuminate\Support\Collection
+	 */
+	public function getForRank($rank);
+
+	/**
+	 * Get the number of recipes for a rating description
+	 * @param  string $rank
+	 * @return integer
+	 */
+	public function getTotalForRank($rank);
 }
