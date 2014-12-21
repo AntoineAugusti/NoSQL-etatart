@@ -1,5 +1,6 @@
 <?php namespace Insa\Ingredients\Presenters;
 
+use Lang;
 use Laracasts\Presenter\Presenter;
 
 class IngredientPresenter extends Presenter {
@@ -12,7 +13,6 @@ class IngredientPresenter extends Presenter {
 
 	public function unit()
 	{
-		// Defer to the quantity presenter
-		return $this->entity->quantity->present()->unit;
+		return Lang::get('quantities.'.$this->entity->unit);
 	}
 }

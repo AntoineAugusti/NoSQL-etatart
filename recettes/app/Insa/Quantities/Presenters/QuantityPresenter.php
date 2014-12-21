@@ -1,8 +1,6 @@
 <?php namespace Insa\Quantities\Presenters;
 
-use Lang;
 use Laracasts\Presenter\Presenter;
-use Insa\Quantities\Models\Quantity;
 
 class QuantityPresenter extends Presenter {
 
@@ -11,10 +9,5 @@ class QuantityPresenter extends Presenter {
 		$price = $this->entity->computePrice();
 
 		return $price. ' €';
-	}
-
-	public function unit()
-	{
-		return Lang::get('quantities.'.$this->entity->unit);
 	}
 }

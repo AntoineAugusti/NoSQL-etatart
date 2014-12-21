@@ -21,11 +21,11 @@ class RecipeTableSeeder extends Seeder {
 
 		// Convert the collection to an array of models
 		$allLocations = Location::all()->all();
-		
+
 		foreach(range(1, 20) as $index)
 		{
 			$title = ucwords($faker->sentence(3));
-			
+
 			$r = new Recipe([
 				'title'           => $title,
 				'slug'            => Str::slug($title),
@@ -34,13 +34,13 @@ class RecipeTableSeeder extends Seeder {
 				'cookingTime'     => $faker->numberBetween(20, 200),
 				'preparationTime' => $faker->numberBetween(20, 200),
 				'description'     => $faker->text(300)
-			]);	
+			]);
 
 			// Create ingredients and quantities
 			foreach (range(1, $faker->numberBetween(3, 10)) as $dummy)
 			{
 				$name = $faker->sentence(2);
-				
+
 				$ing = new Ingredient([
 					'name'  => $name,
 					'unit'  => $this->getUnitForIngredient($name),
@@ -49,7 +49,7 @@ class RecipeTableSeeder extends Seeder {
 				$q = new Quantity([
 					'quantity' => $faker->randomFloat(2, 0.1, 10)
 				]);
-				
+
 				$ing->quantity()->associate($q);
 				$r->ingredients()->associate($ing);
 			}
@@ -64,7 +64,7 @@ class RecipeTableSeeder extends Seeder {
 	private function getUnitForIngredient($name)
 	{
 		$faker = Faker::create();
-		
+
 		if (! array_key_exists($name, $this->unitsForIngredients)) {
 			$unit = $faker->randomElement(Ingredient::getAllowedUnitValues());
 			$this->unitsForIngredients[$name] = $unit;
