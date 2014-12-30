@@ -1,3 +1,27 @@
 Cette partie a présenté les implémentations les plus courantes du NoSQL permettant de résoudre la majorité des problèmes. Le tableau suivant présente un récapitulatif des propriétés de chaque base de données et de leur utilité.\\
 
-TODO : tableau
+\begin{tabular}{|p{0.15\textwidth}|p{0.25\textwidth}|p{0.25\textwidth}|p{0.20\textwidth}|}
+	\hline
+	& Modélisation & Cas d'utilisation & Acteurs principaux \\\hline
+	Clé / valeur 
+	& Modélisation simple, permettant d'indexer des informations diverses via une clé 
+	& Mise en cache 
+	& \begin{itemize}
+		\item Redis
+		\item Memcached
+	\end{itemize} \\\hline
+	Documents
+	& Modélisation souple permettant de stocker des documents au format JSON dans des collections 
+	& Stockage de masse 
+	& \begin{itemize}
+		\item MongoDB
+		\item CouchDB
+	\end{itemize} \\\hline
+	Graphes 
+	& Modélisation optimisé pour les problèmes de graphes 
+	& Stockage provisoire pour traiter les données 
+	& \begin{itemize}
+		\item Neo4j
+		\item Titan
+	\end{itemize} \\\hline
+\end{tabular}
