@@ -1,0 +1,11 @@
+\section*{De nouveaux besoins}
+	Nous avons vu que l'émergence du NoSQL était due à l'apparition de nouveaux besoins, et non à un essoufflement du modèle relationnel. Ces nouveaux besoins sont détaillés dans l'introduction : l'émergence du \textit{Big Data}, un grand volume de transactions, une architecture distribuée sur plusieurs machines voire sur plusieurs localisations géographiques\dots
+
+\section*{Des contraintes de transactions relâchées}
+	Ces nouveaux besoins ne peuvent être respectés par le modèle relationnel, soumis à de fortes contraintes telles que les propriétés ACID (cf partie \ref{subsec:proprietesACID}). Pour assurer un grand volume de transactions dans un système distribué, il apparaît comme nécessaire de relâcher certaines contraintes pour assurer les performances du système. C'est le postulat du théorème CAP, vu en détails dans la partie \ref{subsec:theoremeCAP}.
+
+\section*{Des contraintes d'intégrité à vérifier}
+	Étant donné que les moteurs de bases de données NoSQL n'assurent en général pas l'intégrité des données, c'est aux développeurs de s'assurer de la cohérence et de l'intégrité des données dans leurs applications. En donnant plus de liberté aux moteurs de stockage on accroît ses performances, tout en tolérant que des résultats non cohérents puissent être donnés en réponse de temps en temps. Ce défaut de cohérence peut avoir un impact critique dans certaines applications. Il est donc de la responsabilité du développeur de prendre en compte cette possibilité. Ces propriétés des bases de données NoSQL sont appelées les propriétés BASE et sont abordées dans la partie \ref{subsec:proprietesBASE}.
+
+\section*{De nouveaux usages}
+	Il existe de nombreux types de bases de données NoSQL. Les cas d'utilisation sont plus étendus que les bases de données relationnelles. Ainsi, les bases de données clé / valeur peuvent être utilisées en tant que système de cache (cf partie \ref{sec:BDDClesValeur}), à la manière de la RAM à l'opposé d'un disque dur. Les bases de données orientées documents limitent à tout prix les jointures et dupliquent beaucoup l'information (cf partie \ref{sec:BDDDocuments}). Enfin, les bases de données orientées graphes permettent de modéliser des éléments complexes avec un langage de requête adapté aux modèles comportant de multiples liaisons (cf partie \ref{sec:BDDGraphes}).
