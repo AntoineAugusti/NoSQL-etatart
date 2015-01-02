@@ -14,7 +14,7 @@
 
 \subsection{Les propriétés BASE}
 \label{subsec:proprietesBASE}
-	Nous avons pu voir grâce au théorème CAP dans la partie \ref{subsec:theoremeCAP} que les transactions sur des systèmes distribuées posaient de nouveaux challenges. Dans des systèmes distribuées, les propriétés ACID (présentées dans la partie \ref{subsec:proprietesACID}) apparaissent comme impossibles à satisfaire entièrement vu que notre préoccupation est la disponibilité et une haute performance, dont le but est de supporter un fort volume de transactions.\\
+	Nous avons pu voir grâce au théorème CAP dans la partie \ref{subsec:theoremeCAP} que les transactions sur des systèmes distribués posaient de nouveaux challenges. Dans des systèmes distribuées, les propriétés ACID (présentées dans la partie \ref{subsec:proprietesACID}) apparaissent comme impossibles à satisfaire entièrement vu que notre préoccupation est la disponibilité et une haute performance, dont le but est de supporter un fort volume de transactions.\\
 
 	Par exemple, supposons que l'on vende des livres en ligne et que l'on affiche fièrement combien de livres nous possédons en stock. Chaque fois qu'un visiteur souhaite acheter un livre, nous mettons un verrou sur une partie des données jusqu'à ce qu'il paye, de manière à ce que tous les autres visiteurs voient le bon nombre de livres en stock. Ceci fonctionne bien si vous êtes un libraire d'une ville de taille moyenne, mais devient impossible pour Amazon par exemple. On revient alors aux problématiques du théorème CAP qui indiquent qu'on est obligé de sacrifier une des trois propriétés pour assurer les deux autres.\\
 
@@ -26,4 +26,4 @@
 	 	\item \textbf{\textit{Eventual consistency.}} Indique que le système sera cohérent au bout d'un temps, sous réserve que celui-ci ne reçoive plus de nouvelles transactions.
 	 \end{itemize}
 	 \vspace{20px}
-	 On remarque que les propriétés BASE assurent bien moins de cohérence des données et des transactions que les propriétés ACID. Pour s'assurer que le système distribuée évolue vers un état stable il devient alors nécessaire de résoudre des conflits provenant des différents états des nœuds du système. C'est seulement à ce prix qu'il est actuellement possible de concevoir une importante architecture de stockage de données distribuée.
+	 On remarque que les propriétés BASE assurent bien moins de cohérence des données et des transactions que les propriétés ACID. Pour s'assurer que le système distribué évolue vers un état stable il devient alors nécessaire de résoudre des conflits provenant des différents états des nœuds du système. C'est seulement à ce prix qu'il est actuellement possible de concevoir une importante architecture de stockage de données distribuée.

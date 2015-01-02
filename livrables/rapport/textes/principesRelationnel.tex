@@ -8,7 +8,7 @@
       \item \textbf{3\ieme{} forme normale} : un attribut non clé ne dépend pas d'un ou plusieurs attributs ne participant pas à la clé.
     \end{itemize}
     \vspace{20px}
-    D'autres formes normales ont été défini par la suite, chacune d'entre elles précisant des bonnes pratiques supplémentaires dans la conception des bases de données relationnelles. Il est très difficile, voire impossible, de respecter ces recommandations de modélisation. Dans les bases de données NoSQL, nous allons relâcher ces formes normales afin de simplifier la structure de la base de données. Cette simplification vient à un prix : la perte de certaines optimisations comme par exemple la non-redondance des données stockées.
+    D'autres formes normales ont été définies par la suite, chacune d'entre elles précisant des bonnes pratiques supplémentaires dans la conception des bases de données relationnelles. Il est très difficile, voire impossible, de respecter ces recommandations de modélisation. Dans les bases de données NoSQL, nous allons relâcher ces formes normales afin de simplifier la structure de la base de données. Cette simplification a un prix : la perte de certaines optimisations comme par exemple la non-redondance des données stockées.
 
 \subsection{Le défaut d'impédance}
 
@@ -22,7 +22,7 @@
 \subsection{Le marqueur NULL}
   Dans une base de données relationnelle, les marqueurs  NULL permettent d'indiquer l'absence de valeur. Selon la qualité de notre conception, ces marqueurs sont plus ou moins fréquents, mais comme pour le respect de toutes les formes normales, il est très compliqué de concevoir un schéma n'ayant pas besoin de ce marqueur.\\
 
-  Les marqueurs NULL sont très critiquées car ils ne sont pas équivalents à une chaîne de caractères vide ou à un 0. Ce concept présente deux défauts majeurs :
+  Les marqueurs NULL sont très critiqués car ils ne sont pas équivalents à une chaîne de caractères vide ou à un 0. Ce concept présente deux défauts majeurs :
   \vspace{10px}
   \begin{itemize}
     \item \textbf{L'espace disque occupé} : le marqueur NULL, de part sa nature, occupe un espace plus ou moins important en fonction de la qualité de la base de données.
