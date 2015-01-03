@@ -35,7 +35,7 @@
 	\subsubsection{Duplication de la clé-primaire}
 		Cette fois, on ne duplique que la clé primaire de l'enregistrement B dans l'enregistrement A. pour récupérer les données on devra alors effectuer deux requêtes : une première requête pour récupérer les données de l'enregistrement A, puis une seconde pour récupérer les données de l'autre côté de la relation à l'aide des informations de l'enregistrement A.\\
 
-		Par exemple, imaginons que l'on modélise une relation plusieurs vers plusieurs entre des livres et des auteurs. L'enregistrement de l'auteur contiendrait la liste des clés primaires de ses livres et le livre contiendrait les clés primaires de ses auteurs. On commencerait par récupérer les identifiants des auteurs puis on interrogerait les livres pour récupérer le reste des données.
+		Par exemple, imaginons que l'on modélise une relation \enquote{plusieurs vers plusieurs} entre des livres et des auteurs. L'enregistrement de l'auteur contiendrait la liste des clés primaires de ses livres et le livre contiendrait les clés primaires de ses auteurs. On commencerait par récupérer les identifiants des auteurs puis on interrogerait les livres pour récupérer le reste des données.
 
 		\begin{listing}[H]
 			\inputminted{json}{code/duplicationClesPrimairesLivres.json}
