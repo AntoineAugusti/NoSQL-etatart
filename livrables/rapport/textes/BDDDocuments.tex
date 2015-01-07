@@ -4,7 +4,7 @@
 
 	Les requêtes des base de données orientées documents se font majoritairement en JSON mais certaines implémentations fournissent une API de type REST afin d’accéder aux données de manière simple et efficace. L'objectif des documents est de stocker des informations (souvent de manière répartie) et de les restituer le plus efficacement possible. Le langage est donc simple et ne permet pas toutes les possibilités d'un langage comme le SQL. Il permet néanmoins d'effectuer des agrégats de documents, des calculs simples ainsi que de tester la présence ou non d'éléments ce qui peut s'avérer très utile car la structure des documents peut changer au sein même d'une collection.
 
-\subsubsection{Le format JSON}
+	\subsubsection{Le format JSON}
 
 	Le format JSON pour \textit{JavaScript Objet Notation} est un format de représentation de données similaire au XML (\textit{Extensible Markup Language}). Il permet aussi bien de sérialiser l'état des classes que de structurer des données. Son format texte le rend reconnaissable et lisible sur toutes les plate-formes et tout système. Il est aussi très simple à traiter (génération et \textit{parsing}). Il est préféré au XML dans les bases de données NoSQL pour quelques raisons :
 	\vspace{10px}
@@ -29,7 +29,7 @@
 	Il est très compliqué pour une base de données orientée documents de gérer les relations, là où une base de données relationnelle va proposer un système de contraintes d'intégrité référentielle pour représenter les relations entre les tables, les SGBD des bases de données documents ne savent effectuer une requête que sur une seule collection à la fois. Une erreur courante pour un architecte BD venant du monde du relationnel est de faire des jointures entre ses différents documents en plaçant des clés étrangères. Si nous reprenons l'exemple précédent, un mauvais schéma pourrait ressembler au listing \ref{exempleMauvaisSchema}.
 
 	\begin{listing}[H]
-		\inputminted{json}{code/exempleMauvaisSchema.json}
+		\inputminted{json}{code/duplicationClesPrimairesLivres.json}
 		\caption{Exemple de mauvais schéma.}
 		\label{exempleMauvaisSchema}
 	\end{listing}
@@ -43,17 +43,25 @@
 		\item \textbf{Le ou les objets imbriqués ne vont-ils pas devenir trop gros ?} Si le nombre ou la taille des objets imbriqués peut croître rapidement, il faut penser que les systèmes de gestion de bases de données orientées documents ne peuvent gérer que la récupération d'un document en entier. Il ne serait pas judicieux de récupérer l'intégralité des livres écrits par des auteurs uniquement pour afficher leurs noms et leurs prénoms.
 		\item \textbf{L'objet imbriqué doit-il être présent en intégralité ?} Lors de l'imbrication de documents entre eux, il est possible d'avoir à faire à des problèmes de récursion, par exemple : dans le document d'un utilisateur sont imbriqués ses textes, dans les textes sont imbriqués les commentaires et dans les commentaires sont imbriqués leur auteur. Pour cette dernière imbrication, toutes les informations de l'auteur ne sont pas forcément nécessaires, nous pouvons juste sauvegarder son nom et son prénom (et pas tous ses textes avec tous leurs commentaires respectifs).
 	\end{itemize}
+	\vspace{20px}
 
-\subsubsection{La redondance dans le monde du NoSQL}
+	Comme nous l'avons vu dans la section \ref{subsec:redondanceNoSQL}, la redondance des données n'est pas une mauvaise pratique dans la modélisation non-relationnelle. Dans le monde des bases de données orientées documents, il est possible de dupliquer un document dans son intégralité, comme présenté dans le listing \ref{listing:embedding}. 
+	\begin{listing}[H]
+		\inputminted{json}{code/imbrication.json}
+		\caption{Imbrication de l'adresse dans le document d'un client.}
+		\label{listing:embedding}
+	\end{listing}
 
-	Lorsque nous imbriquons dans un document certains éléments d'un autre document, nous pouvons parler de redondance. Contrairement au modèle relationnel, la redondance n'est pas une mauvaise pratique dans le monde du NoSQL. De nos jours, l'espace disque n'est pas cher et nous pouvons nous permettre de stocker des téraoctets de données sans problème. En revanche, l'accès à ces données peut se trouver ralenti car les données ne sont plus stockées sur une seule machine mais sur des systèmes de fichiers distribués. Il est donc préférable de multiplier l'information à plusieurs endroits différents. Les données sont ainsi sécurisées et n'ont aucun risque d'être perdues mais, plus important encore, elles sont accessibles beaucoup plus rapidement.\\
+	On peut également dupliquer seulement certains champs du document qui seront très utilisés lors de la manipulation du document parent. Par exemple, quand on affiche une liste d'articles, on a besoin que d'informations sommaires sur l'auteur de l'article : son nom et son avatar par exemple. C'est seulement en visitant le profil de l'auteur de l'article que l'on accédera aux informations complètes sur l'auteur de l'article. Un exemple d'\textit{embedding} partiel est présenté dans le listing \ref{listing:embeddingPartiel}.
 
-	D'un autre côté, la multiplication de l'information pose des problèmes lors de l'écriture. Le modèle relationnel est performant de ce point de vue car l'information est toujours présente à un seul endroit de manière cohérente. À partir du moment où la même donnée est présente à deux emplacements différents, sa mise à jour devient plus complexe et peut entraîner des incohérences.\\
+	\begin{listing}[H]
+		\inputminted{json}{code/duplicationSousEnsemble.json}
+		\caption{Imbrication d'un sous-ensemble des champs d'un utilisateur sur le document d'un article.}
+		\label{listing:embeddingPartiel}
+	\end{listing}
 
-	\begin{itemize}
-		\item \textbf{Si la donnée est sauvegardée à plusieurs endroits physiques} : c'est le problème du système de fichier distribué, ce dernier doit minimiser les temps de mise à jour. Pour cela, la connexion entre les différents serveurs du clusters de stockage doit être très importante, on parle de connexion 10 Gbits/s au minimum. Cette vitesse permet de gérer de gros volumes de données, en limitant les temps d'incohérence de la base (lorsque la donnée a été mise à jour sur l'un des serveurs et pas sur l'autre).
-		\item \textbf{Si la donnée est sauvegardée à plusieurs endroits logiques} : c'est le problème des développeurs et de l'architecte base de données. Les développeurs doivent prendre en compte les différents documents où est présente l'information afin de mettre à jour la donnée de manière cohérente. Si l'on stocke les pseudos des utilisateurs dans les commentaires par exemple, le jour où l'utilisateur change son pseudo, il faut modifier tous ses commentaires avec le nouveau pseudo. Cette mise à jour peut être très coûteuse, c'est là que l'architecte base de données doit intervenir en prenant en compte les fréquences de lecture et de mise à jour de chaque donnée lors de la conception de la base. Concernant le pseudo d'un utilisateur, la fréquence de lecture de ses commentaires est bien plus importante que la fréquence de modification. Nous pouvons donc en conclure que, dans ce cas précis, le gain engendré par la redondance des données au niveau de la lecture est plus important que la perte de performance en écriture.
-	\end{itemize}
+	Dans la section \ref{subsec:redondanceNoSQL}, on a vu les problèmes posés par la duplication de l'information en cas de mise à jour des données. Avec l'\textit{embedding}, il ne faut pas oublier de répercuter les mises à jour dans tous les documents concernés. Par exemple, si l'on stocke les pseudos des utilisateurs dans les commentaires par exemple, le jour où l'utilisateur change son pseudo, il faut modifier tous ses commentaires avec le nouveau pseudo. Cette mise à jour peut être très coûteuse, c'est là que l'architecte base de données doit intervenir en prenant en compte les fréquences de lecture et de mise à jour de chaque donnée lors de la conception de la base. Concernant le pseudo d'un utilisateur, la fréquence de lecture de ses commentaires est bien plus importante que la fréquence de modification. Nous pouvons donc en conclure que, dans ce cas précis, le gain engendré par la redondance des données au niveau de la lecture est plus important que la perte de performance en écriture.
+						
 
 \subsubsection{Exemples de requêtes}
 
