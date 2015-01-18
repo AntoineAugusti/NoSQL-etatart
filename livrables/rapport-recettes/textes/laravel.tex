@@ -29,17 +29,23 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 		\label{code:service-provider-minimal}
 	\end{listing}
 
-\section{L'injection de dépendance}
-	Nous n'instançons jamais notre contrôleur, Laravel s'en charge à notre place lorsque la route enregistrée est demandée. Pour instancier une classe, Laravel utilise un outil très puissant de résolution de dépendance grâce à l'introspection de PHP. Avant de créer l'objet nécessaire, elle détermine les classes requises par le constructeur.\\
+\section{Injection de dépendance et \ioc{}}
+	Il est très rare d'instancier des classes lorsque l'on utilise Laravel. Tout d'abord, on peut remarquer que quand on enregistre des routes, on donne le nom du contrôleur, et non une instance de celui-ci. Laravel se charge de l'instanciation de la classe à notre place lorsque la route enregistrée est demandée. Pour instancier une classe, Laravel utilise un outil très puissant de résolution de dépendance se basant l'introspection de PHP. Avant de créer l'objet nécessaire, elle détermine les classes requises par le constructeur et les injecte. La résolution de dépendance est faites de manière récursive.\\
 
-	Si le constructeur nécessite un objet \verb|DatabaseUserRepository| comme dans notre cas, Laravel va l'instancier et le fournir au constructeur du contrôleur \verb|UsersController|.
-	\begin{minted}{php}
-	<?php
-	public function __construct(DatabaseUserRepository $userRepository)
-	{
-	$this->userRepository = $userRepository;
-	}
-	\end{minted}
+	En plus de la résolution automatique de dépendance, Laravel utilise l'\ioc{}. L'\ioc{} est un entrepôt de classes permettant de lier une interface à une implémentation concrète, où une chaîne de caractères à une classe par exemple. Cette dernière possibilité est présentée dans le listing \ref{code:ioc-container}.
+
+	\begin{listing}[H]
+		\inputminted{php}{code/iocContainer.php}
+		\caption{Un exemple d'utilisation de l'\ioc{}.}
+		\label{code:ioc-container}
+	\end{listing}
+
+	Si le constructeur d'un contrôleur nécessite par exemple un objet \verb|Insa\Recipes\Repositories\RecipeRepository|, Laravel va utiliser l'injection de dépendance et l'\ioc{} afin de lui fournir une implémentation concrète qui aura été associée à l'interface. Cet exemple est présenté dans le listing \ref{code:ioc-controler}.
+	\begin{listing}[H]
+		\inputminted{php}{code/injectionClass.php}
+		\caption{Injection d'une interface dans un constructeur de contrôleur.}
+		\label{code:ioc-controler}
+	\end{listing}
 
 	De cette manière, nous avons accès au répertoire dans notre contrôleur sans effort.
 
