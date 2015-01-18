@@ -19,17 +19,15 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 		\item \verb|Validation| : les classes comportant les règles de validation des entités.
 	\end{itemize}
 
-\section{Les \textit{Services Provider}}
-	Les \verb|Services Provider| de Laravel sont de simples objets fournissant de la configuration pour l'application. Ils sont définis dans le fichier \verb|app/config/app.php|.\\
+\section{Les \servicesProvider{}}
+	Les \servicesProvider{} sont le centre de Laravel. Ce sont des classes qui permettent de lier des objets entre eux et d'enregistrer des éléments de configuration. Ce sont dans ces classes que l'on retrouve par exemple la liaison entre les routes et les méthodes des contrôleurs : ce qui permet qu'une méthode soit appelée en fonction de l'URL.\\
 
-	Dans notre cas, nous avons créé un simple Service Provider \verb|LeoCardServiceProvider| qui effectue le lien de l'interface vers l'implémentation dans sa méthode \verb|register|.
-	\begin{minted}{php}
-	<?php
-	public function register()
-	{
-		$this->app->bind('UserRepository', 'DatabaseUserRepository');
-	}
-	\end{minted}
+	Les \servicesProvider{} se trouvent à la racine de chaque espace de nom. Nous avons défini la convention suivante pour les noms de ces classes : \verb|\Insa\<entite>\<entite>ServiceProvider|. Un \serviceProvider{} minimal est présenté dans le listing \ref{code:service-provider-minimal}.
+	\begin{listing}[H]
+		\inputminted{php}{code/serviceProvider.php}
+		\caption{Un exemple de \serviceProvider{} liant la page d'accueil à une liste de toutes les recettes.}
+		\label{code:service-provider-minimal}
+	\end{listing}
 
 \section{L'injection de dépendance}
 	Nous n'instançons jamais notre contrôleur, Laravel s'en charge à notre place lorsque la route enregistrée est demandée. Pour instancier une classe, Laravel utilise un outil très puissant de résolution de dépendance grâce à l'introspection de PHP. Avant de créer l'objet nécessaire, elle détermine les classes requises par le constructeur.\\
