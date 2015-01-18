@@ -3,41 +3,15 @@
 
 	Les bases de données NoSQL utilisent parfois ce principe lors de la modélisation de la base. Dans une modélisation relationnelle, ceci est à éviter le plus possible, comme recommandé par les formes normales.
 
-\subsection{La gestion de la redondance des données}
+\subsection{La redondance dans le monde du NoSQL}
+\label{subsec:redondanceNoSQL}
 	Nous avons vu ce qu'était le principe de dénormalisation. L'absence de relation entre tables induit un volume de données beaucoup plus grand car les informations sont parfois stockées de façon redondante pour être accessibles plus facilement. Il est bien sûr possible de simuler des relations entre les enregistrements.\\
 
-	Les exemples utilisés dans cette partie sont des documents structurés au format JSON. De tels documents peuvent être stockés dans une base de données NoSQL orientée document, comme abordé dans la partie~\ref{sec:BDDDocuments}.
+	Contrairement au modèle relationnel, la redondance n'est pas une mauvaise pratique dans le monde du NoSQL. De nos jours, l'espace disque n'est pas cher et nous pouvons nous permettre de stocker des téraoctets de données sans problème. En revanche, l'accès à ces données peut se trouver ralenti car les données ne sont plus stockées sur une seule machine mais sur des systèmes de fichiers distribués. Il est donc préférable de multiplier l'information à plusieurs endroits différents. Les données sont ainsi sécurisées et n'ont aucun risque d'être perdues mais, plus important encore, elles sont accessibles beaucoup plus rapidement.\\
 
-	\subsubsection{Imbrication d'enregistrements}
-		Pour une relation entre deux enregistrements A et B, cela consiste à avoir l'enregistrement B imbriqué dans l'enregistrement A. On peut avoir deux cas d'utilisation lorsque l'on utilise cette stratégie :
+	D'un autre côté, la multiplication de l'information pose des problèmes lors de l'écriture. Le modèle relationnel est performant de ce point de vue car l'information est toujours présente à un seul endroit de manière cohérente. À partir du moment où la même donnée est présente à deux emplacements différents, sa mise à jour devient plus complexe et peut entraîner des incohérences.\\
 
-		\begin{itemize}
-			\item On peut se passer de la collection des enregistrements imbriqués. Ainsi, toutes les requêtes concernant l'enregistrement parent concerneront aussi les données de l'enregistrement imbriqué.
-			\item On peut modifier les enregistrements parents et enfants d'une manière atomique. Cependant, l'imbrication d'enregistrements n'est pas possible si on veut créer l'enregistrement enfant avant l'enregistrement parent.
-		\end{itemize}
-		\vspace{20px}
-
-		\begin{listing}[H]
-			\inputminted{json}{code/imbrication.json}
-			\caption{Imbrication de l'adresse dans l'enregistrement d'un client.}
-		\end{listing}
-
-	\subsubsection{Duplication d'un sous-ensemble de champs}
-		L'idée est de dupliquer le minimum de données de l'enregistrement B dans l'enregistrement A et de préférence celles qui ne changent pas souvent. En effet lors de la mise à jour nous devrions mettre à jour l'ensemble des enregistrements qui contiennent cette information plutôt qu'à un seul endroit dans une base de données respectant les formes normales. Il faut se souvenir que cette modélisation augmente donc le temps d'écriture lors d'une mise à jour. On utilise donc cette forme de duplication quand on sait que les enregistrements seront très souvent lus et très rarement mis à jour.\\
-
-		Par exemple, quand on affiche une liste d'articles, on a besoin que d'informations sommaires sur l'auteur de l'article : son nom et son avatar par exemple. C'est seulement en visitant le profil de l'auteur de l'article que l'on accédera aux informations complètes sur l'auteur de l'article.
-
-		\begin{listing}[H]
-			\inputminted{json}{code/duplicationSousEnsemble.json}
-			\caption{Imbrication d'un sous-ensemble des champs d'un utilisateur sur l'enregistrement d'un article.}
-		\end{listing}
-
-	\subsubsection{Duplication de la clé-primaire}
-		Cette fois, on ne duplique que la clé primaire de l'enregistrement B dans l'enregistrement A. pour récupérer les données on devra alors effectuer deux requêtes : une première requête pour récupérer les données de l'enregistrement A, puis une seconde pour récupérer les données de l'autre côté de la relation à l'aide des informations de l'enregistrement A.\\
-
-		Par exemple, imaginons que l'on modélise une relation \enquote{plusieurs vers plusieurs} entre des livres et des auteurs. L'enregistrement de l'auteur contiendrait la liste des clés primaires de ses livres et le livre contiendrait les clés primaires de ses auteurs. On commencerait par récupérer les identifiants des auteurs puis on interrogerait les livres pour récupérer le reste des données.
-
-		\begin{listing}[H]
-			\inputminted{json}{code/duplicationClesPrimairesLivres.json}
-			\caption{Imbrication des clés primaires des livres écrits par un écrivain.}
-		\end{listing}
+	\begin{itemize}
+		\item \textbf{Si la donnée est sauvegardée à plusieurs endroits physiques} : c'est le problème du système de fichier distribué, ce dernier doit minimiser les temps de mise à jour. Pour cela, la connexion entre les différents serveurs du clusters de stockage doit être très importante, on parle de connexion 10 Gbits/s au minimum. Cette vitesse permet de gérer de gros volumes de données, en limitant les temps d'incohérence de la base (lorsque la donnée a été mise à jour sur l'un des serveurs et pas sur l'autre).
+		\item \textbf{Si la donnée est sauvegardée à plusieurs endroits logiques} : c'est le problème des développeurs et de l'architecte base de données. Les développeurs doivent prendre en compte les différents emplacements où est présente l'information afin de mettre à jour la donnée de manière cohérente. Il est possible d'utiliser les bases de données NoSQL à des fins différentes. Certaines applications peuvent se recouper comme par exemple une base de données utilisée pour du cache et une base de données utilisée pour du stockage. Dans une telle configuration, la modification d'une donnée dans la base de données de stockage doit être répercutée sur la base de données de cache si l'on veut assurer une cohérence. Cette modification peut être coûteuse en fonction de la modélisation choisie lors de la conception de l'architecture. Il est aisé d'oublier de répercuter ce changement partout, ce qui peut entraîner des comportements anormaux.
+	\end{itemize}
