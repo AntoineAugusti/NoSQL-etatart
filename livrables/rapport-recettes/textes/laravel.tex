@@ -30,6 +30,7 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 	\end{listing}
 
 \section{Injection de dépendance et \ioc{}}
+\label{sec:ioc}
 	Il est très rare d'instancier des classes lorsque l'on utilise Laravel. Tout d'abord, on peut remarquer que quand on enregistre des routes, on donne le nom du contrôleur, et non une instance de celui-ci. Laravel se charge de l'instanciation de la classe à notre place lorsque la route enregistrée est demandée. Pour instancier une classe, Laravel utilise un outil très puissant de résolution de dépendance se basant l'introspection de PHP. Avant de créer l'objet nécessaire, elle détermine les classes requises par le constructeur et les injecte. La résolution de dépendance est faites de manière récursive.\\
 
 	En plus de la résolution automatique de dépendance, Laravel utilise l'\ioc{}. L'\ioc{} est un entrepôt de classes permettant de lier une interface à une implémentation concrète, où une chaîne de caractères à une classe par exemple. Cette dernière possibilité est présentée dans le listing \ref{code:ioc-container}.
@@ -48,6 +49,19 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 	\end{listing}
 
 	De cette manière, nous avons accès au répertoire dans notre contrôleur sans effort.
+
+\section{Les façades}
+	Une façade est un classe spécifique qui permet d'appeler des méthodes publiques d'une instance d'un objet via des appels statiques sur la façade. Les classes qui peuvent être résolues par des façades sont celles qui se trouvent dans l'\ioc{} (abordé dans la partie \ref{sec:ioc}).\\
+
+	Par exemple, lorsque que l'on appelle une méthode statique sur la façade \verb|Route|, Laravel va en réalité appeler une méthode publique d'une instance d'une classe appelée \verb|Illuminate\Routing\Router| stockée dans l'application.\\
+
+	On se retrouve alors avec deux possibilités dans les contrôleurs :
+	\begin{itemize}
+		\item utiliser des appels statiques via les façades ;
+		\item injecter les véritables classes dans le constructeur et appeler des méthodes sur cette classe via un attribut de classe.
+	\end{itemize}
+	\vspace{10px}
+	La deuxième option est généralement préférée, étant réputée plus propre. Pour autant l'utilisation des façades n'est pas totalement à proscrire.
 
 \section{"Code to an interface"}
 	La méthode présentée dans le paragraphe précédent présente l'avantage d'être simple à implémenter mais présente aussi un gros défaut : notre contrôleur est toujours lié à l'ORM via l'objet \verb|DatabaseUserRepository|.\\
@@ -101,12 +115,7 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 
 	Tout d'abord, nous appelons la méthode \verb|get| parce que dans une optique CRUD, nous cherchons à obtenir des informations. Cette méthode prend en premier paramètre l'URI associé à la route et en deuxième paramètre une chaîne de caractère  formatée comme \verb|ControllerObject@method|. Dans notre cas, lorsque l'utilisateur fait une requête GET sur l'URI \verb|users/batch|, Laravel va appeler la méthode \verb|batch| sur l'objet \verb|UsersController|.
 
-	\subsection{Qu'est-ce qu'une façade}
-		Une façade est un classe spécifique qui permet d'appeler des méthodes publiques d'une instance d'un objet via des appels statiques sur la façade.\\
 
-		Par exemple, lorsque j'appelle une méthode statique sur la façade \verb|Route|, Laravel va en réalité appeler une méthode publique d'une instance d'une classe appelée \verb|Illuminate\Routing\Router| stockée dans l'application.\\
-
-		Vous pouvez en savoir plus sur les façades Laravel dans la documentation \url{http://laravel.com/docs/facades}
 
 \section{Le modèle}
 	Laravel utilise son propre ORM appelé Eloquent. Ce dernier nécessite la création d'une classe par ressource de l'application. Notre application a donc un modèle nommé \verb|User| situé dans le répertoire \verb|app/models|. Ce dernier hérite du modèle Eloquent qui fournit toutes les méthodes d'accès à la base de données telles que \verb|where|, \verb|find|, \verb|save|...\\
