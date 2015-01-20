@@ -63,6 +63,44 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 	\vspace{10px}
 	La deuxième option est généralement préférée, étant réputée plus propre. Pour autant l'utilisation des façades n'est pas totalement à proscrire.
 
+\section{Le \repositoryPattern}
+
+	\subsection{Description}
+		Le \repositoryPattern{} est une bonne pratique permettant d'abstraire la manipulation des données. Les objectifs sont nombreux :
+		\begin{itemize}
+			\item Uniformiser l’interaction avec les données à travers l'application ;
+			\item Séparer la logique métier de l'accès aux données ;
+			\item Faciliter les tests d'intégration en isolant la couche d'accès aux données ;
+			\item Proposer plusieurs moyens d'accès aux données (bases de données, cache, fichiers, API\dots), tout en uniformisant les méthodes à l'aide d'interfaces.
+		\end{itemize}
+
+	\subsection{Pourquoi utiliser des répertoires}
+		Dans le cas d'une application plutôt simple comme la notre, il aurait été parfaitement correct d'appeler les méthodes de l'ORM\footnote{ORM : \textit{Object Relational Mapper.}} de Laravel, Eloquent, directement dans les contrôleurs.\\
+
+		Mais dans le cas d'une application plus complexe, il est préférable de dissocier ses contrôleurs de l'ORM afin d'améliorer la maintenabilité de l'application et de permettre l'utilisation d'un autre système de stockage. En effet, si l'on décidait de passer à une autre méthode de stockage que celle choisie initialement, il faudrait aller chercher dans toute l'application où sont effectués ces accès. En utilisant le \repositoryPattern{} il suffit de créer une nouvelle classe respectant le contrat initial (l'interface créée) puis vérifier que celle-ci est conforme aux test écrits.
+
+	\subsection{Utilisation de répertoires}
+		La création de répertoires est finalement assez simple. Les différentes étapes sont le suivantes :
+		\begin{enumerate}
+			\item Création d'une interface indiquant le comportement attendu pour l'accès aux données ;
+			\item Création d'une classe concrète se conformant à l'interface en utilisant l'ORM de Laravel ;
+			\item Association de l'interface à la classe concrète créée dans un \serviceProvider.
+		\end{enumerate}
+
+		Un exemple d'interface d'accès aux données concernant les recettes est présenté dans le listing \ref{code:recipes-repo-interface}. Son implémentation concrète est présentée dans le listing \ref{code:recipes-repo-mongo}.
+
+		\begin{listing}[H]
+			\inputminted{php}{code/RecipesRepository.php}
+			\caption{L'interface spécifiant le contrat d'accès aux données des recettes.}
+			\label{code:recipes-repo-interface}
+		\end{listing}
+
+		\begin{code}
+			\inputminted{php}{code/MongoRecipesRepository.php}
+			\caption{Utilisation de l'ORM Eloquent pour l'accès aux données des recettes.}
+			\label{code:recipes-repo-mongo}
+		\end{code}
+
 \section{"Code to an interface"}
 	La méthode présentée dans le paragraphe précédent présente l'avantage d'être simple à implémenter mais présente aussi un gros défaut : notre contrôleur est toujours lié à l'ORM via l'objet \verb|DatabaseUserRepository|.\\
 
@@ -78,31 +116,6 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 	\end{minted}
 
 	Mais que va donc faire Laravel lorsqu'il va rencontrer l'interface. En effet, si le framework cherche à résoudre la dépendance, il va se heurter au problème qu'il est impossible d'instancier une interface. Nous avons donc besoin de définir un lien entre notre interface et notre implémentation.
-
-\section{Utilisation d'un répertoire}
-
-	\subsection{Pourquoi utiliser un répertoire}
-		Dans le cas d'une application simple comme la notre, il aurait été parfaitement correct d'appeler les méthodes de l'ORM directement dans le contrôleur comme simplifié ci-dessous :
-		\begin{minted}{php}
-		<?php
-		public function batch()
-		{
-		return User::whereIn('serial', Input::get('data'));
-		}
-		\end{minted}
-
-		Mais dans le cas d'une application plus complexe, il est préférable de dissocier ses contrôleurs de l'ORM afin d'améliorer la maintenabilité de l'application et de permettre l'utilisation d'un autre système de stockage.
-
-	\subsection{Utilisation d'un répertoire dans notre projet}
-		Afin de montrer les possibilités du framework Laravel ainsi que de permettre aux futurs étudiants allant travailler sur l'application de partir sur de bonnes bases, nous avons décidé d'implémenter un répertoire pour les utilisateurs.\\
-
-		Ce répertoire se présente sous la forme d'une classe nommée \verb|DatabaseUserRepository| proposant une seule méthode : \verb|getBySerialBatch|. Cette méthode prend en paramètre un tableau contenant les différents numéros de carte NFC et retourne une collection d'objets \verb|User| via la méthode \verb|whereIn| de l'ORM Eloquent.\\
-
-		Maintenant, afin de découpler nos contrôleurs de l'ORM, nous devons utiliser notre répertoire. Pour cela, Laravel nous propose deux solutions :
-		\begin{itemize}
-			\item Instancier l'objet normalement dans la méthode ;
-			\item Utiliser l'outil d'injection de dépendance de Laravel.
-		\end{itemize}
 
 \section{Routes}
 	Dans la partie précédente, nous avons les différentes routes nécessaire à la mise en place d'un CRUD. Laravel implémente cela facilement via une façade nommée tout simplement \verb|Route|.
