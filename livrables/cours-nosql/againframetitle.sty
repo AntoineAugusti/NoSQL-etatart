@@ -1,0 +1,196 @@
+\ProvidesPackage{againframetitle}[2004/03/06 ver 0.1.1]
+% Copyright 2004 by Jean-Baptiste Rouquier
+% This program can be redistributed and/or modified under the terms
+% of the LaTeX Project Public License Distributed from CTAN
+% archives in directory macros/latex/base/lppl.txt.
+
+% Some macros are explained in the userguide only.
+
+\RequirePackage{ifthen}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%variables
+\def\aft@CurrentFrameTitle{Current Frame Title}
+  %The main concept. The Current Frame Title is set by \frameTitleLabeled and
+  %used by \againframetitle. It consists of:
+\def\aft@CurrentFrameTitleText{Current Frame Title Text}%a text,
+\def\aft@CurrentFrameTitleLabel{}%a label for internal referencing purposes,
+\newcounter{aft@CurrentFrameTitleNumber}%and the number of times this title has been used.
+  %This counter is incremented by \againframetitle, reset by \frameTitleLabeled
+  %The label allows one to know the total number of time this title is used
+  %before the next \frameTitleLabeled.
+
+  % Implementation: when the next \frameTitleLabeled is issued, the value of
+  % aft@CurrentFrameTitleNumber will be the total number of times the title has been
+  % displayed. This value will then be saved in a label via \aft@WriteAftNewlabel.
+
+\newif\ifframeTitleLabeled@notFirstCall \frameTitleLabeled@notFirstCallfalse
+  %The previous trick must not be done on the first call of \frameTitleLabeled
+
+\def\aftFrameTitleCommand#1{%
+\mode<article>{\frametitle{\aft@CurrentFrameTitleText}}%Beamer specific.
+  %In article mode, since only the first title is printed, we don't want any numbering
+\mode<presentation>{\frametitle{#1}}}%Beamer's command to define the title of a frame/slide
+\def\aftAgainFrameTitleCommand{\frametitle<presentation>}
+
+\def\aft@PrintTitleDefault{\aftPrintCopy}%Set by \aftOptions{style=foo}
+\def\aft@PrintTitleCurrent{\aftPrintCopy}%Set by \frameTitleLabeled[style=foo]{}
+\def\aft@PrintCounterDefault{\arabic}%Set by \aftOptions{numbering=foo}
+\def\aft@PrintCounterCurrent{\arabic}%Set by \frameTitleLabeled[numbering=foo]{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% option processing
+\RequirePackage{keyval}[1997/11/10]
+
+\define@key{aft@optionsLocal}{style}{
+  \@ifundefined{aftPrint#1}
+  {\PackageError{againframetitle}{The style option '#1' is unknown}{%
+    Make sure the macro \protect\aftPrint#1 is defined,^^J%
+    or use one of the following style: Copy, Numbered, NumberedLast, Suite.}}
+  {\global\def\aft@PrintTitleCurrent{\csname aftPrint#1\endcsname}}}
+
+\define@key{aft@optionsLocal}{numbering}{
+  \@ifundefined{#1}
+  {\PackageError{againframetitle}{The numbering option '#1' is unknown}{%
+    Make sure the macro \protect\\#1 is defined.^^J%
+    Usual values for this option are: arabic, roman, Roman, alph, Alph.}}
+  {\global\def\aft@PrintCounterCurrent{\csname #1\endcsname}}}
+
+
+\newcommand{\aftOptions}[1]{\setkeys{aft@optionsGlobal}{#1}}
+  %This macro allows one to redefine the default style in the middle of the document.
+  %But the main reason for this macro is that I do not know of to use the syntax
+  %\usepackage[style=NumberedLast]{againframetitle} !
+\define@key{aft@optionsGlobal}{style}{
+  \@ifundefined{aftPrint#1}
+  {\PackageError{againframetitle}{The style option '#1' is unknown}{%
+      Make sure the macro \protect\aftPrint#1 is defined,^^J%
+      or use one of the following style: Copy, Numbered, NumberedLast, Suite.}}
+  {\global\def\aft@PrintTitleDefault{\csname aftPrint#1\endcsname}}}
+
+\define@key{aft@optionsGlobal}{numbering}{
+  \@ifundefined{#1}
+  {\PackageError{againframetitle}{The numbering option '#1' is unknown}{%
+      Make sure the macro \protect\\#1 is defined.^^J%
+      Usual values for this option are: arabic, roman, Roman, alph, Alph.}}
+  {\global\def\aft@PrintCounterDefault{\csname #1\endcsname}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%main commands
+
+  % The command to be called on the first frame of a given title
+  % \newcommand{\frameTitleLabeled}[3][]{
+\newcommand{\frameTitleLabeled}[3][]{
+  \global\def\aft@PrintTitleCurrent{\aft@PrintTitleDefault}%Reset the style to default.
+  \global\def\aft@PrintCounterCurrent{\aft@PrintCounterDefault}%Reset the numbering to default.
+  \setkeys{aft@optionsLocal}{#1}%Process the local options.
+  \ifframeTitleLabeled@notFirstCall%Only if it's not the first call to \frameTitleLabeled,
+    \aft@WriteAftNewlabel%we write the label of the previous \frameTitleLabeled.
+  \else
+    \global\frameTitleLabeled@notFirstCalltrue
+  \fi
+  \aft@UpdateCurrent{#2}{#3}%Updates all the stuff.
+  \aftFrameTitleCommand{\aft@CurrentFrameTitle}%And finally prints the title.
+}
+
+
+  % The command to be called to reprint a title
+\newcommand{\againFrameTitle}{
+  \stepcounter{aft@CurrentFrameTitleNumber}
+  \aftAgainFrameTitleCommand{\aft@CurrentFrameTitle}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%label managing commands
+  % This awful code reimplements latex's \label / \ref mechanism (without \pageref),
+  % but it's much simpler to be compatible with hyperref and calc this way.
+\newcommand{\aft@WriteAftNewlabel}{%Actually write the label to the aux file.
+  \immediate\write\@mainaux
+  {\string\aft@newlabel{\aft@CurrentFrameTitleLabel}{\theaft@CurrentFrameTitleNumber}}}
+
+\newcommand{\aft@UpdateCurrent}[2]{%Arguments are: label, text.
+  \setcounter{aft@CurrentFrameTitleNumber}{1}
+  \global\def\aft@CurrentFrameTitleLabel{#1}%label
+  \global\def\aft@CurrentFrameTitleText{#2}%text
+  \global\def\aft@CurrentFrameTitle{
+    \aft@PrintTitleCurrent{\aft@CurrentFrameTitleText}{%
+      \theaft@CurrentFrameTitleNumber}{\aft@ref{\aft@CurrentFrameTitleLabel}}}}
+
+\newif\ifaft@FirstPassOnMainaux \aft@FirstPassOnMainauxtrue
+\AtBeginDocument{\aft@FirstPassOnMainauxfalse}
+  %hack to correctly handle warnings on multipliy defined labels.
+  %I didn't managed to use LaTeX's mechanism.
+
+\AtEndDocument{\aft@WriteAftNewlabel}%Write the label of the last \frameTitleLabeled.
+
+\newcommand{\aft@newlabel}[2]{%Appears only in the aux file, and define
+  %\aft@Labelfoo to be the number of time the title labelled foo has been printed.
+  \ifaft@FirstPassOnMainaux%First, issues a warning if the label is deined several times
+    \@ifundefined{aft@Label#1}
+    \relax
+    {\gdef\@multiplelabels{\@latex@warning@no@line{There were multiply-defined labels}}%LaTeX code
+      \PackageWarningNoLine{againframetitle}{Label `#1' multiply defined}}
+  \fi%
+  \global\@namedef{aft@Label#1}{#2}}%Then define the label.
+
+\newcommand{\aft@ref}[1]{%Calls a label to get a number.
+  \expandafter\ifx\csname aft@Label#1\endcsname\relax
+    ??%If the label isn't defined, returns exactly "??" (we can make tests on this value)
+  \else
+    \csname aft@Label#1\endcsname
+  \fi
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Printing (or "output") commands
+
+  % number printing
+\newcounter{aft@PrintingAux}
+  %auxiliary counter for printing arabic/roman/alph...
+
+\newcommand{\aftPrintCounter}[1]{%
+    \ifthenelse{\equal{#1}{??}}{%Issues a warning if the label isn't defined,
+      ??%
+%%       \protect\G@refundefinedtrue%LaTeX code.
+      \PackageWarning{againframetitle}{Printing '??' on page \thepage.^^J%
+      The frame containing the problem ends}%
+    }{%
+      \setcounter{aft@PrintingAux}{#1}%
+      \aft@PrintCounterCurrent{aft@PrintingAux}%
+      %else prints the counter in the current numbering mode.
+    }%
+}
+
+
+  % title printing
+  %The 3 arguments are: text, number, number of titles with this text
+\newcommand{\aftPrintCopy}[3]{#1}%Just prints the text.
+\newcommand{\aftPrintNumbered}[3]{#1\quad\aftPrintCounter{#2}}%Prints foo 1.
+\newcommand{\aftPrintNumberedLast}[3]{%Prints foo 1/3.
+  #1\quad\aftPrintCounter{#2} / \aftPrintCounter{#3}}
+
+\def\aftTextFirst{}%Text for the first slide.
+\def\aftTextMiddle{(suite)}%Text for the others slides.
+\def\aftTextEnd{(fin)}%Text for the last slide.
+\newcommand{\aftPrintSuite}[3]{%Prints the first arg and one of the preceeding 3 texts.
+  #1\quad%
+  \ifnum #2=1 %doesn't work without the space beetween "1" and "%"!
+    \aftTextFirst%
+  \else%
+    \ifthenelse{\equal{#3}{??}}{%Issues a warning if the label isn't defined.
+      ??%
+%%       \protect\G@refundefinedtrue%LaTeX code.
+      \PackageWarning{againframetitle}{Printing '??' on page \thepage\space}%
+    }{%
+      \ifnum#2<#3 %
+        \aftTextMiddle%
+      \else%
+        \aftTextEnd%
+      \fi%
+    }%
+  \fi%
+}
