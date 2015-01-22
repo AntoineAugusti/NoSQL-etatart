@@ -5,18 +5,18 @@
 %%%% POUR IMPRIMER LES SLIDES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ----------------- mode handout que les notes ---------------------		%
 %\documentclass[10pt,handout, notes=onlyslideswithnotes]{beamer}				%
-% ----------------- mode handout avec notes ----------------------			%	
+% ----------------- mode handout avec notes ----------------------			%
 %\documentclass[10pt,handout,xcolor=table, notes=show]{beamer}												%
 % ----------------- mode handout sans notes ------------------------		%
-%\documentclass[10pt,xcolor=table,handout]{beamer}											%	
+%\documentclass[10pt,xcolor=table,handout]{beamer}											%
 % ----------------- mode avec anim sans notes ------------------------	%
-%\documentclass[10pt,xcolor=table]{beamer}															%	
-																	    		
+%\documentclass[10pt,xcolor=table]{beamer}															%
+
 
 %\usepackage{etex} % Pour corriger l'erreur ! No room for a new \dim (compilation portable gg)
-																					
+
 							%
-%\usepackage{pgfpages}							    												
+%\usepackage{pgfpages}
 			%
 %\pgfpagesuselayout{resize to}[a4paper,border shrink=5mm,landscape]   	%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,11 +44,11 @@
 \usetikzlibrary{shadows}
 \usetikzlibrary{calc,fit}
 % Couleurs prédéfinies
-\colorlet{vertP}{green!10!white}   
+\colorlet{vertP}{green!10!white}
 \colorlet{vertF}{green!90!black}
 \colorlet{vertM}{green!40!white}
 \definecolor{gazon}{RGB}{58,157,35}
-\colorlet{bleuP}{blue!10!white} 
+\colorlet{bleuP}{blue!10!white}
 \colorlet{bleuF}{blue!90!black}
 \colorlet{bleuM}{blue!40!white}
 \colorlet{rougeP}{red!10!white}
@@ -56,7 +56,7 @@
 \colorlet{rouge}{red!80!black}
 \colorlet{rougeF}{red!90!black}
 \colorlet{bleu}{blue!80!black}
-\colorlet{vert}{green!80!black} 
+\colorlet{vert}{green!80!black}
 \colorlet{jaune}{yellow!80!black}
 \colorlet{jauneF}{yellow!90!black}
 \colorlet{jauneM}{yellow!40!white}
@@ -77,14 +77,14 @@
 \usepackage[tikz]{bclogo}
 \renewcommand\logowidth{11pt} % taille des logos
 \renewcommand\styleSousTitre[1]{\scriptsize\textsc{#1}}
-% Couleurs dans le tableau 
+% Couleurs dans le tableau
 \usepackage[table]{xcolor}
 % algorithme
 \usepackage{algorithme} % version Nico D.
 % plein de symbols
 \usepackage{pifont}
 
-% Pour placer les éléments où on veut 
+% Pour placer les éléments où on veut
 \usepackage[absolute,showboxes,overlay]{textpos}     % déclaration du package
 \textblockorigin{0pt}{0pt}                           %origine des positions (coin gauche) attention, axe y vers le bas !!
 %\TPshowboxestrue                                    % affiche le contour des textblock
@@ -129,31 +129,31 @@ geraldine.del\_mondo@insa-rouen.fr}
 % --------------------------------------
 % ................................................................................................................
 \begin{frame}{Architecture classique}
- 
+
  \begin{center}
  \includegraphics[scale=0.7]{./images/ApachePHPClassique}
  \end{center}
- 
+
  \ding{220} ``direct'' à partir de vos connaissances BD1/BD2 (+ TW)
- 
+
  [0]
- 
+
  \note{
  \begin{itemize}
-  \item L'architecture que nous avons mis en oeuvre (PHP $\Leftrightarrow$ C, SQLite $\Leftrightarrow$ ecpg, PostgreSQL) déporté ici sur le serveur
+  \item L'architecture que nous avons mis en œuvre (PHP $\Leftrightarrow$ C, SQLite $\Leftrightarrow$ ecpg, PostgreSQL) déporté ici sur le serveur
   \item La BD est sur le serveur, et le client doit l'interroger via une application de plus haut niveau (e.g. ?).
-  \item LAMP = Linux Apache MySQL PHP (ou PERL ou PYTHON)
+  \item LAMP = Linux Apache MySQL PHP (ou Perl ou Python)
   \item LAPP = Linux Apache PostgreSQL PHP
   \item LASP = Linux Apache SQLite PHP
  \end{itemize}
 
  }
- 
+
 \end{frame}
 % ................................................................................................................
 % ................................................................................................................
 \begin{frame}{Bilan architecture classique}
- \begin{bclogo}[logo = \bcvide, arrondi = 0.1, couleur = vertP, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=gazon, barre=none]{Avantage(s)} 
+ \begin{bclogo}[logo=\bcvide, arrondi=0.1, couleur=vertP, ombre=true, epOmbre=0.2, couleurOmbre=black!30, couleurBord=gazon, barre=none]{Avantage(s)}
   \begin{itemize}
    \item Rapide
    \item Optimisation possible
@@ -178,16 +178,16 @@ geraldine.del\_mondo@insa-rouen.fr}
  \begin{center}
  \includegraphics[scale=0.7]{./images/J2EEClassique}
   \end{center}
-  
+
 \ding{220} une couche 'haut niveau' supplémentaire   \\
-\ding{220} le concept d'ORM n'est pas lié à un langage spécifique (e.g. JAVA) mais au concept de correspondance entre le monde relationnel et le monde objet.
+\ding{220} le concept d'ORM n'est pas lié à un langage spécifique (e.g. Java) mais au concept de correspondance entre le monde relationnel et le monde objet.
 
  [0]
 
 \note{
 \begin{itemize}
- \item Peut se faire sans ORM (e.g. JDBC) mais réptétion de code + liaison entre objets et tables travail bas niveau
- \item L'idée est d'ajouter une couche supplémentaire qui fait la correspondance (à la main ou via un ORM) entre le modèle objet et le modèle relationnel. Le client ne manipule que des objets. 
+ \item Peut se faire sans ORM (e.g. JDBC) mais répétition de code + liaison entre objets et tables travail bas niveau
+ \item L'idée est d'ajouter une couche supplémentaire qui fait la correspondance (à la main ou via un ORM) entre le modèle objet et le modèle relationnel. Le client ne manipule que des objets. C'est le \textbf{repository pattern}.
 \end{itemize}
 
 
@@ -196,14 +196,14 @@ geraldine.del\_mondo@insa-rouen.fr}
 % ................................................................................................................
 % ................................................................................................................
 \begin{frame}{Qu'est-ce qu'un ORM ?}
- \begin{bclogo}[logo = \bclampe, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=orange, barre=none,sousTitre = ORM]{} 
-  L'\textbf{O}bject-\textbf{R}elational \textbf{M}apping est une technique qui simule une base de données orientée objet à partir d'une base de données relationnelle. %  
+ \begin{bclogo}[logo = \bclampe, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=orange, barre=none,sousTitre = ORM]{}
+  L'\textbf{O}bject-\textbf{R}elational \textbf{M}apping est une technique qui simule une base de données orientée objet à partir d'une base de données relationnelle.
  \end{bclogo}
 
  \vspace{1cm}
- 
+
  \ding{220} Doit résoudre le problème de ``object-relational impedance mismatch''
- 
+
  \note{
  \begin{itemize}
   \item Définition de correspondances entre la base de données relationnelle et les objets du langage utilisé.
@@ -220,19 +220,19 @@ geraldine.del\_mondo@insa-rouen.fr}
 
 \begin{block}{}
 \begin{itemize}
- \item Exemple d'application [2] : Gestion de Livres, ajout/suppression/mise à jour de livres dans la base.
- \item Une table 'BookStore' contenant nom, auteur, prix du livre. 
+ \item Exemple d'application [2] : Gestion de Livres, ajout / suppression / mise à jour de livres dans la base.
+ \item Une table 'BookStore' contenant nom, auteur, prix du livre.
 \end{itemize}
 
- 
+
 \end{block}
 
 
-\begin{bclogo}[logo = \bcvide, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{ Le fichier de configuration}
+\begin{bclogo}[logo=\bcvide, arrondi=0.1, ombre=true, epOmbre=0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{ Le fichier de configuration}
  \begin{itemize}
    \item Format XML
    \item Contient les informations de connexion à la base de données relationnelle
-   \end{itemize}  
+   \end{itemize}
 \end{bclogo}
 
 
@@ -242,8 +242,8 @@ geraldine.del\_mondo@insa-rouen.fr}
 % ................................................................................................................
 \begin{frame}[containsverbatim,plain]{Un exemple : Hibernate, fichier de configuration}
 \begin{verbatim}
- <!--<span class="hiddenSpellError" pre=""-->DOCTYPE 
- hibernate-configuration PUBLIC  "-//Hibernate/Hibernate 
+ <!--<span class="hiddenSpellError" pre=""-->DOCTYPE
+ hibernate-configuration PUBLIC  "-//Hibernate/Hibernate
  Configuration DTD 3.0//EN"
  <a href="http://hibernate.sourceforge.net/
  hibernate-configuration-3.0.dtd">"http://hibernate.sourceforge.net/
@@ -259,27 +259,27 @@ geraldine.del\_mondo@insa-rouen.fr}
  <property name="transaction.factory_class">org.hibernate.
  transaction. JDBCTransactionFactory</property>
  ...
- 
+
 \end{verbatim}
- 
+
 %  <!-- SQL dialect - generate SQL for a particular database -->
 %  <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-%  
+%
 %  <!-- Echo all executed SQL statements -->
 %  <property name="show_sql">true</property>
-%  
+%
 %  <!-- Enable Hibernate's automatic session context management -->
 %  <property name="current_session_context_class">thread</property>
 % <!-- Mapping resource configuration files -->
 %  <mapping resource="src/com/bookstore/bookapp.hbm.xml"/>
 %  </session-factory>
 %  </hibernate-configuration>
- 
- 
+
+
 \end{frame}
 % ................................................................................................................
 \begin{frame}[containsverbatim,plain]{Un exemple : Hibernate, fichier de mapping}
-\begin{bclogo}[logo = \bcvide, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{ Le fichier de mapping}
+\begin{bclogo}[logo=\bcvide, arrondi=0.1, ombre=true, epOmbre=0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{ Le fichier de mapping}
   \begin{itemize}
    \item Format XML
    \item Se place dans le même répertoire que la classe (\textit{Classe.hbm.xml} si la classe s'appelle \textit{Classe})
@@ -292,7 +292,7 @@ geraldine.del\_mondo@insa-rouen.fr}
 \begin{frame}[containsverbatim,plain]{Un exemple : Hibernate, fichier de mapping}
 \begin{verbatim}
 <?xml version="1.0"?>
-<!--<span class="hiddenSpellError" pre=""-->DOCTYPE 
+<!--<span class="hiddenSpellError" pre=""-->DOCTYPE
 hibernate-mapping PUBLIC
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 <a href="http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
@@ -306,7 +306,7 @@ bookName" type="string" column="BookName"/>
 authorName" type="string" column="AuthorName"/>
 bookCost" type="int" column="BookCost"/>
 </class>
-</hibernate-mapping> 
+</hibernate-mapping>
 \end{verbatim}
 
 \note{
@@ -365,10 +365,10 @@ return sb.toString();
 % ................................................................................................................
 \begin{frame}[containsverbatim]{Un exemple : Hibernate, et encore....}
 
-\begin{bclogo}[logo = \bcvide, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{}
+\begin{bclogo}[logo=\bcvide, arrondi=0.1, ombre=true, epOmbre=0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{}
 \begin{itemize}
  \item HibernateUtil.java : chargement automatique des fichiers de configuration et mapping etc.
- \item BookApp.java : l'appli qui réalise les fonctionalités demandées (ajout/suppression/mise à jour Livres)
+ \item BookApp.java : l'appli qui réalise les fonctionnalités demandées (ajout / suppression / mise à jour Livres)
 \end{itemize}
 \end{bclogo}
 
@@ -376,35 +376,35 @@ return sb.toString();
 % ................................................................................................................
 % ................................................................................................................
 \begin{frame}[containsverbatim]{Un exemple : Hibernate, retrouver des données}
- 
- 
+
+
  \begin{block}{}
   \begin{itemize}
     \item Langage HQL
 %   \item[]
 % \begin{verbatim}
-% session.createQuery("from bookstore b 
-% where b.bookName like 'Dup%'");  
+% session.createQuery("from bookstore b
+% where b.bookName like 'Dup%'");
 % \end{verbatim}
    \item API Criteria pour Query By Criteria
    \item[]
 \begin{verbatim}
 session.createCriteria(BookDetails.class).add
-(Expression.like("bookName", "Dup%"));   
+(Expression.like("bookName", "Dup%"));
 \end{verbatim}
     \item SQL direct avec mapping automatique du résultat avec les objets
     \item[]
 \begin{verbatim}
  session.createSQLQuery("select {b.*} from
  BookStore {b} where BookName like 'Dup%'", "b",
-BookDetails.class);   
- \end{verbatim}   
+BookDetails.class);
+ \end{verbatim}
 \end{itemize}
 \end{block}
- 
- 
- 
- 
+
+
+
+
 \end{frame}
 % ................................................................................................................
 % ................................................................................................................
@@ -430,9 +430,9 @@ session.getTransaction().commit(); }
 % ................................................................................................................
 % ................................................................................................................
 \begin{frame}{Bilan architecture J2EE (ORM) vs. architecture classique}
-  
- \begin{bclogo}[logo = \bcvide, arrondi = 0.1, couleur = vertP, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=gazon, barre=none]{Avantage(s)} 
- 
+
+ \begin{bclogo}[logo=\bcvide, arrondi=0.1, couleur=vertP, ombre=true, epOmbre=0.2, couleurOmbre=black!30, couleurBord=gazon, barre=none]{Avantage(s)}
+
  \begin{itemize}
   \item Abstraction de toute la partie SQL : ``pas'' de connaissance des BDs relationnelles nécessaire
   \item La portabilité de l'application d'un point de vue SGBD
@@ -440,13 +440,13 @@ session.getTransaction().commit(); }
  \end{itemize}
  \end{bclogo}
 
- 
- 
+
+
  \begin{bclogo}[logo = \bcvide, arrondi = 0.1, couleur = grisP, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=black, barre=none, couleur=bleuP]{Inconvénient(s)}
 \begin{itemize}
- \item L'optimisation 
+ \item L'optimisation
  \item Plus lent en général
- \end{itemize} 
+ \end{itemize}
 \end{bclogo}
 
 \vspace{0.1cm}
@@ -455,7 +455,7 @@ session.getTransaction().commit(); }
 \ding{220} solution mixte avec et sans ORM ?
 
 \begin{block}{}
- \scriptsize{``Paradigme orienté objet $\rightarrow$ prouvé dans une logique Génie Logiciel}\\ 
+ \scriptsize{``Paradigme orienté objet $\rightarrow$ prouvé dans une logique Génie Logiciel}\\
  \scriptsize{vs.} \\
  \scriptsize{paradigme relationnel $\rightarrow$ prouvé dans une logique mathématiques [5]''}
  \end{block}
@@ -485,8 +485,8 @@ session.getTransaction().commit(); }
 
 \textbf{NoSQL : Not Only SQL}\\
 \textbf{L'origine (vers 1998) : l'évolution des applications Web}
- 
-\begin{bclogo}[logo = \bcvide, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{}
+
+\begin{bclogo}[logo=\bcvide, arrondi=0.1, ombre=true, epOmbre=0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{}
  \begin{itemize}
   \item[\ding{220}] un besoin de schéma dynamique
   \item[\ding{220}] des volumes de plus en plus grands
@@ -494,8 +494,8 @@ session.getTransaction().commit(); }
  \end{itemize}
 \end{bclogo}
 
- 
- 
+
+
  \begin{block}{}
 Incompatible avec les propriétés ACID des BDs relationnelles\\
  \ding{220} De nouvelles ``propriétés'' : B.A.S.E
@@ -503,8 +503,8 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
    \item Basic Availability
    \item Soft state
    \item Eventually Consistent
-  \end{itemize}  
-  
+  \end{itemize}
+
  \end{block}
 
 \note{
@@ -527,14 +527,14 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 % ................................................................................................................
 % ................................................................................................................
 \begin{frame}{BDs NoSQL : Qu'est-ce ?}
- 
- \begin{bclogo}[logo = \bclampe, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=orange, barre=none,sousTitre = NoSQL vs. SGBDR]{} 
+
+ \begin{bclogo}[logo = \bclampe, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=orange, barre=none,sousTitre = NoSQL vs. SGBDR]{}
  \begin{itemize}
   \item Un ``SGBD'' qui n'est pas structuré en table et dont l'élément de base n'est pas le tuple. Sa structure et l'élément de base correspondant dépendent du type de BD NoSQL choisi.
   \item Des technologies de traitement puissantes sont nécessaires pour gérer les données sous ces formes.
  \end{itemize}
 
-    
+
  \end{bclogo}
 
 \begin{block}{}
@@ -545,10 +545,10 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
  \item[2009] : Voldemort (Linkedln)
  \item[...]
 \end{itemize}
-\end{block} 
- 
+\end{block}
+
  \ding{220} Potentiellement différents en terme de structure, propriétés
- 
+
  \note{
  \begin{itemize}
  \item algorithmes de traitement très puissants : MapReduce (démocratisé par Google), Hadoop
@@ -557,7 +557,7 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
  \end{itemize}
 
  }
- 
+
 \end{frame}
 % ................................................................................................................
 % --------------------------------------
@@ -565,9 +565,9 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 % --------------------------------------
 % ................................................................................................................
 \begin{frame}{Une offre (très) diversifiée}
- 
- \begin{bclogo}[logo = \bcvide, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{Des systèmes NoSQL}
-  
+
+ \begin{bclogo}[logo=\bcvide, arrondi=0.1, ombre=true, epOmbre=0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{Des systèmes NoSQL}
+
   \begin{itemize}
    \item clé/valeur (e.g. Voldemort)
    \item orienté colonne (e.g. Cassandra, BigTable)
@@ -576,20 +576,20 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
    \item ...
   \end{itemize}
 
-  
-  
-  
+
+
+
  \end{bclogo}
 [4]
  \note{
  \begin{itemize}
   \item  clé/valeur : association binaire entre deux colonnes, la clé et la valeur, quel que soit le type de la valeur (un hash ou une table associative géant) (e.g. Redis, Berkeley DB (implémente ACID et verrouillage 2 phase mais on est pas contraint à les utiliser)). On ne peut pas structurer la donnée contenu dans la valeur.
   \item orienté colonne :chaque ligne peut avoir un nombre différents de colonne \includegraphics[scale=0.2]{./images/NoSQL_colonnes}
-  \item orienté document : un document est ici une structure de données définie comme un ensemble de champs nommés (1 ligne $\Leftrightarrow$ 1 schéma). Objectif : structurer la donnée contenu dans la valeur. Meilleur indexation que clé/valeur. 
-  \item orienté graphe : stocker des données récursives sous un format noeud - relation (pas d'index), données hautement connectées. 
+  \item orienté document : un document est ici une structure de données définie comme un ensemble de champs nommés (1 ligne $\Leftrightarrow$ 1 schéma). Objectif : structurer la donnée contenu dans la valeur. Meilleur indexation que clé/valeur.
+  \item orienté graphe : stocker des données récursives sous un format noeud - relation (pas d'index), données hautement connectées.
  \end{itemize}
 }
- 
+
 \end{frame}
 % ................................................................................................................
 % ................................................................................................................
@@ -597,18 +597,18 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 \begin{center}
  \includegraphics[scale=0.5]{./images/NoSQL_cleValeur}
  \end{center}
- 
+
  \note{
  \begin{itemize}
   \item association binaire entre deux colonnes, la clé et la valeur, quel que soit le type de la valeur (un hash ou une table associative géant) (e.g. Redis, Berkeley DB (implémente ACID et verrouillage 2 phase mais on est pas contraint à les utiliser)). On ne peut pas structurer la donnée contenu dans la valeur.
-  \item Mais contrairement au concept de table des SGBD, la colonne valeur n'est pas forcément de taille fixe et la structure de la donnée stocké peut être libre (seul la colonne contenant les clés a souvent une structure arbitraire) 
-  \item La paire Clé/Valeur peut être très facilement distribuée au sein d'un cluster en noeuds, et la grande simplicité de sa structure permet d'atteindre d'excellentes performances en écriture et lecture. 
-  \item Les entrepôts Clé/Valeur sont couramment utilisés par les systèmes de cache, ils sont utilisés pour maintenir en mémoire un cliché des données les plus utilisées, ces données étant alors rapidement disponibles ce qui permet d'améliorer fortement les performances. 
+  \item Mais contrairement au concept de table des SGBD, la colonne valeur n'est pas forcément de taille fixe et la structure de la donnée stocké peut être libre (seul la colonne contenant les clés a souvent une structure arbitraire)
+  \item La paire Clé/Valeur peut être très facilement distribuée au sein d'un cluster en noeuds, et la grande simplicité de sa structure permet d'atteindre d'excellentes performances en écriture et lecture.
+  \item Les entrepôts Clé/Valeur sont couramment utilisés par les systèmes de cache, ils sont utilisés pour maintenir en mémoire un cliché des données les plus utilisées, ces données étant alors rapidement disponibles ce qui permet d'améliorer fortement les performances.
  \end{itemize}
 
- 
+
  }
- 
+
 \end{frame}
 % ................................................................................................................
 % ................................................................................................................
@@ -616,12 +616,12 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
  \begin{center}
  \includegraphics[scale=0.5]{./images/NoSQL_colonnes2}
  \end{center}
- 
+
 \note{
 \begin{itemize}
  \item Une donnée élémentaire $\rightarrow$ sa clé de ligne, sa clé de famille de colonnes et sa propre clé (+ éventuellement un horodatage pour stocker plusieurs versions)
  \item Chaque ligne de données ayant ainsi un nombre différents de colonnes, et chaque colonne peut contenir un nombre différent de valeurs. Avantage du modèle : améliorer l'efficacité du stockage et d'éviter de consommer de l'espace (vs. table des SGBDR classiques : une colonne vide consommera quand même de l'espace). De plus, ce modèle permet à tout moment d'utiliser une nouvelle colonne, schéma de données ``dynamique''.
- \item Dans la réalité d'un point de vue stockage, les familles de colonnes ne sont pas isolées pour une clé de ligne donnée (row-key). Toutes les données faisant référence à une clé de ligne sont stockées ensemble, la famille de colonne agissant alors comme clé de colonne est la clé de ligne comme clé de l'ensemble. Dans BigTable (et ses clones) les données sont stockées dans un espace contigu de manière séquentielle. Lorsque le volume de données grossit et qu'un noeud est presque rempli, son contenu est alors automatiquement découpé en plusieurs morceaux répartis sur de nouveaux noeuds. De plus, les données sont triées et ordonnées par clé de ligne non seulement sur un noeud mais aussi sur l'ensemble des noeuds. Enfin pour assurer la tolérance à la panne et la disponibilité, chaque ensemble de données est répliqué en trois copies. 
+ \item Dans la réalité d'un point de vue stockage, les familles de colonnes ne sont pas isolées pour une clé de ligne donnée (row-key). Toutes les données faisant référence à une clé de ligne sont stockées ensemble, la famille de colonne agissant alors comme clé de colonne est la clé de ligne comme clé de l'ensemble. Dans BigTable (et ses clones) les données sont stockées dans un espace contigu de manière séquentielle. Lorsque le volume de données grossit et qu'un noeud est presque rempli, son contenu est alors automatiquement découpé en plusieurs morceaux répartis sur de nouveaux noeuds. De plus, les données sont triées et ordonnées par clé de ligne non seulement sur un noeud mais aussi sur l'ensemble des noeuds. Enfin pour assurer la tolérance à la panne et la disponibilité, chaque ensemble de données est répliqué en trois copies.
 \end{itemize}
 
 
@@ -633,12 +633,12 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
  \begin{center}
  \includegraphics[scale=0.5]{./images/NoSQL_document}
  \end{center}
- 
+
  \note{
  \begin{itemize}
- \item orienté document : un document est ici une structure de données définie comme un ensemble de champs nommés (1 ligne $\Leftrightarrow$ 1 schéma). Objectif : structurer la donnée contenu dans la valeur. Meilleur indexation que clé/valeur. 
+ \item orienté document : un document est ici une structure de données définie comme un ensemble de champs nommés (1 ligne $\Leftrightarrow$ 1 schéma). Objectif : structurer la donnée contenu dans la valeur. Meilleur indexation que clé/valeur.
   \item Il serait possible de reproduire le même type de stockage avec une base du modèle Clé/Valeur, cependant les bases Orientées Document apportent des fonctionnalité avancées telles que la possibilité de sélectionner un champs à l'intérieur d'un document pour en modifier la valeur, de faire des requêtes à l'intérieur des valeurs, d'indexation les valeur de certains champs, ...
-  \item un des intérêts de stocker des données structurées est justement de permettre d'indexer des documents ayant une structure similaire (mais pas forcément identique) pour ensuite faire des requêtes sur ces champs communs. 
+  \item un des intérêts de stocker des données structurées est justement de permettre d'indexer des documents ayant une structure similaire (mais pas forcément identique) pour ensuite faire des requêtes sur ces champs communs.
   \item Ces bases sont très adaptées à une utilisation dans le cadre d'une application web (JSON doc).
  \end{itemize}
 
@@ -647,12 +647,12 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 % ................................................................................................................
 % ................................................................................................................
 \begin{frame}{NoSQL orienté graphe}
- 
+
  \begin{center}
  \includegraphics[scale=0.4]{./images/NoSQL_graphe1}\\
  \includegraphics[scale=0.45]{./images/NoSQL_graphe2}
  \end{center}
- 
+
  \note{
  \begin{itemize}
   \item orienté graphe : stocker des données récursives sous un format noeud - relation (pas d'index), données hautement connectées
@@ -660,7 +660,7 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
   \item traiter des données fortement connectées en évitant les multiples jointures très coûteuses qu'il faudrait mettre en oeuvre dans les bases de données relationnelles traditionnelles et ainsi permettre des mises à jour très performantes, même pour un très grand ensemble de données
    \item  les bases de données orientées graphes permettent de parcourir les relations grâce à des pointeurs physiques vs. cas des clefs étrangères du relationnel (pointeurs logiques)
   \item C'est une structure idéale pour des recherches du type "partir d'un noeud et parcourir le graphe" plutôt que "trouver toutes les entités du type X", plus adaptées aux SGBDR. Il est possible d'effectuer des recherches de ce dernier type, en utilisant un système d'indexation (interne au graphe (super-noeuds servant à l'indexation) ou au-dessus du graphe (Apache Lucene)). [wikipedia]
- 
+
   \item modélisation des réseaux sociaux
  \end{itemize}
 
@@ -670,31 +670,31 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 
 % ................................................................................................................
 \begin{frame}{Bilan NoSQL}
- 
- \begin{bclogo}[logo = \bcvide, arrondi = 0.1, couleur = vertP, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=gazon, barre=none]{Avantage(s)} 
- 
+
+ \begin{bclogo}[logo=\bcvide, arrondi=0.1, couleur=vertP, ombre=true, epOmbre=0.2, couleurOmbre=black!30, couleurBord=gazon, barre=none]{Avantage(s)}
+
  \begin{itemize}
   \item Mécanisme de répartition de charge efficace
   \item Haute disponibilité
-  \item Flexibilité des ``schémas'' 
+  \item Flexibilité des ``schémas''
  \end{itemize}
 
-  
+
  \end{bclogo}
 \begin{bclogo}[logo = \bcvide, arrondi = 0.1, couleur = grisP, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=black, barre=none, couleur=bleuP]{Inconvénient(s)}
- 
+
  \begin{itemize}
   \item Pas (ou peu) de respect des propriétés ACID
   \item Pas (ou peu) de gestion de cohérence des données
   \item Pas de gestion explicite des métadonnées
  \end{itemize}
 
- 
+
 \end{bclogo}
 \note{
 \begin{itemize}
 \item Cohérence passe par les CIs mais aussoi par le respect des propriétés ACID (voir cours concurrence), par la normalisation qui évite perte d'info et redondances, stockage unique de la donnée qui sont réellement possibles seulement dans un sgbdr
- \item Pour passer à des échelles beaucoup plus grandes (giga/tera/peta octets de données) il faut un mécanisme de répartition de charge efficace. Système de réplication dans les organisations distribuées pas top pour les sgbdr. 
+ \item Pour passer à des échelles beaucoup plus grandes (giga/tera/peta octets de données) il faut un mécanisme de répartition de charge efficace. Système de réplication dans les organisations distribuées pas top pour les sgbdr.
 %  \item Les traitements et analyses peuvent s'effectuer en temps réel dans un sgbdr
 \end{itemize}
  }
@@ -705,7 +705,7 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ................................................................................................................
 \begin{frame}{Conclusion : vers une cohabitation des différentes approches}
- 
+
  \begin{bclogo}[logo = \bcvide, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=gazon, barre=none]{}
   \begin{enumerate}
    \item[$\bullet$] Pas de solution ``miracle''
@@ -723,10 +723,10 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 	\item[-] Les contraintes de productions % haute disponibilité, elasticité, volumétrie, nombre et dispersion des utilisateurs
 	\end{enumerate}
    \end{enumerate}
-   
+
   \end{enumerate}
 
-  
+
  \end{bclogo}
 
 \note{
@@ -736,32 +736,32 @@ Incompatible avec les propriétés ACID des BDs relationnelles\\
 
 
 }
- 
+
 \end{frame}
 
 \begin{frame}[containsverbatim]{Bibliographie}
- 
+
 \begin{verbatim}
 [0] Cours Technologie Web, Alexandre Pauchet, 2013
-[1] Cours 'Introduction à Hibernate', Richard Grin, 
+[1] Cours 'Introduction à Hibernate', Richard Grin,
     Université de Nice Sophia-Antipolis, 2005
 [2] http://manikandanmv.wordpress.com/2011/04/13/
     hibernate-basics-simple-example/ (ddc: 18/02/2014)
-[3] NoSQL Databases, Christof Strauch, Stuttgart Media University, 
+[3] NoSQL Databases, Christof Strauch, Stuttgart Media University,
     2011
-[4] NoSQL, http://www.stechfrites.com/book/export/html/2 
+[4] NoSQL, http://www.stechfrites.com/book/export/html/2
     (ddc: 18/02/2014)
 [5] Cours CASI, Fred Baucher, sur les ORM, 2013
 \end{verbatim}
 
- 
+
 \end{frame}
 
 
 
 % \begin{bclogo}[logo = \bcvide, arrondi = 0.1, couleur = grisP, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=black, barre=none, couleur=bleuP]{}
 
-% \begin{bclogo}[logo = \bcvide, arrondi = 0.1, couleur = vertP, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=gazon, barre=none]{Avantage} 
+% \begin{bclogo}[logo=\bcvide, arrondi=0.1, couleur=vertP, ombre=true, epOmbre=0.2, couleurOmbre=black!30, couleurBord=gazon, barre=none]{Avantage}
 
 
 \end{document}
