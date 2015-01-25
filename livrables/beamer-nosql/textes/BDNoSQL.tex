@@ -1,0 +1,48 @@
+% //////////////////////////////////////// %
+% /// Au delà du SQL : les BDs NoSQL ///// %
+\section{Au delà du SQL : les BDs NoSQL}
+
+	%% Pourquoi changer du relationnel ?
+	\subsection{Pourquoi changer du relationnel ?}
+	\begin{frame}
+		\frametitle{Pourquoi changer du relationnel ?}
+
+		Besoin d'une alternative vers les années 2004 avec l'arrivée du \textit{Big Data}.
+		\begin{itemize}
+			\item Des volumes de données important (plusieurs gigas, voire téraoctets) ;
+			\item Un nombre de transactions très important, une forte demande de disponibilité et de temps de réponse ;
+			\item Des bases de données réparties sur plusieurs centres de données ou continents ;
+			\item Préférence pour l'ajout de petites machines plutôt qu'une configuration poussée des BDs.
+		\end{itemize}
+
+	\end{frame}
+
+	%% Relâchement des contraintes de transactions
+	\subsection{Relâchement des contraintes de transactions}
+	\begin{frame}
+		\frametitle{Relâchement des contraintes de transactions}
+
+		Impossible de garantir les propriétés ACID des BDs relationnelles avec les nouvelles contraintes.\\
+		\vspace{10px}
+		De nouvelles propriétés \textbf{BASE} :
+		\begin{itemize}
+			\item \textit{Basic Availability} : système disponible dans son ensemble bien que certaines machines soient indisponibles ;
+			\item \textit{Soft state} : l'état du système distribué peut changer, même sans nouvelles transactions ;
+			\item \textit{Eventual Consistency} : En l'absence de nouvelles transactions, le système sera cohérent au bout d'un temps.
+		\end{itemize}
+
+	\end{frame}
+
+	%% À quoi ressemble une BD NoSQL
+	\subsection{À quoi ressemble une BD NoSQL}
+	\begin{frame}
+		\frametitle{À quoi ressemble une BD NoSQL}
+
+		\begin{itemize}
+			\item Un SGBD qui n'est pas structuré en tables et dont l'élément de base n'est pas un tuple mais dépend du type de BD NoSQL ;
+			\item Un langage de requête non uniformisé, propre à chaque BD. Souvent au format JSON avec une API REST ;
+			\item Une dénormalisation des données où certains enregistrements sont en partie ou entièrement dupliqués ;
+			\item Type de base de données NoSQL à choisir en fonction de l'usage souhaité.
+		\end{itemize}
+
+	\end{frame}

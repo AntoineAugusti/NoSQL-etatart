@@ -1,7 +1,16 @@
 all: compil clean
 
 compil:
-	pdflatex slides.tex; pdflatex slides.tex
+	pdflatex -shell-escape slides.tex
+	pdflatex -shell-escape slides.tex
 
 clean:
-	rm slides.aux slides.fdb_latexmk slides.log slides.nav slides.out slides.snm slides.synctex.gz slides.toc
+	rm -f slides.aux
+	rm -f slides.fdb_latexmk
+	rm -f slides.log
+	rm -f slides.nav
+	rm -f slides.out
+	rm -f slides.snm
+	rm -f slides.synctex.gz
+	rm -f slides.toc
+	rm -f slides.pyg
