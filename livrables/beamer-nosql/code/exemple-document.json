@@ -1,0 +1,24 @@
+{
+   "id":1500,
+   "nom":"Thibaud Dauce",
+   "adresse":{
+      "numero":42,
+      "rue":"de l'INSA",
+      "ville":"Rouen",
+      "pays":"France"
+   },
+   "commentaires":[
+      {
+        "id":646,
+        "contenu":"J'adore la BD."
+      },
+      {
+        "id":647,
+        "contenu":"Boule et Bill aussi."
+      },
+      {
+        "id":648,
+        "contenu":"Et pleins d'autres trucs."
+      }
+   ]
+}
