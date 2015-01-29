@@ -1,11 +1,12 @@
 {
    "id":1500,
-   "nom":"Thibaud Dauce",
-   "adresse":{
+   "nom":"Thibaud",
+   "prénom":"Dauce",
+   "professeur_préférée":{
       "numero":42,
-      "rue":"de l'INSA",
-      "ville":"Rouen",
-      "pays":"France"
+      "prenom":"Géraldine",
+      "nom":"Del Mondo",
+      "matières": ["BD", "Réseaux"]
    },
    "commentaires":[
       {
