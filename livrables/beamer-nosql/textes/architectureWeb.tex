@@ -47,18 +47,28 @@
 			L'\textbf{O}bject-\textbf{R}elationnal \textbf{M}apping est une technique qui simule une base de données orientée objet à partir d'une base de données relationnelle.
 		\end{block}
 
-		\vspace{5px}
+		\vspace{2px}
 
 		\begin{itemize}
 			\item Fait la liaison entre le monde relationnel dans la couche stockage et le monde objet dans l'application ;
-			\item Facilité de développement : pas besoin d'une connaissance poussée du SQL ;
-			\item Facilite les interactions avec la base de données ;
+			\item Facilité de développement : \textit{pas besoin} d'une connaissance poussée du SQL ;
+			\item Facilite les interactions avec la base de données pour les développeurs.
 		\end{itemize}
 
-		\vspace{5px}
+		\vspace{2px}
 
 		\begin{alertblock}{Les limites des ORM}
 			Toujours \textbf{beaucoup} moins performant que des requêtes SQL optimisées.
 		\end{alertblock}
+
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{ORM : exemple de requêtes}
+
+		\begin{listing}[H]
+			\inputminted[fontsize=\tiny, linenos=true]{php}{code/eloquent.php}
+			\caption{Quelques requêtes basiques avec l'ORM Eloquent.}
+		\end{listing}
 
 	\end{frame}
