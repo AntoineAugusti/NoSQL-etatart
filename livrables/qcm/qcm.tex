@@ -1,0 +1,315 @@
+\documentclass[twocolumn,landscape,8pt,a4paper]{article}
+
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais,bloc]{automultiplechoice}
+\usepackage{datatool}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[francais]{babel}
+\usepackage{listings}
+
+
+\geometry{hmargin=1cm,headheight=2cm,headsep=.3cm,footskip=0.5cm,top=2.5cm,bottom=1cm}
+
+%\baremeDefautM{b=0,m=-2,d=1,p=-1}
+\baremeDefautM{formula=(NMC>0 ? -1 : NBC/NB)}
+\baremeDefautS{e=-1,v=0,b=1,m=-1}
+\AMCinterIrep=-1mm
+
+\scriptsize
+\AMCboxDimensions{size=2mm,down=.2ex}
+
+\DTLsetseparator{;}
+
+\newcommand{\letitre}{}
+\newcommand{\ladate}{//}
+\DTLloaddb{listeetudiants}{listeASI4.csv}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% le fichier doit contenir au moins trois colonnes sous la forme :
+% première ligne obligatoire : nom;prenom;numero
+% les champs sont séparés par des ";"
+% Les numéros doivent tous avoir le même nombre de chiffres (ex: 01)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \element défini le groupe de la question
+% ne pas oublier le MELANGE et la RESTITUION (cf. fin du doc)
+% \begin{question} et \begin{questionmult} les idq doivent être
+% uniques
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\element{idg}{
+\begin{question}{q0}
+
+  \begin{reponseshoriz}
+    \mauvaise{}
+    \bonne{}
+    \mauvaise{}
+    \end{reponseshoriz}
+\end{question}
+}
+
+\element{idg}{
+\begin{questionmult}{q1}
+
+  \begin{reponseshoriz}
+    \bonne{}
+    \bonne{}
+    \mauvaise{}
+  \end{reponseshoriz}
+\end{questionmult}
+}
+
+
+\element{idg}{
+\begin{question}{q3}
+
+  \begin{reponseshoriz}
+    \bonne{}
+    \mauvaise{}
+    \mauvaise{}
+  \end{reponseshoriz}
+\end{question}
+}
+
+\element{idg}{
+\begin{questionmult}{q4}
+
+  \begin{reponses}
+    \bonne{}
+    \bonne{}
+    \mauvaise{}
+  \end{reponses}
+\end{questionmult}
+}
+
+\element{idg}{
+\begin{question}{q5}
+
+  \begin{reponses}
+    \bonne{}
+    \mauvaise{}
+    \mauvaise{}
+  \end{reponses}
+\end{question}
+}
+
+\element{idg}{
+ \begin{questionmult}{q6}
+
+   \begin{reponses}
+     \bonne{}
+     \bonne{}
+     \bonne{}
+     \mauvaise{}
+     \mauvaise{}
+   \end{reponses}
+ \end{questionmult}
+}
+
+\element{idg}{
+\begin{questionmult}{q7}
+
+  \begin{reponseshoriz}
+    \bonne{}
+    \mauvaise{}
+    \mauvaise{}
+  \end{reponseshoriz}
+\end{questionmult}
+}
+
+\element{idg}{
+ \begin{questionmult}{q8}
+
+   \begin{reponseshoriz}
+     \bonne{}
+     \bonne{}
+     \mauvaise{}
+   \end{reponseshoriz}
+ \end{questionmult}
+}
+
+\element{idg}{
+ \begin{questionmult}{q9}
+
+   \begin{reponses}
+     \bonne{}
+     \bonne{}
+     \mauvaise{}
+   \end{reponses}
+ \end{questionmult}
+ }
+ \element{idg}{
+  \begin{questionmult}{q10}
+
+    \begin{reponses}
+     \mauvaise{}
+     \mauvaise{}
+     \bonne{}
+     \end{reponses}
+ \end{questionmult}
+ }
+ \element{idg}{
+   \begin{question}{q11}
+
+   \begin{reponseshoriz}
+     \mauvaise{}
+     \bonne{}
+     \mauvaise{}
+   \end{reponseshoriz}
+ \end{question}
+ }
+
+ \element{idg}{
+\begin{questionmult}{q13}
+
+   \begin{reponseshoriz}
+     \bonne{}
+     \bonne{}
+     \mauvaise{}
+   \end{reponseshoriz}
+ \end{questionmult}
+ }
+ \element{idg}{
+\begin{question}{q14}
+
+     \begin{reponses}
+       \bonne{}
+       \mauvaise{}
+       \mauvaise{}
+     \end{reponses}
+   \end{question}
+}
+\element{idg}{
+ \begin{question}{q15}
+
+   \begin{reponseshoriz}
+     \bonne{}
+     \mauvaise{}
+     \mauvaise{}
+   \end{reponseshoriz}
+ \end{question}
+}
+\element{idg}{
+    \begin{question}{q16}
+
+     \begin{reponses}
+       \bonne{}
+       \mauvaise{}
+       \mauvaise{}
+     \end{reponses}
+  \end{question}
+ }
+
+
+
+
+
+
+
+\exemplaire{20}{
+
+  \begin{center}\large
+    \textbf{\letitre}
+
+
+    \ladate
+  \end{center}
+
+%\def\multiSymbole{$\clubsuit$}
+\def\multiSymbole{}
+
+{
+\AMCcodeHspace=.3em
+\AMCcodeVspace=.2em
+\AMCcodeBoxSep=.1em
+\begin{minipage}{0.4\linewidth}
+Codez votre numéro (cf. liste) :
+
+\AMCcodeH{etu}{2}
+\end{minipage}
+\champnom{\fbox{
+\begin{minipage}{.4\linewidth}
+Nom et prénom :
+
+\vspace*{.5cm}\dotfill
+\vspace*{.5cm}\dotfill
+\vspace*{1mm}
+\end{minipage}
+}}
+}
+
+
+
+\begin{minipage}[c]{0.1\linewidth}
+  \includegraphics[width=1cm]{danger.pdf}
+\end{minipage}
+\begin{minipage}[c]{0.7\linewidth}
+  \begin{itemize}\em
+  \item les cases doivent être noircies $\blacksquare$ \textbf{au stylo noir}
+  \item ne pas griffonner ou corriger le questionnaire
+  \end{itemize}
+\end{minipage}\hfill
+
+
+
+\vspace{1ex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MELANGE DES GROUPES ET RESTITUTION
+
+\melangegroupe{idg}
+
+\restituegroupe{idg}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LISTE DES ETUDIANTS AVEC LEUR CODE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \normalsize
+% \begin{tabular}{llc|llc}
+% \textbf{Nom} & \textbf{Prénom} & \textbf{Numéro} &\textbf{Nom} & \textbf{Prénom} & \textbf{Numéro}%
+
+% \DTLforeach*{listeetudiants}{\nom=nom,\prenom=prenom,\numero=numero}{%
+% \DTLifoddrow{\\}{&}%
+% \nom & \prenom & \numero}%
+% \end{tabular}
+% \newpage
+
+% \vspace*{\fill}
+% \begin{center}\large
+% \textbf{Exemples de codage}
+
+%   \begin{minipage}{0.4\linewidth}
+%     \textbf{Étudiant 02 :}
+
+%     \noindent$\blacksquare$0  $\square$1  $\square$2  $\square$3  $\square$4  $\square$5  $\square$6  $\square$7  $\square$8  $\square$9\\
+%     $\square$0  $\square$1  $\blacksquare$2  $\square$3  $\square$4  $\square$5  $\square$6  $\square$7  $\square$8  $\square$9\\
+
+%     \textbf{Étudiant 12 :}
+
+%     \noindent$\square$0  $\blacksquare$1  $\square$2  $\square$3  $\square$4  $\square$5  $\square$6  $\square$7  $\square$8  $\square$9\\
+%     $\square$0  $\square$1  $\blacksquare$2  $\square$3  $\square$4  $\square$5  $\square$6  $\square$7  $\square$8  $\square$9\\
+%   \end{minipage}
+% \end{center}
+% \vfill
+
+% }
+\end{document}
