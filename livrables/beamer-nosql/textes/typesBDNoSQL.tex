@@ -5,24 +5,15 @@
 	%% Bases de données clé-valeur
 	\subsection{Bases de données clé-valeur}
 	\begin{frame}
-		\frametitle{Bases de données clé-valeur}
+		\frametitle{Modélisation BD clé-valeur}
 
 		\begin{itemize}
-			\item Modélisation la plus simple. À une clé, on associe une valeur. La valeur peut être de n'importe quel type (chaîne de caractères, entier, structure, objet sérialisé\dots) ;
-			\item Opérations basiques : création d'une paire clé-valeur, suppression, accès à une valeur à l'aide de la clé, incrémentation et décrémentation d'une valeur ;
-			\item On peut définir la durée de vie d'une clé ou adopter une politique \textit{least recently used} ;
-			\item Cas d'utilisation : cache d'une autre BD, comptage d'éléments, gestion de files d'attente, opérations ensemblistes\dots
-			\item Principaux acteurs : Redis, Memcached, Riak.
+			\item \textbf{Modélisation :} la plus simple. À une clé, on associe une valeur. La valeur peut être de n'importe quel type (chaîne de caractères, entier, structure, objet sérialisé\dots).
 		\end{itemize}
 
-	\end{frame}
-
-	\begin{frame}
-		\frametitle{Exemple de BD clé-valeur}
-
-		Des exemples de paires clé-valeur avec des types différents.
 		\vspace{15px}
-
+		Des exemples de paires clé-valeur avec des types différents.
+		\vspace{5px}
 		\begin{tabular}{|l|l|}
 			\hline
 			\textbf{Clé} & \textbf{Valeur} \\ \hline\hline
@@ -31,15 +22,25 @@
 			configuration.periode-gratuite & false \\ \hline
 			articles.categories-sport.latest & [22, 45, 67, 200, 87] \\ \hline
 		\end{tabular}
-
 	\end{frame}
 
 	\begin{frame}
-		\frametitle{Exemple de mise en cache}
+		\frametitle{BD clé-valeur en détail}
+		\begin{itemize}
+			\item \textbf{Opérations} : création d'une paire clé-valeur, suppression, accès à une valeur à l'aide de la clé, incrémentation et décrémentation d'une valeur ;
+			\item Stockage en RAM pour accélérer les temps de lecture. Mécanisme de reprise en cas de crash ;
+			\item On peut définir la durée de vie d'une paire clé-valeur ou adopter une politique \textit{least recently used} ;
+			\item \textbf{Cas d'utilisation :} cache d'une autre BD, comptage d'éléments, gestion de files d'attente, opérations ensemblistes\dots
+			\item \textbf{Principaux acteurs :} Redis, Memcached, Riak.
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Commandes sous Redis}
 
 		\begin{listing}[H]
-			\inputminted[fontsize=\tiny, linenos=true]{php}{code/cacheRepository.php}
-			\caption{Mise en cache d'un pays par son ID.}
+			\inputminted[fontsize=\tiny, linenos=true]{text}{code/commandesRedis.txt}
+			\caption{Quelques commandes Redis en console.}
 		\end{listing}
 
 	\end{frame}
