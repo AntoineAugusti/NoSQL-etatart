@@ -1,5 +1,12 @@
+@import "compass/css3/transition";
 @import "breakpoints";
 @import "colors";
+
+@mixin element-transition {
+	@include transition-property(all);
+	@include transition-duration(0.3s);
+	@include transition-timing-function(ease-in-out);
+}
 
 body {
 	font-size: 15px;

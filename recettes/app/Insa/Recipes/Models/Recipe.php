@@ -48,7 +48,7 @@ class Recipe extends Moloquent {
 		$allowedValues = self::getAllowedTypeValues();
 		if ( ! in_array($value, $allowedValues))
 			throw new \InvalidArgumentException($value." is not a valid type. Possible values are: ".implode('|', $allowedValues));
-			
+
 		$this->attributes['type'] = $value;
 	}
 

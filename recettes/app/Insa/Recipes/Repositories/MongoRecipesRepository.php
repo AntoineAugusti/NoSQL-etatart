@@ -131,7 +131,7 @@ class MongoRecipesRepository implements RecipesRepository {
 		// Store the new recipe
 		extract($recipeData);
 		$recipe = $this->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
-		
+
 		// Foreach ingredient, associate its quantity
 		foreach ($ingredients as $ingredient) {
 
@@ -170,7 +170,7 @@ class MongoRecipesRepository implements RecipesRepository {
 			$finalIngredients = [];
 			$ingredientsName = [];
 			$prices = [];
-			
+
 			foreach ($ingredientsArray as $ingredient) {
 				// Add the ingredient to the final collection
 				if (! in_array($ingredient, $ingredientsName)) {
@@ -191,6 +191,45 @@ class MongoRecipesRepository implements RecipesRepository {
 	}
 
 	/**
+	 * Get recipes for a rating description
+	 * @param  string $rank
+	 * @return \Illuminate\Support\Collection
+	 */
+	public function getForRank($rank)
+	{
+		return Recipe::with('location')
+			->whereBetween('rating', $this->getBoundsForRank($rank))
+			->get();
+	}
+
+	/**
+	 * Get the number of recipes for a rating description
+	 * @param  string $rank
+	 * @return integer
+	 */
+	public function getTotalForRank($rank)
+	{
+		return Recipe::whereBetween('rating', $this->getBoundsForRank($rank))
+			->count();
+	}
+
+	private function getBoundsForRank($rank)
+	{
+		switch ($rank) {
+			case 'fine':
+				return [0, 4];
+
+			case 'great':
+				return [5, 7];
+
+			case 'awesome':
+				return [8, 10];
+		}
+
+		throw new \InvalidArgumentException("Can't find bounds for rank ".$rank);
+	}
+
+	/**
 	 * Determine if the list of all ingredients needs a refresh because we have a new ingredient
 	 * @param  array  $ingredients The list of ingredients
 	 * @return boolean
@@ -198,10 +237,10 @@ class MongoRecipesRepository implements RecipesRepository {
 	private function listOfIngredientsNeedsUpdate(array $ingredients)
 	{
 		$existingIngredients = $this->getAllIngredients()->lists('name');
-		
+
 		foreach ($ingredients as $ingredient) {
 			if ( ! in_array($ingredient, $existingIngredients))
-				return true;			
+				return true;
 		}
 
 		return false;
@@ -216,13 +255,13 @@ class MongoRecipesRepository implements RecipesRepository {
 	private function createIngredientWithQuantity($ingredient, array $quantities)
 	{
 		$slug = $this->computeSlug($ingredient);
-		
+
 		$ing = Ingredient::build($ingredient, $quantities['unit-'.$slug], $quantities['price-'.$slug]);
 
 		$q = new Quantity([
 			'quantity' => $quantities['quantity-'.$slug],
 		]);
-		
+
 		$ing->quantity()->associate($q);
 
 		return $ing;
@@ -235,6 +274,6 @@ class MongoRecipesRepository implements RecipesRepository {
 
 	private function computeSkip($page, $pagesize)
 	{
-		return $pagesize * ($page - 1);	
+		return $pagesize * ($page - 1);
 	}
 }
