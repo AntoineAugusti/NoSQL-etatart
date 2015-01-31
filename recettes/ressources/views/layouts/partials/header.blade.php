@@ -20,7 +20,7 @@
 			</div>
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
 				<ul class="nav navbar-nav">
-					@foreach (['recipes.index', 'recipes.create'] as $route)
+					@foreach (['recipes.index', 'recipes.create', 'recipes.ranking'] as $route)
 						<?php
 						$active = (Route::currentRouteName() == $route) ? 'class="active"' : '';
 						?>
