@@ -4,7 +4,7 @@ $data = [
 	'prenom' => 'Antoine',
 	'age'    => 42
 ];
-$user = User::($data);
+$user = User::create($data);
 
 // Sélection des utilisateurs majeurs et articles qu'ils ont écrits
 $users = User::with('articles')
