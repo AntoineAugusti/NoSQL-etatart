@@ -12,7 +12,7 @@ $users = User::with('articles')
 	->get();
 
 // Suppression des utilisateurs vivant à Paris
-User::where('city', 'Paris')->delete();
+User::where('prenom', 'Antoine')->delete();
 
 // Les derniers articles d'un utilisateur (3ème page)
 $articles = Article::whereUserId($user->id)
