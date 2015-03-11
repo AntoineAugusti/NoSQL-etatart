@@ -12,6 +12,7 @@ class RecipesServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+        // Récupération du nom de la classe
         $controller = RecipesController::class;
 
         $this->app['router']->get('/', [
