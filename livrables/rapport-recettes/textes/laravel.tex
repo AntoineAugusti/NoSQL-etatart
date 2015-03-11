@@ -1,4 +1,4 @@
-Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un framework nommé Laravel. Ce framework est assez récent et a pour objectif de faciliter le développement. Son slogan est \enquote{\textit{PHP that doesn't hurt. Code happy and enjoy the fresh air."}}. Depuis l'année 2013 Laravel a connu un succès important et il est depuis peu le framework PHP attirant le plus de recherches comme montré dans la figure \ref{fig:trends-php-frameworks}.
+Nous avons fait le choix d'utiliser un framework nommé Laravel. Ce framework est assez récent et a pour objectif de faciliter le développement. Son slogan est \enquote{\textit{PHP that doesn't hurt. Code happy and enjoy the fresh air."}}. Depuis l'année 2013 Laravel a connu un succès important et il est depuis peu le framework PHP attirant le plus de recherches comme montré dans la figure \ref{fig:trends-php-frameworks}.
 
 \begin{figure}[H]
 	\centering
@@ -10,7 +10,7 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 \section{Un framework MVC}
 	Laravel est un framework mettant en avant une séparation très importante des modèles, des vues et des contrôleurs. Toutes les classes que nous avons créé se trouvent dans le dossier \verb|app/Insa| et sous l'espace de nom (\textit{namespace}) \verb|Insa|.\\
 
-	Nous avons choisi une architecture modulaire organisée selon les entités. Dans chaque entité, on peut retrouver les dossiers suivants :
+	Nous avons choisi une architecture modulaire organisée selon les entités. À chaque entité on associe les dossiers suivants :
 	\begin{itemize}
 		\item \verb|Controllers| : les contrôleurs associés à l'entité ;
 		\item \verb|Models| : les modèles associés à l'entité. Généralement il n'y a qu'une classe dans ce dossier qui correspond au singulier de l'entité, par exemple \verb|\Insa\Recipes\Models\Recipe| ;
@@ -22,7 +22,7 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 \section{Les \servicesProvider{}}
 	Les \servicesProvider{} sont le centre de Laravel. Ce sont des classes qui permettent de lier des objets entre eux et d'enregistrer des éléments de configuration. Ce sont dans ces classes que l'on retrouve par exemple la liaison entre les routes et les méthodes des contrôleurs : ce qui permet qu'une méthode soit appelée en fonction de l'URL.\\
 
-	Les \servicesProvider{} se trouvent à la racine de chaque espace de nom. Nous avons défini la convention suivante pour les noms de ces classes : \verb|\Insa\<entite>\<entite>ServiceProvider|. Un \serviceProvider{} minimal est présenté dans le listing \ref{code:service-provider-minimal}.
+	Les \servicesProvider{} se trouvent à la racine de chaque espace de nom. Nous avons défini la convention suivante pour les noms de ces classes : \verb|\Insa\<entite>\<entite>ServiceProvider|. Un \serviceProvider{} minimal, définissant une URL en tant que route gérée par un contrôleur, est présenté dans le listing \ref{code:service-provider-minimal}.
 	\begin{listing}[H]
 		\inputminted{php}{code/serviceProvider.php}
 		\caption{Un exemple de \serviceProvider{} liant la page d'accueil à une liste de toutes les recettes.}
@@ -66,7 +66,7 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 \section{Le \repositoryPattern}
 
 	\subsection{Description}
-		Le \repositoryPattern{} est une bonne pratique permettant d'abstraire la manipulation des données. Les objectifs sont nombreux :
+		Le \repositoryPattern{} est une bonne pratique de modélisation permettant d'abstraire la manipulation des données. Les objectifs sont nombreux :
 		\begin{itemize}
 			\item Uniformiser l’interaction avec les données à travers l'application ;
 			\item Séparer la logique métier de l'accès aux données ;
@@ -100,51 +100,3 @@ Comme énoncé dans la première partie, nous avons fait le choix d'utiliser un 
 			\caption{Utilisation de l'ORM Eloquent pour l'accès aux données des recettes.}
 			\label{code:recipes-repo-mongo}
 		\end{code}
-
-\section{"Code to an interface"}
-	La méthode présentée dans le paragraphe précédent présente l'avantage d'être simple à implémenter mais présente aussi un gros défaut : notre contrôleur est toujours lié à l'ORM via l'objet \verb|DatabaseUserRepository|.\\
-
-	En réalité, notre contrôleur n'a pas besoin de savoir quel type de répertoire il utilise, l'unique besoin est une fonction appelée \verb|getBySerialBatch| prenant en paramètre un tableau d'identifiants NFC et retournant une collection d'utilisateurs. Ce qui est décrit ici est le principe même d'une interface. Nous avons donc créé une interface appelée \verb|UserRepository| et fournissant la signature de méthode requise. Bien évidement, notre répertoire \verb|DatabaseUserRepository| doit maintenant implémenter cette interface.\\
-
-	Nous pouvons donc changer le pré-requis du constructeur de notre contrôleur par l'interface \verb|UserRepository|.
-	\begin{minted}{php}
-	<?php
-	public function __construct(UserRepository $userRepository)
-	{
-	$this->userRepository = $userRepository;
-	}
-	\end{minted}
-
-	Mais que va donc faire Laravel lorsqu'il va rencontrer l'interface. En effet, si le framework cherche à résoudre la dépendance, il va se heurter au problème qu'il est impossible d'instancier une interface. Nous avons donc besoin de définir un lien entre notre interface et notre implémentation.
-
-\section{Routes}
-	Dans la partie précédente, nous avons les différentes routes nécessaire à la mise en place d'un CRUD. Laravel implémente cela facilement via une façade nommée tout simplement \verb|Route|.
-
-	\begin{minted}{php}
-	<?php
-	Route::get('users/batch', 'UsersController@batch');
-	\end{minted}
-	Notre application contient une seule route dans le fichier \verb|app/route.php|, définie comme ci-dessus.\\
-
-	Tout d'abord, nous appelons la méthode \verb|get| parce que dans une optique CRUD, nous cherchons à obtenir des informations. Cette méthode prend en premier paramètre l'URI associé à la route et en deuxième paramètre une chaîne de caractère  formatée comme \verb|ControllerObject@method|. Dans notre cas, lorsque l'utilisateur fait une requête GET sur l'URI \verb|users/batch|, Laravel va appeler la méthode \verb|batch| sur l'objet \verb|UsersController|.
-
-
-
-\section{Le modèle}
-	Laravel utilise son propre ORM appelé Eloquent. Ce dernier nécessite la création d'une classe par ressource de l'application. Notre application a donc un modèle nommé \verb|User| situé dans le répertoire \verb|app/models|. Ce dernier hérite du modèle Eloquent qui fournit toutes les méthodes d'accès à la base de données telles que \verb|where|, \verb|find|, \verb|save|...\\
-
-	Dans notre modèle, nous devons définir plusieurs attributs :
-	\begin{itemize}
-		\item \verb|$table| : cet attribut permet de définir la table associée au modèle. Même si Eloquent est assez intelligent pour définir le pluriel du nom de l'objet (User => users), pour des raisons de lisibilité, nous l'avons redéfini.
-		\item \verb|$fillable| : afin de répondre au problème de \verb|MassAssigment|, Eloquent demande de fournir un tableau contenant les attributs du modèle qu'il sera possible de sauvegarder directement via la méthode \verb|create| afin d'éviter qu'un utilisateur mal intentionné insère dans la base de données des champs non voulus. (plus d'informations sur \url{http://laravel.com/docs/eloquent#mass-assignment})
-	\end{itemize}
-
-\section{Les contrôleurs}
-	Toujours dans une optique CRUD, Laravel nous encourage à créer un contrôleur pour chaque ressource. Notre application ne contient qu'une seule ressource pour le moment appelée \verb|User|, notre contrôleur (par convention) aura donc le nom de \verb|UsersController| et sera situé dans le répertoire \verb|app/controllers|.\\
-
-	Cet objet aura une seule méthode, la méthode \verb|batch| définie dans les routes comme la méthode à appeler.
-
-\section{Conclusion}
-	Cette approche par répertoire et par interface nous a permis de créer une application très solide et sans grande dépendance. Par exemple, si nous souhaitons changer d'implémentation, remplacer par exemple la base de données par un système de fichier, il suffit de définir un nouveau répertoire \verb|FileUserRepository| implémentant l'interface \verb|UserRepository| et de compléter les méthodes nécessaires. Ensuite, en changeant le lien dans le Service Provider nous obtenons une nouvelle implémentation sans jamais avoir à ouvrir nos contrôleurs ce qui aurait pu être une source de bugs lors du changement.\\
-
-	La principale limitation de ce système provient du langage PHP, qui ne permet pas de spécifier des types de retour. La nouvelle implémentation doit donc se référer à la documentation et suivre à la lettre les instructions de retour spécifiées dans l'interface même si ces dernières ne sont pas obligatoire au niveau du langage. Ce problème peut être contourné via l'utilisation de la machine virtuelle \verb|HHVM| de Facebook et du langage \verb|Hack|, compatible avec PHP et introduisant un typage statique.
