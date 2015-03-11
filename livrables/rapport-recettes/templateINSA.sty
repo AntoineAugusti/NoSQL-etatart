@@ -1,4 +1,4 @@
-\ProvidesPackage{templateINSA}[2012/09/12. v4 (Page de garde, credits, header, footer). Thomas ROBERT]
+\ProvidesPackage{templateINSA}[2015/02/17. v5 (Page de garde, credits, header, footer). Thomas ROBERT - Alexandre BREHMER]
 
 % Marges
 \RequirePackage {geometry}
@@ -16,6 +16,8 @@
 \RequirePackage {ifthen}
 \RequirePackage {lastpage}
 
+\renewcommand\rmdefault{phv}
+
 % Textes a redéfinir par l'user
 \newcommand\soustitre{\textbackslash soustitre}
 \newcommand\infoBig{\textbackslash infoBig}
@@ -31,18 +33,17 @@
 % style fancy
 
 \fancyhead[L]{}
-\fancyhead[C]{\begin{picture}(0,0)
-	\put(-110,-8){\includegraphics[width=242mm]{images/volutes_top.pdf}}
-	\put(-62,5){\begin{minipage}[b]{180mm}\begin{flushleft} \parttitle{} \ifthenelse{\not \thechapter = 0}{\footnotesize  - \textit{\chaptertitle{}}}{} \end{flushleft}\end{minipage}}
-	\put(-76,5){\begin{minipage}[b]{10mm}\begin{flushright} \thepart \ifthenelse{\not \thechapter = 0}{. \thechapter}{} \end{flushright}\end{minipage}} %
-	\end{picture}}
+%\fancyhead[C]{\begin{picture}(0,0)
+%	\put(-110,-8){\includegraphics[width=242mm]{images/volutes_top.pdf}}
+%	\put(-62,5){\begin{minipage}[b]{180mm}\begin{flushleft} \parttitle{} \ifthenelse{\not \thechapter = 0}{\footnotesize  - %\textit{\chaptertitle{}}}{} \end{flushleft}\end{minipage}}
+%	\put(-76,5){\begin{minipage}[b]{10mm}\begin{flushright} \thepart \ifthenelse{\not \thechapter = 0}{. \thechapter}{} %\end{flushright}\end{minipage}} %
+%	\end{picture}}
 \fancyhead[R]{}
 
 \fancyfoot[L]{}
 \fancyfoot[C]{\begin{picture}(0,0)
-	\put(-110,-17){\includegraphics[width=218mm]{images/volutes_bottom.pdf}}
-	\put(-79,-3){\begin{minipage}[b]{10mm}\begin{flushright} \thepage \end{flushright}\end{minipage}}
-	\put(-65,-3){\begin{minipage}[b]{10mm}\begin{flushleft} \pageref{LastPage} \end{flushleft}\end{minipage}}
+		\put(-56,-5){\includegraphics[width=49mm]{images/PiedDePage.pdf}}
+		\put(-55,-2.8){\begin{minipage}[b]{30mm}\begin{flushleft}\fontsize{14pt}{14pt}\selectfont \textbf{\textcolor{white}{ \thepage{} | \pageref*{LastPage} } }\end{flushleft}\end{minipage}}
 	\end{picture}}
 \fancyfoot[R]{}
 
@@ -54,16 +55,16 @@
 \fancypagestyle{plain}{%
 
 	\fancyhead[L]{}
-	\fancyhead[C]{\begin{picture}(0,0)
-		\put(-110,-8){\includegraphics[width=242mm]{images/volutes_top.pdf}}
-		\end{picture}}
+	%\fancyhead[C]{\begin{picture}(0,0)
+		%\put(-110,-8){\includegraphics[width=242mm]{images/volutes_top.pdf}}
+		%\end{picture}}
 	\fancyhead[R]{}
 
 	\fancyfoot[L]{}
 	\fancyfoot[C]{\begin{picture}(0,0)
-		\put(-110,-17){\includegraphics[width=218mm]{images/volutes_bottom.pdf}}
-		\put(-79,-3){\begin{minipage}[b]{10mm}\begin{flushright} \thepage \end{flushright}\end{minipage}}
-		\put(-65,-3){\begin{minipage}[b]{10mm}\begin{flushleft} \pageref{LastPage} \end{flushleft}\end{minipage}}
+		\put(-56.7,-5){\includegraphics[width=49mm]{images/PiedDePage.pdf}}
+		\put(-55,-2.8){\begin{minipage}[b]{30mm}\begin{flushleft}\fontsize{14pt}{14pt}\selectfont \textbf{\textcolor{white}{ \thepage{} | \pageref*{LastPage} } }\end{flushleft}\end{minipage}}
+		%\put(-65,-3){\begin{minipage}[b]{10mm}\begin{flushleft} \pageref{LastPage} \end{flushleft}\end{minipage}}
 		\end{picture}}
 	\fancyfoot[R]{}
 
@@ -78,7 +79,7 @@
 % % PAGE DE TITRE
 
 % titleINSA : page de titre INSA
-% #1 : descendre le texte de #1 mm
+% #1 : descendre le titre du milieu (en mm)
 % #2 : lien de l'image de fond
 % #3 : décalage de l'image de fond de x = -#3 mm
 % #4 : décalage de l'image de fond de y = -#4 mm
@@ -116,46 +117,83 @@
 		\setcounter{couvFondY}{115 - \thecouvDecalBas - \thecouvFondBas}
 
 		\newcounter{couvTextG}
-		\setcounter{couvTextG}{75 - \thecouvDecalBas}
+		\setcounter{couvTextG}{185 - \thecouvDecalBas}
 
 		\newcounter{couvTextD}
-		\setcounter{couvTextD}{90 - \thecouvDecalBas}
+		\setcounter{couvTextD}{85 - \thecouvDecalBas}
 
 		\definecolor{INSA_CYAN}{cmyk}{0.6,0,0,0}
+		\definecolor{INSA_MARINE}{cmyk}{0.95,0.69,0.35,0.19}
 
 		\begin{picture}(183,250)(27,27)
 		% Fond
-		\put(\thecouvFondGauche,\thecouvFondY){\includegraphics[width=\thecouvWidth mm]{#2}}
+		\ifx&#2&%
+  			% #2 est vide, pas d'image de fond
+		\else
+			\put(\thecouvFondGauche,\thecouvFondBas){\includegraphics[width=\thecouvWidth mm]{#2}}
+		\fi
+		\put(0,0){\includegraphics[width=215mm]{images/Couverture.pdf}}
+		\put(5,150){\begin{minipage}[c]{150mm}\footnotesize  \rotatebox{90}{\textcolor{white}{#6}}\end{minipage}}
 
-		% Page INSA
-		\put(0,263){\includegraphics[width=212mm]{images/cover_logo.pdf}}
-		% Credits
-		\put(206,180){\begin{minipage}[c]{150mm}\footnotesize  \rotatebox{90}{#6}\end{minipage}}
-		\put(0,\thecouvBas){\includegraphics[width=212mm]{images/cover_bleu_volutes.pdf}}
-
-		% Infos gauche haut
-		\put(8,\thecouvTextG){\begin{minipage}[t]{69mm}\begin{flushright}
-			\textcolor{INSA_CYAN}{
-				\fontsize{17pt}{19pt}\selectfont \textbf{\infoBig} \\
-				\vspace*{7pt}
-				\fontsize{13pt}{15pt}\selectfont \textbf{\infoSmall}\\
+		% Infos gauche milieu
+		\put(15,\thecouvTextG){\begin{minipage}[t]{150mm}\begin{flushleft}
+			\textcolor{white}{
+				\fontsize{57pt}{60pt}\selectfont \textbf{\infoBig} \\
+				\vspace*{20pt}
+				\fontsize{35pt}{40pt}\selectfont \textbf{\infoSmall}\\
 				\vspace*{20pt}}
-				\end{flushright}\end{minipage}}
-
-		% Infos gauche bas
-		\put(8,15){\begin{minipage}[b]{69mm}\begin{flushright}
-			\fontsize{13pt}{16pt}\selectfont \theauthor \end{flushright}\end{minipage}}
-
-		% Titre et sous-titre
-		\put(85,\thecouvTextD){\begin{minipage}[t]{115mm}\textcolor{INSA_CYAN}{\begin{flushleft}
-				\fontsize{30pt}{32pt}\selectfont \textsc{\thetitle}\\
-				\vspace*{7pt}
-				\fontsize{20pt}{24pt}\selectfont \textsl{\textsc{\soustitre}}
+				\end{flushleft}\end{minipage}}
+		% Infos milieu bas
+		\put(51,\thecouvTextD){\begin{minipage}[t]{150mm}\textcolor{INSA_MARINE}{\begin{flushleft}
+				\fontsize{45pt}{50pt}\selectfont \textbf{\thetitle}\\
+				\vspace*{17pt}
+				\fontsize{30pt}{35pt}\selectfont \textbf{\textsc{\soustitre}}
 				\end{flushleft}}\end{minipage}}
+		\put(140,120){\begin{minipage}[t]{69mm}\begin{flushright}
+			\fontsize{13pt}{16pt}\selectfont \textcolor{INSA_MARINE}{ \theauthor } \end{flushright}\end{minipage}}
 		\end{picture}
 	\end{titlepage}
-
 	\restoregeometry
+}
+% % PAGE Quatrième de couverture
+
+% pageQuatriemeCouverture
+% #1 : Direction
+% #2 : telephone
+% #3 : e-mail
+\newcommand{\pageQuatriemeCouverture}[3]{
+  \newpage
+  \restoregeometry
+  \thispagestyle{empty}
+  \definecolor{INSA_CYAN}{cmyk}{0.6,0,0,0}
+  \definecolor{INSA_MARINE}{cmyk}{0.95,0.69,0.35,0.69}
+
+  \definecolor{INSA_GREY}{cmyk}{0.71,0.65,064,0.19}
+  \begin{picture}(150,254)(32,27)
+    \put(0,0){\includegraphics[width=225mm]{images/QuatriemeDeCouverture.pdf}}
+    \put(15, 120){
+    	\begin{minipage}[t]{115mm}\textcolor{INSA_MARINE}{\begin{flushleft}
+    	% Renseignements
+	\ifx&#1&%
+  		% #1 is empty
+	\else
+    		\fontsize{16pt}{16pt}\selectfont \textbf{RENSEIGNEMENTS}\\
+          	\fontsize{16pt}{16pt}\selectfont #1\\
+            	\fontsize{16pt}{16pt}\selectfont #2\\
+               	\fontsize{16pt}{16pt}\selectfont #3\\
+          \fi
+	 \end{flushleft}}\end{minipage}
+         }
+    \put(16, 55){\begin{minipage}[t]{115mm}\textcolor{INSA_MARINE}{\begin{flushleft}
+    	\textbf{INSA Rouen}\\
+            Campus du Madrillet\\
+		685 avenue de l’Université – BP 08\\
+		76801 SAINT-ÉTIENNE-DU-ROUVRAY cedex\\
+		\textbf{www.insa-rouen.fr}\\
+            \end{flushleft}}\end{minipage}
+    \put(-74,-50){\includegraphics[width=49mm]{images/PiedDePage.pdf}}
+         }
+  \end{picture}
 }
 
 \makeatletter

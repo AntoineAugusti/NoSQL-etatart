@@ -1,4 +1,4 @@
-\documentclass[12pt,titlepage,a4paper]{report}
+\documentclass{scrreprt}
 
 % Texte
 \usepackage[utf8]{inputenc}
@@ -11,33 +11,38 @@
 \usepackage{caption}
 \usemintedstyle{trac}
 
-% Mise en page
+%%%%%%%%%%%%%%%%%%%%%
 \usepackage{url}
-\usepackage[top=2.1cm,bottom=2cm,left=1cm,right=1cm]{geometry}
-\usepackage{hyperref}
-	\hypersetup{
-	colorlinks=false,
-	pdfborder={0 0 0},
+\usepackage[top=2.1cm,bottom=2.2cm,left=2cm,right=2cm]{geometry}
+\usepackage[final]{pdfpages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%% Pour sommaire cliquable %%%%%%%%%%
+\usepackage{hyperref} % Créer des liens et des signets
+\hypersetup{
+	colorlinks=true, %colorise les liens
+	breaklinks=true, %permet le retour à la ligne dans les liens trop longs
+	urlcolor=blue, %couleur des hyperliens
+	linkcolor=black, %couleur des liens internes
+	citecolor=black,  %couleur des références
 }
-\usepackage{multirow}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Images
 \usepackage{float}
 \usepackage{wrapfig}
 \usepackage{graphicx}
-% Pour inclure des pages PDF
-\usepackage[final]{pdfpages}
 
 % Couverture
 \usepackage{templateINSA}
 \initINSA
 
-\title{Application de gestion de recettes}
+\title{Application de recettes}
+\renewcommand\infoSmall{ASI4 2014-2015}
 \author{Antoine \bsc{Augusti}\\ Thibaud \bsc{Dauce}}
 
-\renewcommand\soustitre{Utilisation de BDD NoSQL pour la réalisation d'une application}
+\renewcommand\soustitre{Utilisation de BDD NoSQL}
 \renewcommand\infoBig{PAO NoSQL}
-\renewcommand\infoSmall{ASI4 2014-2015}
 
 \newcommand{\serviceProvider}{\texttt{Service Provider}}
 \newcommand{\servicesProvider}{\texttt{Services Provider}}
@@ -47,11 +52,18 @@
 
 %% -- Document
 \begin{document}
-	\titleINSA{15}{images/fond.png}{0}{-50}{200}{\href{http://upload.wikimedia.org/wikipedia/commons/5/59/Wikimedia_Foundation_Servers-8055_14.jpg}{\textcolor{white}{Licence CC - Wikimedia}}}
+	% titleINSA : Page de garde
+	% #1 : descendre le titre du milieu (en mm)
+	% #2 : lien de l'image de fond
+	% #3 : décalage sur X de l'image de fond (en mm)
+	% #4 : décalage sur Y de l'image de fond (en mm)
+	% #5 : largeur de l'image de fond de #5 (en mm)
+	% #6 : Crédit de l'image de fond
+	\titleINSA{0}{images/fond.png}{0}{0}{225}{Licence CC - Wikimedia}
 	\tableofcontents
 
 	\chapter{Utilisation du framework Laravel}
 		\input{textes/laravel}
 
-	\input{textes/conclusion}
+	\pageQuatriemeCouverture{Département ASI}{02 32 95 97 79}{asi@insa-rouen.fr}
 \end{document}
