@@ -12,7 +12,7 @@ interface GuestsRepository {
 	public function getAll();
 
 	/**
-	 * Retrieve a recipe by its id
+	 * Retrieve a guest by its id
 	 * @param  string $id
 	 * @return Guest
 	 */

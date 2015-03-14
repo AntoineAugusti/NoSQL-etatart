@@ -3,8 +3,7 @@
 use Illuminate\Database\Eloquent\Collection;
 use Insa\Guests\Models\Guest;
 
-class MongoGuestsRepository implements GuestsRepository
-{
+class MongoGuestsRepository implements GuestsRepository {
 
     /**
      * Get all guests
@@ -16,7 +15,7 @@ class MongoGuestsRepository implements GuestsRepository
     }
 
     /**
-     * Retrieve a recipe by its id
+     * Retrieve a guest by its id
      * @param  string $id
      * @return Guest
      */

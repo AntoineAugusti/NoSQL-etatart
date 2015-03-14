@@ -1,43 +1,43 @@
 <?php namespace Insa\Guests\Controllers;
 
 use Illuminate\Routing\Controller;
-use Illuminate\View\Factory;
+use Illuminate\View\Factory as View;
 use Insa\Guests\Repositories\GuestsRepository;
 
-class GuestsController extends Controller
-{
-    /**
-     * @var GuestsRepository
-     */
-    private $guestsRepository;
-    /**
-     * @var Factory
-     */
-    private $view;
+class GuestsController extends Controller {
+	/**
+	 * @var GuestsRepository
+	 */
+	private $guestsRepository;
 
-    /**
-     * @param GuestsRepository $guestsRepository
-     */
-    function __construct(Factory $view, GuestsRepository $guestsRepository)
-    {
-        $this->guestsRepository = $guestsRepository;
-        $this->view = $view;
-    }
+	/**
+	 * @var View
+	 */
+	private $view;
 
-    public function index()
-    {
-        $guests = $this->guestsRepository->getAll();
+	/**
+	 * @param GuestsRepository $guestsRepository
+	 */
+	function __construct(View $view, GuestsRepository $guestsRepository)
+	{
+		$this->guestsRepository = $guestsRepository;
+		$this->view = $view;
+	}
 
-        return $this->view->make('guests.index')->with(compact('guests'));
-    }
+	public function index()
+	{
+		$guests = $this->guestsRepository->getAll();
 
-    public function create()
-    {
-        return $this->view->make('guests.create');
-    }
+		return $this->view->make('guests.index', compact('guests'));
+	}
 
-    public function store()
-    {
-        // TODO
-    }
+	public function create()
+	{
+		return $this->view->make('guests.create');
+	}
+
+	public function store()
+	{
+		// TODO
+	}
 }
