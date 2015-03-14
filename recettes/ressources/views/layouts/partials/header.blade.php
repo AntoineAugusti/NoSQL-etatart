@@ -26,17 +26,12 @@
 						?>
 						<li {{ $active }}><a href="{{ URL::route($route) }}">{{ Lang::get('menu.'.$route) }}</a></li>
 					@endforeach
-					<li><a href="javascript:void(0)">Link</a></li>
 					<li class="dropdown">
-						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{ Lang::get('menu.guests') }} <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="javascript:void(0)">Action</a></li>
-							<li><a href="javascript:void(0)">Another action</a></li>
-							<li><a href="javascript:void(0)">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Dropdown header</li>
-							<li><a href="javascript:void(0)">Separated link</a></li>
-							<li><a href="javascript:void(0)">One more separated link</a></li>
+							<li><a href="{{ URL::route('guests.index') }}">{{ Lang::get('menu.guests.index') }}</a></li>
+							<li><a href="{{ URL::route('guests.create') }}">{{ Lang::get('menu.guests.create') }}</a></li>
+							<li><a href="javascript:void(0)">{{ Lang::get('menu.guests.invite') }}</a></li>
 						</ul>
 					</li>
 				</ul>

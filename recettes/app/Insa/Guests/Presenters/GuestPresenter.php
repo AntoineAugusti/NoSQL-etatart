@@ -1,8 +1,8 @@
-<?php namespace Insa\Users\Presenters;
+<?php namespace Insa\Guests\Presenters;
 
 use Laracasts\Presenter\Presenter;
 
-class UserPresenter extends Presenter {
+class GuestPresenter extends Presenter {
 
 	public function phoneNumber()
 	{

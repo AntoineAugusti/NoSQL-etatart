@@ -1,9 +1,9 @@
-<?php namespace Insa\Users\Models;
+<?php namespace Insa\Guests\Models;
 
 use Moloquent;
 use Laracasts\Presenter\PresentableTrait;
 
-class User extends Moloquent {
+class Guest extends Moloquent {
 
 	use PresentableTrait;
 
@@ -11,7 +11,7 @@ class User extends Moloquent {
 	const FAMILY    = "family";
 	const COLLEAGUE = "colleague";
 
-	protected $presenter = 'Insa\Users\Presenters\UserPresenter';
+	protected $presenter = 'Insa\Guests\Presenters\GuestPresenter';
 	public $fillable = ['name', 'type', 'phone'];
 
 	public function setTypeAttribute($value)
