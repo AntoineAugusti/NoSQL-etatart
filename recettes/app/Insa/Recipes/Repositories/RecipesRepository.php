@@ -52,7 +52,7 @@ interface RecipesRepository {
 	 * Store a new recipe
 	 * @param  string $title The name of the recipe
 	 * @param  int $rating
-	 * @param  string $type            [description]
+	 * @param  string $type
 	 * @param  string $preparationTime
 	 * @param  string $cookingTime
 	 * @param  string $description

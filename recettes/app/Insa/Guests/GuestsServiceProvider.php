@@ -21,6 +21,7 @@ class GuestsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
+		//
 	}
 
 	/**

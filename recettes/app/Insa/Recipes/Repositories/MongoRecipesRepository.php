@@ -1,5 +1,6 @@
 <?php namespace Insa\Recipes\Repositories;
 
+use InvalidArgumentException;
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Support\Str;
 use Insa\Ingredients\Models\Ingredient;
@@ -10,7 +11,7 @@ use Insa\Recipes\Models\Recipe;
 class MongoRecipesRepository implements RecipesRepository {
 
 	/**
-	 * @var Illuminate\Cache\Repository
+	 * @var \Illuminate\Cache\Repository
 	 */
 	private $cache;
 
@@ -133,8 +134,8 @@ class MongoRecipesRepository implements RecipesRepository {
 		$recipe = $this->create($title, $rating, $type, $preparationTime, $cookingTime, $description);
 
 		// Foreach ingredient, associate its quantity
-		foreach ($ingredients as $ingredient) {
-
+		foreach ($ingredients as $ingredient)
+		{
 			$ing = $this->createIngredientWithQuantity($ingredient, $quantities);
 
 			// Add the ingredient to the recipe
@@ -162,7 +163,8 @@ class MongoRecipesRepository implements RecipesRepository {
 			$ingredientsArray = $instance->getAll()->lists('ingredients');
 			// Merge the collections in a single array
 			$tmp = [];
-			foreach ($ingredientsArray as $ing) {
+			foreach ($ingredientsArray as $ing)
+			{
 				$tmp = array_merge($tmp, $ing->all());
 			}
 			$ingredientsArray = $tmp;
@@ -171,9 +173,11 @@ class MongoRecipesRepository implements RecipesRepository {
 			$ingredientsName = [];
 			$prices = [];
 
-			foreach ($ingredientsArray as $ingredient) {
+			foreach ($ingredientsArray as $ingredient)
+			{
 				// Add the ingredient to the final collection
-				if (! in_array($ingredient, $ingredientsName)) {
+				if (! in_array($ingredient, $ingredientsName))
+				{
 					$ingredientsName[] = $ingredient->name;
 					$finalIngredients[] = Ingredient::build($ingredient->name, $ingredient->unit);
 				}
@@ -215,7 +219,8 @@ class MongoRecipesRepository implements RecipesRepository {
 
 	private function getBoundsForRank($rank)
 	{
-		switch ($rank) {
+		switch ($rank)
+		{
 			case 'fine':
 				return [0, 4];
 
@@ -226,7 +231,7 @@ class MongoRecipesRepository implements RecipesRepository {
 				return [8, 10];
 		}
 
-		throw new \InvalidArgumentException("Can't find bounds for rank ".$rank);
+		throw new InvalidArgumentException("Can't find bounds for rank ".$rank);
 	}
 
 	/**
@@ -238,7 +243,8 @@ class MongoRecipesRepository implements RecipesRepository {
 	{
 		$existingIngredients = $this->getAllIngredients()->lists('name');
 
-		foreach ($ingredients as $ingredient) {
+		foreach ($ingredients as $ingredient)
+		{
 			if ( ! in_array($ingredient, $existingIngredients))
 				return true;
 		}

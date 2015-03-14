@@ -1,9 +1,8 @@
 <?php namespace Insa\Tools\Validation;
 
-use BadMethodCallException;
+use BadMethodCallException, Str;
 use Laracasts\Validation\FormValidationException;
 use Laracasts\Validation\LaravelValidator;
-use Str;
 
 abstract class Validator extends LaravelValidator {
 
@@ -37,10 +36,10 @@ abstract class Validator extends LaravelValidator {
 
 			if (! property_exists($this, $property))
 				throw new BadMethodCallException("Property ".$property." does not exist on class ".get_class($this).".");
-			
+
 			if (count($arguments) == 1)
 				return $this->validateForRule($arguments[0], $property);
-			
+
 			return $this->validateForRule($arguments[0], $property, $arguments[1]);
 		}
 

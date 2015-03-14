@@ -4,11 +4,20 @@ use Laracasts\Presenter\Presenter;
 
 class GuestPresenter extends Presenter {
 
+	/**
+	 * Show the phone number of a guest
+	 * @return string
+	 */
 	public function phoneNumber()
 	{
 		return $this->formatPhoneNumber($this->entity->phone);
 	}
 
+	/**
+	 * Format a phone number to have an homogeneous display
+	 * @param  string $phoneNumber
+	 * @return string
+	 */
 	private function formatPhoneNumber($phoneNumber)
 	{
 		$phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);

@@ -5,6 +5,7 @@ use Illuminate\View\Factory as View;
 use Insa\Guests\Repositories\GuestsRepository;
 
 class GuestsController extends Controller {
+
 	/**
 	 * @var GuestsRepository
 	 */
@@ -16,14 +17,20 @@ class GuestsController extends Controller {
 	private $view;
 
 	/**
+	 * The constructor
+	 * @param View $view
 	 * @param GuestsRepository $guestsRepository
 	 */
 	function __construct(View $view, GuestsRepository $guestsRepository)
 	{
-		$this->guestsRepository = $guestsRepository;
 		$this->view = $view;
+		$this->guestsRepository = $guestsRepository;
 	}
 
+	/**
+	 * List all guests
+	 * @return \Response
+	 */
 	public function index()
 	{
 		$guests = $this->guestsRepository->getAll();
@@ -31,11 +38,19 @@ class GuestsController extends Controller {
 		return $this->view->make('guests.index', compact('guests'));
 	}
 
+	/**
+	 * Show the form to create a new guest
+	 * @return \Response
+	 */
 	public function create()
 	{
 		return $this->view->make('guests.create');
 	}
 
+	/**
+	 * Store a new guest
+	 * @return \Response
+	 */
 	public function store()
 	{
 		// TODO

@@ -1,3 +1,5 @@
 <?php namespace Insa\Exceptions;
 
-class RecipeNotFoundException extends \Exception {}
+use Exception;
+
+class RecipeNotFoundException extends Exception {}

@@ -5,6 +5,10 @@ use Laracasts\Presenter\Presenter;
 
 class RecipePresenter extends Presenter {
 
+	/**
+	 * Get the HTML for the total time
+	 * @return string
+	 */
 	public function totalTime()
 	{
 		$time = $this->entity->cookingTime + $this->entity->preparationTime;
@@ -12,26 +16,46 @@ class RecipePresenter extends Presenter {
 		return $this->htmlForTime($time);
 	}
 
+	/**
+	 * Get the total price in Euro
+	 * @return string
+	 */
 	public function totalPrice()
 	{
 		return $this->entity->computeTotalPrice().' €';
 	}
 
+	/**
+	 * Get the HTML for the cooking time
+	 * @return string
+	 */
 	public function cookingTime()
 	{
 		return $this->htmlForTime($this->entity->cookingTime);
 	}
 
+	/**
+	 * Get the HTML for the preparation time
+	 * @return string
+	 */
 	public function preparationTime()
 	{
 		return $this->htmlForTime($this->entity->preparationTime);
 	}
 
+	/**
+	 * Get the type, translated
+	 * @return string
+	 */
 	public function type()
 	{
 		return Lang::get('recipes.'.$this->entity->type);
 	}
 
+	/**
+	 * Get the HTML for the rating
+	 * @return string
+	 */
 	public function rating()
 	{
 		$nbStars = floor($this->entity->rating / 2);
@@ -49,6 +73,11 @@ class RecipePresenter extends Presenter {
 		return $html;
 	}
 
+	/**
+	 * Compute the HTML to display the total time
+	 * @param  int $time The number of minutes
+	 * @return string
+	 */
 	private function htmlForTime($time)
 	{
 		$hours = floor($time / 60);

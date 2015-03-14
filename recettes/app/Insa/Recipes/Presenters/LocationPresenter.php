@@ -6,6 +6,10 @@ use Laracasts\Presenter\Presenter;
 
 class LocationPresenter extends Presenter {
 
+	/**
+	 * Get the HTML for the icon associated to a location
+	 * @return string
+	 */
 	public function iconType()
 	{
 		$icon = $this->getIconForType($this->entity->type);
@@ -13,11 +17,19 @@ class LocationPresenter extends Presenter {
 		return '<i class="locations__icon '.$icon.'"></i>';
 	}
 
+	/**
+	 * Get the name of a location
+	 * @return string
+	 */
 	public function name()
 	{
 		return Lang::get('locations.tooltip'.ucfirst($this->entity->type), ['name' => $this->entity->name]);
 	}
 
+	/**
+	 * Display the date of a location
+	 * @return string
+	 */
 	public function date()
 	{
 		if (! $this->entity->hasDate())
@@ -25,7 +37,8 @@ class LocationPresenter extends Presenter {
 
 		$dateDiff = $this->entity->date->diffForHumans();
 
-		switch ($this->entity->type) {
+		switch ($this->entity->type)
+		{
 			case Location::MAGAZINE:
 				return Lang::get('locations.publishDate').' '.$dateDiff;
 
@@ -34,9 +47,15 @@ class LocationPresenter extends Presenter {
 		}
 	}
 
+	/**
+	 * Get the icon for a given type
+	 * @param  string $type
+	 * @return string
+	 */
 	private function getIconForType($type)
 	{
-		switch ($type) {
+		switch ($type)
+		{
 			case Location::MANUSCRIPT:
 				return "mdi-content-create";
 

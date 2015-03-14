@@ -23,6 +23,11 @@ class Guest extends Moloquent {
 	 */
 	public $fillable = ['name', 'type', 'phone'];
 
+	/**
+	 * Set the type attribute
+	 * @param string $value
+	 * @throws \InvalidArgumentException If the type is not allowed
+	 */
 	public function setTypeAttribute($value)
 	{
 		$allowedValues = self::getAllowedTypeValues();
@@ -33,6 +38,10 @@ class Guest extends Moloquent {
 		$this->attributes['type'] = $value;
 	}
 
+	/**
+	 * Get allowed values for the type attribute
+	 * @return array
+	 */
 	public static function getAllowedTypeValues()
 	{
 		return [self::FRIEND, self::FAMILY, self::COLLEAGUE];

@@ -13,9 +13,24 @@ use Insa\Recipes\Validation\RecipeValidator;
 
 class RecipesController extends Controller {
 
+	/**
+	 * @var LocationsRepository
+	 */
 	private $locationsRepo;
+
+	/**
+	 * @var LocationValidator
+	 */
 	private $locationValidator;
+
+	/**
+	 * @var RecipesRepository
+	 */
 	private $recipesRepo;
+
+	/**
+	 * @var RecipeValidator
+	 */
 	private $recipeValidator;
 
 	public function __construct(LocationsRepository $locationsRepo, LocationValidator $locationValidator, RecipesRepository $recipesRepo, RecipeValidator $recipeValidator)
@@ -212,7 +227,8 @@ class RecipesController extends Controller {
 	 */
 	private function findByNameInCollection($nameValue, Collection $collection)
 	{
-		foreach ($collection as $element) {
+		foreach ($collection as $element)
+		{
 			if ($element->name == $nameValue)
 				return $element;
 		}
@@ -255,9 +271,8 @@ class RecipesController extends Controller {
 
 		$results = [];
 
-		foreach ($groupedByType as $key => $value) {
+		foreach ($groupedByType as $key => $value)
 			$results[Lang::get('locations.type'.ucfirst($key))] = $this->extractKeyAndNameFromLocations($value);
-		}
 
 		return $results;
 	}
@@ -266,9 +281,8 @@ class RecipesController extends Controller {
 	{
 		$out = [];
 
-		foreach ($locations as $loc) {
+		foreach ($locations as $loc)
 			$out[$loc->_id] = $loc->name;
-		}
 
 		return $out;
 	}
