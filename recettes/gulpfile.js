@@ -37,7 +37,6 @@ gulp.task('scripts', function() {
 	return gulp.src([
 			inputJSDir + 'ripples.min.js',
 			inputJSDir + 'material.min.js',
-			inputJSDir + 'headroom.min.js',
 			inputJSDir + 'nouislider.min.js',
 			inputJSDir + 'chosen.min.js',
 			inputJSDir + 'chosen-create-option.min.js',

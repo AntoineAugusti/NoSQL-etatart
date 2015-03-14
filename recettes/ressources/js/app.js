@@ -4,9 +4,6 @@
 	$('[data-toggle="tooltip"]').tooltip();
 })();
 
-// Headroom
-$("header").headroom();
-
 $(".chosen-select").chosen({
 	create_option: true,
 	persistent_create_option: true,
@@ -17,7 +14,6 @@ $(".chosen-select").chosen({
 // Material design
 $(document).ready(function() {
 	$.material.init();
-	$(".navbar").headroom();
 });
 
 function pad(num, size) {
@@ -29,7 +25,7 @@ function pad(num, size) {
 function extractHoursAndMinutesFromTimer(divID, icon) {
 	var time = $("#"+divID).val();
 	var hours, minutes;
-	
+
 	hours = Math.floor(time / 60);
 	minutes = Math.floor(time % 60);
 
