@@ -11,7 +11,7 @@ class MongoGuestsRepository implements GuestsRepository {
 	 */
 	public function getAll()
 	{
-		// TODO: Implement getAll() method.
+		return Guest::all();
 	}
 
 	/**
@@ -21,6 +21,6 @@ class MongoGuestsRepository implements GuestsRepository {
 	 */
 	public function getById($id)
 	{
-		// TODO: Implement getById() method.
+		return Guest::find($id);
 	}
 }

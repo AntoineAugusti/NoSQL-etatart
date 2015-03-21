@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Controller;
 use Illuminate\View\Factory as View;
+use Insa\Guests\Models\Guest;
 use Insa\Guests\Repositories\GuestsRepository;
 
 class GuestsController extends Controller {
@@ -44,7 +45,11 @@ class GuestsController extends Controller {
 	 */
 	public function create()
 	{
-		return $this->view->make('guests.create');
+        $data = [
+            'possibleTypes' => Guest::getAllowedTypeValues()
+        ];
+
+		return $this->view->make('guests.create', $data);
 	}
 
 	/**

@@ -1,9 +1,10 @@
 <?php namespace Insa\Guests\Models;
 
-use InvalidArgumentException, Moloquent;
+use InvalidArgumentException;
 use Laracasts\Presenter\PresentableTrait;
+use Jenssegers\Mongodb\Model;
 
-class Guest extends Moloquent {
+class Guest extends Model {
 
 	use PresentableTrait;
 
