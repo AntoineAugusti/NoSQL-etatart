@@ -23,4 +23,14 @@ class MongoGuestsRepository implements GuestsRepository {
 	{
 		return Guest::find($id);
 	}
+
+    /**
+     * Save a guest
+     * @param  Guest $guest
+     * @return bool
+     */
+    public function save(Guest $guest)
+    {
+        return $guest->save();
+    }
 }

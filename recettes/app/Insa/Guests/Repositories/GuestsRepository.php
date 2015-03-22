@@ -17,4 +17,11 @@ interface GuestsRepository {
 	 * @return Guest
 	 */
 	public function getById($id);
+
+	/**
+	 * Save a guest
+	 * @param  Guest $guest
+	 * @return bool
+	 */
+	public function save(Guest $guest);
 }

@@ -1,9 +1,13 @@
 <?php namespace Insa\Guests\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\Factory as View;
 use Insa\Guests\Models\Guest;
 use Insa\Guests\Repositories\GuestsRepository;
+use Insa\Guests\Validation\GuestValidator;
+use Response;
 
 class GuestsController extends Controller {
 
@@ -16,21 +20,27 @@ class GuestsController extends Controller {
 	 * @var View
 	 */
 	private $view;
+    /**
+     * @var GuestValidator
+     */
+    private $guestValidator;
 
-	/**
-	 * The constructor
-	 * @param View $view
-	 * @param GuestsRepository $guestsRepository
-	 */
-	function __construct(View $view, GuestsRepository $guestsRepository)
+    /**
+     * The constructor
+     * @param View $view
+     * @param GuestsRepository $guestsRepository
+     * @param GuestValidator $guestValidator
+     */
+	function __construct(View $view, GuestsRepository $guestsRepository, GuestValidator $guestValidator)
 	{
 		$this->view = $view;
 		$this->guestsRepository = $guestsRepository;
-	}
+        $this->guestValidator = $guestValidator;
+    }
 
 	/**
 	 * List all guests
-	 * @return \Response
+	 * @return Response
 	 */
 	public function index()
 	{
@@ -41,7 +51,7 @@ class GuestsController extends Controller {
 
 	/**
 	 * Show the form to create a new guest
-	 * @return \Response
+	 * @return Response
 	 */
 	public function create()
 	{
@@ -54,10 +64,18 @@ class GuestsController extends Controller {
 
 	/**
 	 * Store a new guest
-	 * @return \Response
+	 * @return Response
 	 */
 	public function store()
 	{
-		// TODO
+        $data = Input::only('name', 'phoneNumber', 'type');
+
+        $this->guestValidator->validate($data);
+
+        $guest = new Guest($data);
+
+        $this->guestsRepository->save($guest);
+
+        return Redirect::route('guests.index');
 	}
 }

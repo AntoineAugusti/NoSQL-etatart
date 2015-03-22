@@ -22,7 +22,7 @@ class Guest extends Model {
 	 * Fillable properties for a guest
 	 * @var array
 	 */
-	public $fillable = ['name', 'type', 'phone'];
+	public $fillable = ['name', 'type', 'phoneNumber'];
 
 	/**
 	 * Set the type attribute

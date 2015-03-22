@@ -10,7 +10,7 @@ class GuestPresenter extends Presenter {
 	 */
 	public function phoneNumber()
 	{
-		return $this->formatPhoneNumber($this->entity->phone);
+		return $this->formatPhoneNumber($this->entity->phoneNumber);
 	}
 
 	/**

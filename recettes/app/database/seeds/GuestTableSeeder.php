@@ -19,7 +19,7 @@ class GuestTableSeeder extends Seeder {
         {
             $guest = new Guest([
                 'name'        => $faker->name,
-                'phone'       => $faker->phoneNumber,
+                'phoneNumber' => $faker->phoneNumber,
                 'type'        => $faker->randomElement(Guest::getAllowedTypeValues()),
             ]);
 
