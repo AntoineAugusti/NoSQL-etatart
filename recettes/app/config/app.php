@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Insa\Recipes\RecipesServiceProvider',
 		'Insa\Guests\GuestsServiceProvider',
+		'Insa\Events\EventsServiceProvider',
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 		'Laracasts\Validation\ValidationServiceProvider',

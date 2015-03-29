@@ -5,7 +5,7 @@ use Insa\Tools\Validation\Validator as BaseValidator;
 class GuestValidator extends BaseValidator {
 
     /**
-     * The validation rules when choosing a location
+     * The validation rules when creating a guest
      * @var array
      */
     protected $rules = [

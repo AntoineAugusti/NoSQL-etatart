@@ -1,5 +1,6 @@
 <?php namespace Insa\Guests\Presenters;
 
+use Illuminate\Support\Facades\Lang;
 use Laracasts\Presenter\Presenter;
 
 class GuestPresenter extends Presenter {
@@ -48,5 +49,10 @@ class GuestPresenter extends Presenter {
 		}
 
 		return $phoneNumber;
+	}
+
+	public function type()
+	{
+		return Lang::get('guests.' . $this->entity->type);
 	}
 }

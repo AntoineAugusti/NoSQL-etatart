@@ -34,6 +34,13 @@
 							<li><a href="javascript:void(0)">{{ Lang::get('menu.guests.invite') }}</a></li>
 						</ul>
 					</li>
+					<li class="dropdown">
+						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{ Lang::get('menu.events') }} <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="{{ URL::route('events.index') }}">{{ Lang::get('menu.events.index') }}</a></li>
+							<li><a href="{{ URL::route('events.create') }}">{{ Lang::get('menu.events.create') }}</a></li>
+						</ul>
+					</li>
 				</ul>
 				<form class="navbar-form navbar-left">
 					<input type="text" class="form-control col-lg-8" placeholder="Search">

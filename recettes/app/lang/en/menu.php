@@ -9,4 +9,8 @@ return [
 	'guests.index' => 'List guests',
 	'guests.create' => 'Add guest',
 	'guests.invite' => 'Show invited guests',
+
+	'events' => 'Events',
+	'events.index' => 'List events',
+	'events.create' => 'Add event',
 ];

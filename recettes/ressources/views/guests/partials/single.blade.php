@@ -7,7 +7,7 @@
         <div class="row recipes__recipe-info">
             <div class="col-xs-6">
                 <i class="mdi-action-perm-contact-cal" data-toggle="tooltip" data-placement="left" data-original-title="{{ Lang::get('guests.type' )}}"></i>
-                {{ $guest->present()->type }}
+                {{ $guest->present()->type() }}
             </div>
 
             <div class="col-xs-6">

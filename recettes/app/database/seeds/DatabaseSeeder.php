@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('LocationTableSeeder');
 		$this->call('RecipeTableSeeder');
 		$this->call('GuestTableSeeder');
+		$this->call('EventTableSeeder');
 	}
 
 }
