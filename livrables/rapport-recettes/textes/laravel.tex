@@ -8,7 +8,7 @@ Nous avons fait le choix d'utiliser un framework nommé Laravel. Ce framework es
 \end{figure}
 
 \section{Un framework MVC}
-	Laravel est un framework mettant en avant une séparation très importante des modèles, des vues et des contrôleurs. Toutes les classes que nous avons créé se trouvent dans le dossier \verb|app/Insa| et sous l'espace de nom (\textit{namespace}) \verb|Insa|.\\
+	Laravel est un framework mettant en avant une séparation très importante des modèles, des vues et des contrôleurs. Toutes les classes que nous avons créées se trouvent dans le dossier \verb|app/Insa| et sous l'espace de nom (\textit{namespace}) \verb|Insa|.\\
 
 	Nous avons choisi une architecture modulaire organisée selon les entités. À chaque entité on associe les dossiers suivants :
 	\begin{itemize}
@@ -16,7 +16,7 @@ Nous avons fait le choix d'utiliser un framework nommé Laravel. Ce framework es
 		\item \verb|Models| : les modèles associés à l'entité. Généralement il n'y a qu'une classe dans ce dossier qui correspond au singulier de l'entité, par exemple \verb|\Insa\Recipes\Models\Recipe| ;
 		\item \verb|Presenters| : les classes qui ont pour objectif d'effectuer les transformations nécessaires afin de présenter les données brutes dans l'application web ;
 		\item \verb|Repositories| : les classes d'accès aux bases de données ;
-		\item \verb|Validation| : les classes comportant les règles de validation des entités.
+		\item \verb|Validation| : les classes comportant les règles de validation\footnote{Les règles de validation permettent de spécifier des règles pour vérifier que les données saisies par les utilisateurs ont bien le format attendu.} des entités.
 	\end{itemize}
 
 \section{Les \servicesProvider{}}
@@ -51,7 +51,7 @@ Nous avons fait le choix d'utiliser un framework nommé Laravel. Ce framework es
 	De cette manière, nous avons accès au répertoire dans notre contrôleur sans effort.
 
 \section{Les façades}
-	Une façade est un classe spécifique qui permet d'appeler des méthodes publiques d'une instance d'un objet via des appels statiques sur la façade. Les classes qui peuvent être résolues par des façades sont celles qui se trouvent dans l'\ioc{} (abordé dans la partie \ref{sec:ioc}).\\
+	Une façade est une classe spécifique qui permet d'appeler des méthodes publiques d'une instance d'un objet via des appels statiques sur la façade. Les classes qui peuvent être résolues par des façades sont celles qui se trouvent dans l'\ioc{} (abordé dans la partie \ref{sec:ioc}).\\
 
 	Par exemple, lorsque que l'on appelle une méthode statique sur la façade \verb|Route|, Laravel va en réalité appeler une méthode publique d'une instance d'une classe appelée \verb|Illuminate\Routing\Router| stockée dans l'application.\\
 
@@ -80,7 +80,7 @@ Nous avons fait le choix d'utiliser un framework nommé Laravel. Ce framework es
 		Mais dans le cas d'une application plus complexe, il est préférable de dissocier ses contrôleurs de l'ORM afin d'améliorer la maintenabilité de l'application et de permettre l'utilisation d'un autre système de stockage. En effet, si l'on décidait de passer à une autre méthode de stockage que celle choisie initialement, il faudrait aller chercher dans toute l'application où sont effectués ces accès. En utilisant le \repositoryPattern{} il suffit de créer une nouvelle classe respectant le contrat initial (l'interface créée) puis vérifier que celle-ci est conforme aux test écrits.
 
 	\subsection{Utilisation de répertoires}
-		La création de répertoires est finalement assez simple. Les différentes étapes sont le suivantes :
+		La création de répertoires est finalement assez simple. Les différentes étapes sont les suivantes :
 		\begin{enumerate}
 			\item Création d'une interface indiquant le comportement attendu pour l'accès aux données ;
 			\item Création d'une classe concrète se conformant à l'interface en utilisant l'ORM de Laravel ;
