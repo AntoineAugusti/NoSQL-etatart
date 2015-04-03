@@ -4,6 +4,7 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Crete+Round|Roboto:400,300,500' rel='stylesheet' type='text/css'>
 	<link href="/assets/css/styles.min.css" rel="stylesheet">
+	<link href="/assets/css/datepicker.css" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>@yield('pageTitle')</title>
 </head>

@@ -1,6 +1,7 @@
 <?php namespace Insa\Events\Controllers;
 
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;

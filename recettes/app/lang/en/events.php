@@ -6,7 +6,7 @@ return [
 
     'name'      => 'Name',
     'type'      => 'Event type',
-    'date'      => 'Date (dd/mm/yyy)',
+    'date'      => 'Date',
 
     'new-year'  => 'New year',
     'birthday'  => 'Birthday',
