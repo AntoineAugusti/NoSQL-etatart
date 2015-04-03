@@ -25,4 +25,11 @@
 		<h2 class="locations__title">{{ trans('recipes.location') }}</h2>
 		@include('locations.partials.single', ['location' => $recipe->location]);
 	@endif
+
+    <!-- LIST OF EVENTS -->
+    <h2 class="ingredients__title">
+        {{ Lang::get('events.events') }}
+    </h2>
+    @include('events.partials.indexCards', ['events' => $recipe->events])
+
 @stop

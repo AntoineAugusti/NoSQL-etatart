@@ -14,4 +14,9 @@ return [
     'christmas' => 'Christmas',
 
     'submit' => 'Create the event!',
+
+    'associate' => 'Associate an event',
+    'associateHelp' => 'Choose an event to associate with this recipe',
+    'associateHelpInput' => 'Search events',
+    'submitAssociate' => 'Associate the event!',
 ];

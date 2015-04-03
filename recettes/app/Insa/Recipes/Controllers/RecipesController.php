@@ -3,6 +3,7 @@
 use Config, Input, Lang, Paginator, Session, Redirect, Str, View;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
+use Insa\Events\Repositories\EventsRepository;
 use Insa\Exceptions\RecipeNotFoundException;
 use Insa\Ingredients\Models\Ingredient;
 use Insa\Recipes\Models\Recipe;
@@ -33,18 +34,24 @@ class RecipesController extends Controller {
 	 */
 	private $recipeValidator;
 
-	public function __construct(LocationsRepository $locationsRepo, LocationValidator $locationValidator, RecipesRepository $recipesRepo, RecipeValidator $recipeValidator)
+    /**
+     * @var EventsRepository
+     */
+    private $eventsRepository;
+
+    public function __construct(LocationsRepository $locationsRepo, LocationValidator $locationValidator, RecipesRepository $recipesRepo, RecipeValidator $recipeValidator, EventsRepository $eventsRepository)
 	{
 		$this->locationsRepo     = $locationsRepo;
 		$this->locationValidator = $locationValidator;
 		$this->recipesRepo       = $recipesRepo;
 		$this->recipeValidator   = $recipeValidator;
+        $this->eventsRepository  = $eventsRepository;
 
-		$this->beforeFilter('csrf', ['only' => ['redirectToIngredients', 'redirectToQuantities', 'redirectToLocation', 'store']]);
-		$this->beforeFilter('hasCreatedRecipe', ['only' => ['createIngredients']]);
-		$this->beforeFilter('hasChoosenIngredients', ['only' => ['createQuantities']]);
-		$this->beforeFilter('hasChoosenQuantities', ['only' => ['createLocation', 'store']]);
-	}
+        $this->beforeFilter('csrf', ['only' => ['redirectToIngredients', 'redirectToQuantities', 'redirectToLocation', 'store']]);
+        $this->beforeFilter('hasCreatedRecipe', ['only' => ['createIngredients']]);
+        $this->beforeFilter('hasChoosenIngredients', ['only' => ['createQuantities']]);
+        $this->beforeFilter('hasChoosenQuantities', ['only' => ['createLocation', 'store']]);
+    }
 
 	public function index()
 	{
@@ -72,10 +79,11 @@ class RecipesController extends Controller {
 	public function show($slug)
 	{
 		$recipe = $this->recipesRepo->getBySlug($slug);
+		$allEvents = $this->eventsRepository->getAll()->lists('name');
 
 		if (is_null($recipe)) throw new RecipeNotFoundException;
 
-		return View::make('recipes.show', compact('recipe'));
+		return View::make('recipes.show', compact('recipe', 'allEvents'));
 	}
 
 	public function redirectToIngredients()

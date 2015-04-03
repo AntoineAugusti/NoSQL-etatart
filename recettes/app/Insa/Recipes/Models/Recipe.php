@@ -1,8 +1,8 @@
 <?php namespace Insa\Recipes\Models;
 
+use Insa\Events\Models\Event;
 use InvalidArgumentException, Moloquent;
 use Insa\Ingredients\Models\Ingredient;
-use Insa\Recipes\Models\Location;
 use Laracasts\Presenter\PresentableTrait;
 
 class Recipe extends Moloquent {
@@ -35,7 +35,16 @@ class Recipe extends Moloquent {
 		return $this->embedsMany(Ingredient::class);
 	}
 
-	/**
+    /**
+     * Get events for a recipe
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function events()
+    {
+        return $this->embedsMany(Event::class);
+    }
+
+    /**
 	 * Get the location of a recipe
 	 * @return \Illuminate\Database\Eloquent\Model
 	 */
