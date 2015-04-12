@@ -109,8 +109,8 @@ table(events) {
   variableType(string) date
 }
 
-recipes "1" o-- "0..1" locations : " is in"
-events "0..n" --- "0..m" guests
-events "0..n" --- "0..m" recipes
+recipes "0..n" o-- "0..1" locations
+events "0..n " --- "0..m" guests
+events "0..n" --- "0..m " recipes
 
 @enduml
