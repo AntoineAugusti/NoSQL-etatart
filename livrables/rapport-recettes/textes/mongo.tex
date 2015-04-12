@@ -9,7 +9,7 @@
 
 % subsection integration_avec_php_et_laravel (end)
 
-\section{Modélisation} % (fold)
+\section{Modélisation de la base de données orientée documents} % (fold)
 \label{sec:modelisation}
 
 	Comme expliqué dans notre introduction aux bases de données orientées documents, il n'existe pas de schéma fixe pour ces dernières. Pour autant, lors du développement d'une vraie application, il est nécessaire pour les développeurs de se fixer des schémas afin de pouvoir utiliser la base de données.\\
@@ -45,5 +45,23 @@
 		 \label{par:avantages_contre_desavantages}
 		 	Dans notre application, le cas d'utilisation le plus utilisé sera l'affichage de recette. Il est donc préférable d'optimiser les lectures via l'imbrication. La possibilité de mettre à jour les ingrédients n'est pas prévue et dans le cas où elle serait ajoutée, elle resterait très rare par rapport à l'affichage. Le coût de mise à jour n'est donc pas un problème.
 		 % paragraph avantages_contre_desavantages (end)
-
 % section modelisation (end)
+
+\section{Utilisation d'une base de données clé-valeur}
+	\subsection{Le besoin d'utiliser une base de données clé-valeur }
+		Nous avons vu dans la sous-section précédente \ref{par:desavantage_de_la_solution} qu'il était très coûteux de récupérer la liste de tous les ingrédients. Pourtant cette opération doit être effectuée lors de l'ajout d'une recette. En effet, lors de l'ajout de la recette, il est nécessaire de choisir quels ingrédients sont nécessaires à la réalisation de la recette.\\
+
+		Pour aider l'utilisateur, il est utile de lui suggérer les ingrédients déjà connus de l'application, lorsque celui-ci ajoute les ingrédients nécessaires à sa nouvelle recette. Il apparaît comme inenvisageable de devoir parcourir toutes les recettes, extraire tous les ingrédients de chaque recette et construire une liste d'ingrédients sans duplicatas pour répondre à ce cas d'utilisation.\\
+
+		C'est lors de problématiques comme celles-ci qu'une base de données clé-valeur est utile. Une base de données clé-valeur peut permettre de stocker une valeur, issue d'un calcul coûteux, pendant une courte période.
+
+	\subsection{Stockage de la liste des ingrédients}
+		\subsubsection{Problème rencontré}
+			L'idée principale est d'avoir accès facilement à une liste de tous les ingrédients. En réfléchissant un petit peu plus longtemps, on se rend compte qu'il pourrait être utile d'avoir des informations supplémentaires comme le prix et l'unité de la quantité associée à l'ingrédient. Le problème est que le prix d'un ingrédient n'est pas toujours le même, et l'unité de la quantité associée à l'ingrédient peut varier selon les goûts de chacun.\\
+
+		\subsubsection{Solution retenue}
+			Pour autant, l'utilisateur appréciera de se voir proposer des valeurs par défaut cohérentes lorsque celui-ci ajoutera un ingrédient déjà connu de l'application à une recette créée. On décide alors de définir le prix de l'ingrédient comme la moyenne des prix indiqués pour le même ingrédient (utilisé dans les autres recettes) et de fixer l'unité de la quantité associée à l'ingrédient comme celle la plus souvent choisie par les utilisateurs.\\
+
+			Lors de l'ajout d'un ingrédient à une recette, si cet ingrédient n'existait pas encore, l'ingrédient est rajouté à la liste des ingrédients en base de données clé-valeur, avec son prix et l'unité de la quantité choisie. Si l'ingrédient existait déjà, le prix est mis à jour en calculant une nouvelle moyenne et l'unité de la quantité associée reste inchangée. La clé a un temps d'expiration de 30 minutes, ce qui veut dire que la liste des ingrédients avec la moyenne des prix et les unités sera automatiquement régénérée 30 minutes après la création de la clé. On trouve ici un bon compromis : un accès quasi instantané à une information coûteuse à calculer et la garantie de la quasi cohérence de cette information.\\
+
+			Au final on obtient un grand gain de performance au prix de quelques lignes de code à écrire en plus et d'une base de données clé-valeur légère à déployer.
