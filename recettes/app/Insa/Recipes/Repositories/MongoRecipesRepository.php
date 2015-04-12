@@ -2,6 +2,7 @@
 
 use InvalidArgumentException;
 use Illuminate\Cache\Repository as Cache;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Insa\Ingredients\Models\Ingredient;
 use Insa\Quantities\Models\Quantity;
@@ -84,7 +85,8 @@ class MongoRecipesRepository implements RecipesRepository {
 	{
 		$skip = $this->computeSkip($page, $pagesize);
 
-		return Recipe::with('location')->latest()
+		return Recipe::with('location')
+			->latest()
 			->take($pagesize)
 			->skip($skip)
 			->get();
@@ -159,21 +161,11 @@ class MongoRecipesRepository implements RecipesRepository {
 
 		return $this->cache->remember('recipes.allIngredients', 10, function() use ($instance)
 		{
-			// We have an array of collections
-			$ingredientsArray = $instance->getAll()->lists('ingredients');
-			// Merge the collections in a single array
-			$tmp = [];
-			foreach ($ingredientsArray as $ing)
-			{
-				$tmp = array_merge($tmp, $ing->all());
-			}
-			$ingredientsArray = $tmp;
-
 			$finalIngredients = [];
 			$ingredientsName = [];
 			$prices = [];
 
-			foreach ($ingredientsArray as $ingredient)
+			foreach ($instance->allIngredients() as $ingredient)
 			{
 				// Add the ingredient to the final collection
 				if (! in_array($ingredient, $ingredientsName))
@@ -190,8 +182,26 @@ class MongoRecipesRepository implements RecipesRepository {
 			foreach ($finalIngredients as $ing)
 				$ing->price = round(array_sum($prices[$ing->name]) / count($prices[$ing->name]), 2);
 
-			return new \Illuminate\Support\Collection($finalIngredients);
+			return new Collection($finalIngredients);
 		});
+	}
+
+	/**
+	 * Get all ingredients from all recipes in a single array with duplicates
+	 * @return array
+	 */
+	private function allIngredients()
+	{
+		// We have an array of collections
+		$ingredientsArray = $this->getAll()->lists('ingredients');
+		// Merge the collections in a single array
+		$out = [];
+		foreach ($ingredientsArray as $ing)
+		{
+			$out = array_merge($out, $ing->all());
+		}
+
+		return $out;
 	}
 
 	/**
@@ -217,6 +227,11 @@ class MongoRecipesRepository implements RecipesRepository {
 			->count();
 	}
 
+	/**
+	 * Get the rating bounds for a rank
+	 * @param  string $rank
+	 * @return array An array of 2 integers. Both bounds are inclusive
+	 */
 	private function getBoundsForRank($rank)
 	{
 		switch ($rank)
@@ -273,11 +288,22 @@ class MongoRecipesRepository implements RecipesRepository {
 		return $ing;
 	}
 
+	/**
+	 * Get the slug for a string
+	 * @param  string $value
+	 * @return string
+	 */
 	private function computeSlug($value)
 	{
 		return $this->str->slug($value);
 	}
 
+	/**
+	 * Compute the number of elements to skip
+	 * @param  int $page
+	 * @param  int $pagesize
+	 * @return int
+	 */
 	private function computeSkip($page, $pagesize)
 	{
 		return $pagesize * ($page - 1);
