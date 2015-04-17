@@ -55,4 +55,21 @@ class GuestPresenter extends Presenter {
 	{
 		return Lang::get('guests.' . $this->entity->type);
 	}
+
+    public function inviteType()
+    {
+        if ($this->entity->hasBeenInvited())
+            return 'mdi-action-done';
+        else
+            return 'mdi-alert-warning';
+    }
+
+    public function inviteInfo()
+    {
+
+        if ($this->entity->hasBeenInvited())
+            return Lang::get('guests.invitedThe') . ' ' . $this->entity->invite->lastInvite->format('d/m/Y') . ' (' . Lang::get('guests.numberOfInvitations') . ': ' . $this->entity->invite->numberOfInvitations . ')';
+        else
+            return Lang::get('guests.neverInvited');
+    }
 }

@@ -1,6 +1,6 @@
 <div class="panel panel-default animated fadeInUp">
     <div class="panel-heading recipes__title">
-            {{ $guest->name }}
+        <i class="{{ $guest->present()->inviteType() }}" data-toggle="tooltip" data-placement="left" data-original-title="{{ $guest->present()->inviteInfo() }}"></i> {{ $guest->name }}
     </div>
     <div class="panel-body">
 

@@ -1,8 +1,10 @@
 <?php
 
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Insa\Guests\Models\Guest;
+use Insa\Guests\Models\Invite;
 
 class GuestTableSeeder extends Seeder {
 
@@ -23,6 +25,19 @@ class GuestTableSeeder extends Seeder {
                 'type'        => $faker->randomElement(Guest::getAllowedTypeValues()),
             ]);
 
+            $invite = new Invite();
+
+            $toInvite = $faker->boolean();
+            $invite->toInvite = $toInvite;
+
+            if ($toInvite)
+                $invite->numberOfInvitations = 0;
+            else {
+                $invite->numberOfInvitations = 1;
+                $invite->lastInvite = Carbon::createFromTimestamp($faker->dateTime->getTimestamp());
+            }
+
+            $guest->invite()->save($invite);
             $guest->save();
         }
     }

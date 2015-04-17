@@ -15,5 +15,9 @@
                 {{ $event->present()->date() }}
             </div>
         </div>
+
+        @foreach ($event->guests as $guest)
+            {{ $guest->name }}
+        @endforeach
     </div>
 </div>

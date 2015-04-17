@@ -1,5 +1,6 @@
 <?php namespace Insa\Events\Models;
 
+use Insa\Guests\Models\Guest;
 use InvalidArgumentException;
 use Laracasts\Presenter\PresentableTrait;
 use Jenssegers\Mongodb\Model;
@@ -26,6 +27,14 @@ class Event extends Model {
 	public $fillable = ['name', 'type', 'date'];
 
 	public $dates = ['date'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function guests()
+    {
+        return $this->belongsToMany(Guest::class);
+    }
 
 	/**
 	 * Set the type attribute

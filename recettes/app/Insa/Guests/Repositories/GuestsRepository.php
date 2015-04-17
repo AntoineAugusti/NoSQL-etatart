@@ -1,6 +1,7 @@
 <?php namespace Insa\Guests\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
+use Insa\Events\Models\Event;
 use Insa\Guests\Models\Guest;
 
 interface GuestsRepository {
@@ -24,4 +25,12 @@ interface GuestsRepository {
 	 * @return bool
 	 */
 	public function save(Guest $guest);
+
+    /**
+	 * Invite a guest in an event
+	 * @param  Guest $guest
+	 * @param  Event $event
+	 * @return void
+	 */
+	public function inviteIn(Guest $guest, Event $event);
 }

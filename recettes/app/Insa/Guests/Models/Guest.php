@@ -1,5 +1,6 @@
 <?php namespace Insa\Guests\Models;
 
+use Insa\Events\Models\Event;
 use InvalidArgumentException;
 use Laracasts\Presenter\PresentableTrait;
 use Jenssegers\Mongodb\Model;
@@ -24,6 +25,23 @@ class Guest extends Model {
 	 */
 	public $fillable = ['name', 'type', 'phoneNumber'];
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\EmbedsMany
+     */
+    public function invite()
+    {
+        return $this->embedsOne(Invite::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
 	/**
 	 * Set the type attribute
 	 * @param string $value
@@ -47,4 +65,9 @@ class Guest extends Model {
 	{
 		return [self::FRIEND, self::FAMILY, self::COLLEAGUE];
 	}
+
+    public function hasBeenInvited()
+    {
+        return !$this->invite->toInvite;
+    }
 }

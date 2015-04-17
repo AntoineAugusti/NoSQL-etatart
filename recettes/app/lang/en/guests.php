@@ -13,4 +13,8 @@ return [
     'colleague' => 'Colleague',
 
     'submit' => 'Add my guest!',
+
+    'invitedThe'          => 'Last invite the',
+    'neverInvited'        => 'Never invited!',
+    'numberOfInvitations' => 'Number of invitations',
 ];

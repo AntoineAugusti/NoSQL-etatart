@@ -52,6 +52,16 @@
                         </div>
                     </div>
 
+                    <!-- GUESTS  -->
+
+                    <div class="form-group">
+                        <label for="guests" class="col-lg-2 control-label">{{ trans('events.guests') }}</label>
+                        <div class="col-lg-10">
+                            {{ Form::select('guests[]', $guests, null, ['multiple' => true, 'class' => 'form-control chosen-select', 'data-placeholder' => trans('events.guestsHelpInput') ]) }}
+                            <span class="help-block">{{ trans('events.guestsHelp') }}</span>
+                        </div>
+                    </div>
+
                     <!-- SUBMIT -->
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">

@@ -12,6 +12,9 @@ return [
     'birthday'  => 'Birthday',
     'party'     => 'Party',
     'christmas' => 'Christmas',
+    'guests'    => 'Guests',
+        'guestsHelp'      => 'Type here the name of the guests invited to the event',
+        'guestsHelpInput' => 'Type here the name of your guests',
 
     'submit' => 'Create the event!',
 

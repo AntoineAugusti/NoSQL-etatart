@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\Factory as View;
 use Insa\Guests\Models\Guest;
+use Insa\Guests\Models\Invite;
 use Insa\Guests\Repositories\GuestsRepository;
 use Insa\Guests\Validation\GuestValidator;
 use Response;
@@ -73,7 +74,11 @@ class GuestsController extends Controller {
         $this->guestValidator->validate($data);
 
         $guest = new Guest($data);
+        $invite = new Invite();
+        $invite->toInvite = true;
+        $invite->numberOfInvite = 0;
 
+        $guest->invite()->associate($invite);
         $this->guestsRepository->save($guest);
 
         return Redirect::route('guests.index');
