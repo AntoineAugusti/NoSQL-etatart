@@ -3,7 +3,7 @@
 
 	MongoDB bénéficie d'une extension PHP facilement installable via PEAR (le gestionnaire d'extensions de PHP). Deux limitations existent néanmoins : le support de la version 3.0 de MongoDB n'est pas encore pris en charge et l'extension n'est pas encore compatible avec la toute dernière version majeure de PHP (PHP 7.0) prévue pour fin novembre. La mise à jour de l'extension vers la toute dernière version de MongoDB et de PHP sera sans doute effective rapidement.\\
 
-	Afin de faciliter le développement, il a été décidé d'utiliser un ORM. Dans le cas des bases de données orientées documents, nous allons utiliser un ODM pour Object Document Mapping. Plusieurs grands ORM existent dans le monde des frameworks PHP : Doctrine et Eloquent sont deux des plus connus. Tous deux proposent un ODM associé. Doctrine présente l'avantage de permettre une intégration de MongoDB via un package PHP officiel. Eloquent supporte le système de base de données MongoDB via un package non-officiel (développé par jenssegers) appelé tout simplement \verb|mongodb|. Dans les deux cas, l'outil permet de gérer toutes les opérations de base ainsi que les documents imbriqués. Nous avons décidé d'utiliser Laravel et donc son ORM officiel Eloquent, nous allons donc utiliser le package \verb|jenssegers/mongodb| dans sa version 2.0.\\
+	Afin de faciliter le développement, il a été décidé d'utiliser un ORM. Dans le cas des bases de données orientées documents, nous allons utiliser un ODM pour \textit{Object Document Mapping}. Plusieurs grands ORM existent dans le monde des frameworks PHP : Doctrine et Eloquent sont deux des plus connus. Tous deux proposent un ODM associé. Doctrine présente l'avantage de permettre une intégration de MongoDB via un package PHP officiel. Eloquent supporte le système de base de données MongoDB via un package non-officiel (développé par jenssegers) appelé tout simplement \verb|mongodb|. Dans les deux cas, l'outil permet de gérer toutes les opérations de base ainsi que les documents imbriqués. Nous avons décidé d'utiliser Laravel et donc son ORM officiel Eloquent, nous allons donc utiliser le package \verb|jenssegers/mongodb| dans sa version 2.0.\\
 
 	L'utilisation d'une base de données NoSQL est souvent délicate car il en existe de nombreux types différents et les intégrations ne sont donc pas forcément toutes développées (et rarement intégrée par des packages officiels). Il est donc préférable de se limiter aux bases de données les plus utilisées pour chaque type (MongoDB pour les bases de données orientées documents, Redis pour les bases de données orientées clé / valeur par exemple.). Dans notre cas, MongoDB étant très utilisée, il existe donc de nombreuses intégrations, comme nous l'avons vu pour PHP, mais aussi pour les différents ORM du marché ainsi que pour la plupart des solutions de test de l'écosystème (nous ne détaillerons pas les solutions de test dans ce rapport).
 
@@ -12,7 +12,7 @@
 \section{Modélisation de la base de données orientée documents}% (fold)
 \label{sec:modelisation}
 
-	Comme expliqué dans notre introduction aux bases de données orientées documents, il n'existe pas de schéma fixe pour ces dernières. Pour autant, lors du développement d'une vraie application, il est nécessaire pour les développeurs de se fixer des schémas afin de pouvoir utiliser la base de données.\\
+	Comme expliqué dans notre introduction aux bases de données orientées documents, il n'existe pas de schéma fixe pour ces dernières. Pour autant, lors du développement d'une véritable application, il est nécessaire pour les développeurs de se fixer des schémas afin de pouvoir utiliser la base de données.\\
 
 	Nous avons organisé notre base de données en 4 collections : \verb|recipes|, \verb|locations|, \verb|guests| et \verb|events|.
 
@@ -53,7 +53,7 @@
 		% paragraph avantage_de_la_solution (end)
 
 		\paragraph{Désavantage du stockage dans le document recipe}% (fold)
-			Cette méthode complexifie le traitement des recettes via leur localisations. Il est plus coûteux d'afficher toutes les requettes d'une localisation par exemple.
+			Cette méthode complexifie le traitement des recettes via leur localisations. Il est plus coûteux d'afficher toutes les requêtes d'une localisation par exemple.
 		% paragraph desavantage_de_la_solution (end)
 
 		\paragraph{Avantage du stockage dans le document location}% (fold)
@@ -90,7 +90,7 @@
 
 	\subsection{Relations plusieurs à plusieurs}
 
-		Il existe entre les invités et les évènements et entre les recette et les évènements des relations de plusieurs à plusieurs. En relationnel, ces relations sont gérés par une table de pivot contenant deux clés étrangères avec les identifiants de chaque modèle et optionnellement des caractéristiques de la relation. Les table pivot ne sont pas du tout optimisées pour les bases de données orientées documents. En effet, avec ces dernières, il est nécessaire d'effectuer une requête supplémentaire afin de récupérer le document correspondant à la relation. Toujours dans l'optique d'optimiser les lectures, notre ODM nous propose de gérer les relations plusieurs à plusieurs grâce à un tableau d'identifiant à la place d'une collection pivot. Il existe donc dans le document \verb|event| par exemple, deux tableaux d'identifiants : \verb|guest_ids| et \verb|recipe_ids|. Ces tableaux sont répétés dans le document \verb|guest| et dans le document \verb|recipe| avec un tableau \verb|event_ids|.
+		Il existe entre les invités et les évènements et entre les recette et les évènements des relations de plusieurs à plusieurs. En relationnel, ces relations sont gérés par une table de pivot contenant deux clés étrangères avec les identifiants de chaque modèle et optionnellement des caractéristiques de la relation. Les table pivots ne sont pas du tout optimisées pour les bases de données orientées documents. En effet, avec ces dernières, il est nécessaire d'effectuer une requête supplémentaire afin de récupérer le document correspondant à la relation. Toujours dans l'optique d'optimiser les lectures, notre ODM nous propose de gérer les relations plusieurs à plusieurs grâce à un tableau d'identifiants à la place d'une collection pivot. Il existe donc dans le document \verb|event| par exemple, deux tableaux d'identifiants : \verb|guest_ids| et \verb|recipe_ids|. Ces tableaux sont répétés dans le document \verb|guest| et dans le document \verb|recipe| avec un tableau \verb|event_ids|.
 
 		\paragraph{Avantage de la solution}% (fold)
 			À partir du moment où le document \verb|event| est récupéré, il est possible d'effectuer directement une nouvelle requête afin de récupérer les recettes ou les invités associés sans passer par une requête supplémentaire sur une collection pivot.
@@ -102,9 +102,9 @@
 
 	\subsection{La vue AInviter}
 
-		Dans le cadre du projet de base de données, il a été demandé de faciliter l'accès aux personnes à inviter en créant une vue des invités avec si oui ou non ils ont déjà été invité, le nombre d'évènements auquels ils ont participés et la date de la dernière invitation si cette dernière à eu lieu.\\
+		Dans le cadre du projet de base de données, il a été demandé de faciliter l'accès aux personnes à inviter en créant une vue des invités avec si oui ou non ils ont déjà été invités, le nombre d’événements auxquels ils ont participé et la date de la dernière invitation si cette dernière a eu lieu.\\
 
-		Le système de vue n'existant pas dans les bases de données orientées document, nous avons créé un faux modèle imbriqué (un booléen indiquant si la personne a déjà été invité, le nombre d'invitation reçu par cette personne et la date de la dernière invitation) dans les invités afin de stocker ces informations dupliquées. Ce stockage sous forme de document imbriqué va améliorer les performances de lecture mais déteriorer les performances en écriture. En effet, à chaque nouvelle invitation d'un invité, il est nécessaire de mettre à jour ce document imbriqué avec les nouvelles valeurs.
+		Le système de vue n'existant pas dans les bases de données orientées document, nous avons créé un faux modèle imbriqué (un booléen indiquant si la personne a déjà été invitée, le nombre d'invitations reçues par cette personne et la date de la dernière invitation) dans les invités afin de stocker ces informations dupliquées. Ce stockage sous forme de document imbriqué va améliorer les performances de lecture mais détériorer les performances en écriture. En effet, à chaque nouvelle invitation d'un invité, il est nécessaire de mettre à jour ce document imbriqué avec les nouvelles valeurs.
 
 % section modelisation (end)
 
