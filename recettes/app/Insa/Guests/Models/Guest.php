@@ -68,6 +68,21 @@ class Guest extends Model {
 
     public function hasBeenInvited()
     {
-        return !$this->invite->toInvite;
+        return !$this->getInvite()->toInvite;
     }
+
+	public function getInvite()
+	{
+		$invite = $this->invite;
+		if (is_null($invite)) {
+			$invite = new Invite();
+			$invite->toInvite = true;
+			$invite->numberOfInvitations = 0;
+
+			$this->invite()->save($invite);
+			$this->save();
+		}
+
+		return $this->invite;
+	}
 }

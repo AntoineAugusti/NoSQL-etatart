@@ -68,7 +68,7 @@ class GuestPresenter extends Presenter {
     {
 
         if ($this->entity->hasBeenInvited())
-            return Lang::get('guests.invitedThe') . ' ' . $this->entity->invite->lastInvite->format('d/m/Y') . ' (' . Lang::get('guests.numberOfInvitations') . ': ' . $this->entity->invite->numberOfInvitations . ')';
+            return Lang::get('guests.invitedThe') . ' ' . $this->entity->getInvite()->lastInvite->format('d/m/Y') . ' (' . Lang::get('guests.numberOfInvitations') . ': ' . $this->entity->getInvite()->numberOfInvitations . ')';
         else
             return Lang::get('guests.neverInvited');
     }
