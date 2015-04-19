@@ -59,4 +59,9 @@ class Event extends Model {
 	{
 		return [self::BIRTHDAY, self::CHRISTMAS, self::NEW_YEAR, self::PARTY];
 	}
+
+	public function hasGuests()
+	{
+		return !$this->guests->isEmpty();
+	}
 }

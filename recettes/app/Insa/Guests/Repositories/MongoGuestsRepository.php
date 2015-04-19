@@ -51,7 +51,5 @@ class MongoGuestsRepository implements GuestsRepository {
         $invite->numberOfInvitations++;
 
         $guest->invite()->save($invite);
-
-        dd($event->guests->toJson());
     }
 }

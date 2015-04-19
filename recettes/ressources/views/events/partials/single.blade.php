@@ -16,8 +16,10 @@
             </div>
         </div>
 
-        @foreach ($event->guests as $guest)
-            {{ $guest->name }}
-        @endforeach
+        @if($event->hasGuests())
+            <div class="recipes__description">
+                <strong>{{ Lang::get('events.guests') }}:</strong> {{ implode(', ', $event->guests->lists('name')) }}
+            </div>
+        @endif
     </div>
 </div>

@@ -90,13 +90,12 @@ class EventsController extends Controller {
 
 		$data['date'] = $this->eventValidator->getValidatedDate($data['type'], $data['date']);
         $event = new Event($data);
+        $this->eventsRepository->save($event);
 
         foreach (Input::get('guests') as $guestId) {
             $guest = $this->guestsRepository->getById($guestId);
             $this->guestsRepository->inviteIn($guest, $event);
         }
-
-        $this->eventsRepository->save($event);
 
         return Redirect::route('events.index');
 	}
