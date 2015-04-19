@@ -79,7 +79,11 @@ class RecipesController extends Controller {
 	public function show($slug)
 	{
 		$recipe = $this->recipesRepo->getBySlug($slug);
-		$allEvents = $this->eventsRepository->getAll()->lists('name');
+		$events = $this->eventsRepository->getAll();
+		$allEvents = [];
+		foreach ($events as $event) {
+			$allEvents[$event->id] = $event->name;
+		}
 
 		if (is_null($recipe)) throw new RecipeNotFoundException;
 

@@ -12,6 +12,7 @@ use Insa\Events\Repositories\EventsRepository;
 use Insa\Events\Validation\EventValidator;
 use Insa\Guests\Models\Guest;
 use Insa\Guests\Repositories\GuestsRepository;
+use Insa\Recipes\Repositories\RecipesRepository;
 
 class EventsController extends Controller {
 
@@ -32,6 +33,10 @@ class EventsController extends Controller {
      * @var GuestsRepository
      */
     private $guestsRepository;
+    /**
+     * @var RecipesRepository
+     */
+    private $recipesRepository;
 
     /**
      * The constructor
@@ -39,13 +44,15 @@ class EventsController extends Controller {
      * @param EventsRepository $eventsRepository
      * @param EventValidator $eventValidator
      * @param GuestsRepository $guestsRepository
+     * @param RecipesRepository $recipesRepository
      */
-	function __construct(View $view, EventsRepository $eventsRepository, EventValidator $eventValidator, GuestsRepository $guestsRepository)
+	function __construct(View $view, EventsRepository $eventsRepository, EventValidator $eventValidator, GuestsRepository $guestsRepository, RecipesRepository $recipesRepository)
 	{
 		$this->view = $view;
 		$this->eventsRepository = $eventsRepository;
         $this->eventValidator = $eventValidator;
         $this->guestsRepository = $guestsRepository;
+        $this->recipesRepository = $recipesRepository;
     }
 
 	/**
@@ -99,4 +106,15 @@ class EventsController extends Controller {
 
         return Redirect::route('events.index');
 	}
+
+    public function associate()
+    {
+        $recipe = $this->recipesRepository->getBySlug(Input::get('recipe'));
+        $event = $this->eventsRepository->getById(Input::get('event'));
+
+        $event->recipes()->attach($recipe->id);
+        $event->save();
+
+        return Redirect::route('recipes.show', $recipe->slug);
+    }
 }

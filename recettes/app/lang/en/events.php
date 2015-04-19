@@ -22,4 +22,6 @@ return [
     'associateHelp' => 'Choose an event to associate with this recipe',
     'associateHelpInput' => 'Search events',
     'submitAssociate' => 'Associate the event!',
+
+    'guestsCount' => '[0,1] guest|[2,Inf] guests',
 ];

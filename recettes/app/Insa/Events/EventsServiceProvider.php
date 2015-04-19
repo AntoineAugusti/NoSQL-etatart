@@ -44,6 +44,8 @@ class EventsServiceProvider extends ServiceProvider {
 
 			$this->app['router']->get('events/create', ['as' => 'events.create', 'uses' => $controller.'@create']);
 			$this->app['router']->post('events/store', ['as' => 'events.store', 'uses' => $controller.'@store']);
+			$this->app['router']->post('events/associate', ['as' => 'events.associate', 'uses' => $controller.'@associate']);
+
 		});
 	}
 

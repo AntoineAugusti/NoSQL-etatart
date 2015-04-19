@@ -1,6 +1,7 @@
 <?php namespace Insa\Events\Models;
 
 use Insa\Guests\Models\Guest;
+use Insa\Recipes\Models\Recipe;
 use InvalidArgumentException;
 use Laracasts\Presenter\PresentableTrait;
 use Jenssegers\Mongodb\Model;
@@ -35,6 +36,14 @@ class Event extends Model {
     {
         return $this->belongsToMany(Guest::class);
     }
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function recipes()
+	{
+		return $this->belongsToMany(Recipe::class);
+	}
 
 	/**
 	 * Set the type attribute

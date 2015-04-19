@@ -41,7 +41,7 @@ class Recipe extends Moloquent {
      */
     public function events()
     {
-        return $this->embedsMany(Event::class);
+        return $this->belongsToMany(Event::class);
     }
 
     /**
