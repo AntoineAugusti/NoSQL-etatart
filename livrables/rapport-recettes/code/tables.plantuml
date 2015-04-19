@@ -85,9 +85,6 @@ table(recipes) {
   variableType(string) embed(ingredient).unit
   variableType(float) embed(ingredient).price
   variableType(float) embed(ingredient).embed2(quantity).quantity
-  variableType(boolean) embed(invite).toInvite
-  variableType(int) embed(invite).numberOfInvitations
-  variableType(date) embed(invite).lastInvite
 }
 
 table(locations) {
@@ -103,6 +100,9 @@ table(guests) {
   variableType(string) name
   variableType(string) type
   variableType(string) phoneNumber
+  variableType(boolean) embed(invite).toInvite
+  variableType(int) embed(invite).numberOfInvitations
+  variableType(date) embed(invite).lastInvite
 }
 
 table(events) {
