@@ -17,9 +17,9 @@
         </div>
 
         @if($event->hasGuests())
-            <div class="recipes__description">
-                <strong>{{ Lang::get('events.guests') }}:</strong> {{ implode(', ', $event->guests->lists('name')) }}
-            </div>
+            <p class="recipes__description">
+                <i class="mdi-social-group"></i> <span class="green">{{ Lang::get('events.guests') }}:</span> <span class="gray">{{ implode(', ', $event->guests->lists('name')) }}</span>
+            </p>
         @endif
     </div>
 </div>

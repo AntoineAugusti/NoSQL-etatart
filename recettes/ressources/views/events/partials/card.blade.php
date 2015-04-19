@@ -18,7 +18,7 @@ else
             <!-- GUESTS -->
             @if($event->hasGuests())
                 <p class="list-group-item-text ingredients__quantity-line">
-                    <i class="mdi-social-group"></i> <span class="green">{{ Lang::get('events.guests') }}:</span> <span class="gray">({{ implode(', ', $event->guests->lists('name')) }})</span>
+                    <i class="mdi-social-group"></i> <span class="green">{{ Lang::get('events.guests') }}</span> <span class="gray">({{ implode(', ', $event->guests->lists('name')) }})</span>
                 </p>
             @endif
         </div>
