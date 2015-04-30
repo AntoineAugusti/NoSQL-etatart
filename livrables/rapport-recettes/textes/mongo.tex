@@ -3,7 +3,7 @@
 
 	MongoDB bénéficie d'une extension PHP facilement installable via PEAR (le gestionnaire d'extensions de PHP). Deux limitations existent néanmoins : le support de la version 3.0 de MongoDB n'est pas encore pris en charge et l'extension n'est pas encore compatible avec la toute dernière version majeure de PHP (PHP 7.0) prévue pour fin novembre. La mise à jour de l'extension vers la toute dernière version de MongoDB et de PHP sera sans doute effective rapidement.\\
 
-	Afin de faciliter le développement, il a été décidé d'utiliser un ORM. Dans le cas des bases de données orientées documents, nous allons utiliser un ODM pour \textit{Object Document Mapping}. Plusieurs grands ORM existent dans le monde des frameworks PHP : Doctrine et Eloquent sont deux des plus connus. Tous deux proposent un ODM associé. Doctrine présente l'avantage de permettre une intégration de MongoDB via un package PHP officiel. Eloquent supporte le système de base de données MongoDB via un package non-officiel (développé par jenssegers) appelé tout simplement \verb|mongodb|. Dans les deux cas, l'outil permet de gérer toutes les opérations de base ainsi que les documents imbriqués. Nous avons décidé d'utiliser Laravel et donc son ORM officiel Eloquent, nous allons donc utiliser le package \verb|jenssegers/mongodb| dans sa version 2.0.\\
+	Afin de faciliter le développement, il a été décidé d'utiliser un ORM. Dans le cas des bases de données orientées documents, on parle alors d'un ODM pour \textit{Object Document Mapping}. Par simplification, on peut dire qu'un ODM n'est ni plus ni moins qu'un ORM pour une base de données orientée documents. Plusieurs grands ORM existent dans le monde des frameworks PHP : Doctrine et Eloquent sont deux des plus connus. Tous deux proposent un ODM associé. Doctrine présente l'avantage de permettre une intégration de MongoDB via un package PHP officiel\footnote{Les bases de données peuvent être intégrées à l'aide d'un package PHP, écrit en C et qui doit être rajouté à la configuration de PHP ou d'un simple client vers la base de données. Dans le second cas, le client est écrit en PHP et les performances sont moins bonnes.}. Eloquent supporte le système de base de données MongoDB via un package non-officiel (développé par jenssegers) appelé tout simplement \verb|mongodb|. Dans les deux cas, l'outil permet de gérer toutes les opérations de base ainsi que les documents imbriqués. Nous avons décidé d'utiliser Laravel et donc son ORM officiel Eloquent, nous allons donc utiliser le package \verb|jenssegers/mongodb| dans sa version 2.0.\\
 
 	L'utilisation d'une base de données NoSQL est souvent délicate car il en existe de nombreux types différents et les intégrations ne sont donc pas forcément toutes développées (et rarement intégrée par des packages officiels). Il est donc préférable de se limiter aux bases de données les plus utilisées pour chaque type (MongoDB pour les bases de données orientées documents, Redis pour les bases de données orientées clé / valeur par exemple.). Dans notre cas, MongoDB étant très utilisée, il existe donc de nombreuses intégrations, comme nous l'avons vu pour PHP, mais aussi pour les différents ORM du marché ainsi que pour la plupart des solutions de test de l'écosystème (nous ne détaillerons pas les solutions de test dans ce rapport).
 
@@ -25,7 +25,7 @@
 			\label{fig:diagramme-stockage}
 		\end{figure}
 
-		Le diagramme de stockage de notre application est présenté dans la figure~\ref{fig:diagramme-stockage}. Les clés primaires de chaque collection sont soulignées. Les documents imbriqués sont représentés par des variations de couleurs dans les champs d'une collection. Les champs supplémentaires nécessaires aux relations \enquote{plusieurs vers plusieurs} ne sont pas représentés.
+		Le diagramme de stockage de notre application est présenté dans la figure~\ref{fig:diagramme-stockage}. Les clés primaires de chaque collection sont soulignées. Les documents imbriqués sont représentés par des variations de couleurs dans les champs d'une collection. Les champs supplémentaires nécessaires aux relations \texttt{m..n} ne sont pas représentés.
 
 	\subsection{Recettes et ingrédients}
 
@@ -53,7 +53,7 @@
 		% paragraph avantage_de_la_solution (end)
 
 		\paragraph{Désavantage du stockage dans le document recipe}% (fold)
-			Cette méthode complexifie le traitement des recettes via leur localisations. Il est plus coûteux d'afficher toutes les requêtes d'une localisation par exemple.
+			Cette méthode complexifie le traitement des recettes via leur localisations. Il est plus coûteux d'afficher toutes les recettes d'une localisation par exemple.
 		% paragraph desavantage_de_la_solution (end)
 
 		\paragraph{Avantage du stockage dans le document location}% (fold)
@@ -88,9 +88,9 @@
 
 		Les évènements sont stockées dans la collection \verb|events|. Tout comme pour les invités, cette collection est très simple car elle ne stocke qu'une seule entité.
 
-	\subsection{Relations plusieurs à plusieurs}
+	\subsection{Relations \texttt{m..n}}
 
-		Il existe entre les invités et les évènements et entre les recette et les évènements des relations de plusieurs à plusieurs. En relationnel, ces relations sont gérés par une table de pivot contenant deux clés étrangères avec les identifiants de chaque modèle et optionnellement des caractéristiques de la relation. Les table pivots ne sont pas du tout optimisées pour les bases de données orientées documents. En effet, avec ces dernières, il est nécessaire d'effectuer une requête supplémentaire afin de récupérer le document correspondant à la relation. Toujours dans l'optique d'optimiser les lectures, notre ODM nous propose de gérer les relations plusieurs à plusieurs grâce à un tableau d'identifiants à la place d'une collection pivot. Il existe donc dans le document \verb|event| par exemple, deux tableaux d'identifiants : \verb|guest_ids| et \verb|recipe_ids|. Ces tableaux sont répétés dans le document \verb|guest| et dans le document \verb|recipe| avec un tableau \verb|event_ids|.
+		Il existe entre les invités et les évènements et entre les recette et les évènements des relations \texttt{m..n}. En relationnel, ces relations sont gérées par une table de pivot contenant deux clés étrangères avec les identifiants de chaque modèle et optionnellement des caractéristiques de la relation. Les table pivots ne sont pas du tout optimisées pour les bases de données orientées documents. En effet, avec ces dernières, il est nécessaire d'effectuer une requête supplémentaire afin de récupérer le document correspondant à la relation. Toujours dans l'optique d'optimiser les lectures, notre ODM nous propose de gérer les relations \texttt{m..n} grâce à un tableau d'identifiants à la place d'une collection pivot. Il existe donc dans le document \verb|event| par exemple, deux tableaux d'identifiants : \verb|guest_ids| et \verb|recipe_ids|. Ces tableaux sont répétés dans le document \verb|guest| et dans le document \verb|recipe| avec un tableau \verb|event_ids|.
 
 		\paragraph{Avantage de la solution}% (fold)
 			À partir du moment où le document \verb|event| est récupéré, il est possible d'effectuer directement une nouvelle requête afin de récupérer les recettes ou les invités associés sans passer par une requête supplémentaire sur une collection pivot.
@@ -114,9 +114,9 @@
 
 		Pour aider l'utilisateur, il est utile de lui suggérer les ingrédients déjà connus de l'application, lorsque celui-ci ajoute les ingrédients nécessaires à sa nouvelle recette. Il apparaît comme inenvisageable de devoir parcourir toutes les recettes, extraire tous les ingrédients de chaque recette et construire une liste d'ingrédients sans duplicatas pour répondre à ce cas d'utilisation.\\
 
-		C'est lors de problématiques comme celles-ci qu'une base de données clé-valeur est utile. Une base de données clé-valeur peut permettre de stocker une valeur, issue d'un calcul coûteux, pendant une courte période.
+		C'est lors de problématiques comme celles-ci qu'une base de données clé-valeur est utile. Une base de données clé-valeur peut permettre de stocker une valeur, issue d'un calcul coûteux, pendant une courte période. Par exemple, imaginons que l'on souhaite proposer un \enquote{classement} d'utilisateurs d'un jeu. Ce classement sera établi en fonction de leurs actions dans le jeu, de leurs réponses sur le forum, de leur activité\dots{} L'établissement de ce classement est très coûteux en terme de temps de calcul pour une base de données, pourtant le besoin d'un classement est bien réel. Il n'est pas envisageable de faire le calcul nécessaire à l'établissement du classement dès qu'un utilisateur cherche à consulter celui-ci. On pourrait donc envisager de mettre tout ou partie du résultat du calcul du classement dans une base de données clé-valeur, et rafraîchir ce résultat régulièrement, à l'aide d'une tâche CRON par exemple.
 
-	\subsection{Stockage de la liste des ingrédients}
+	\subsection{Stockage de la liste des ingrédients en base de données clé-valeur}
 		\subsubsection{Problème rencontré}
 			L'idée principale est d'avoir accès facilement à une liste de tous les ingrédients. En réfléchissant un petit peu plus longtemps, on se rend compte qu'il pourrait être utile d'avoir des informations supplémentaires comme le prix et l'unité de la quantité associée à l'ingrédient. Le problème est que le prix d'un ingrédient n'est pas toujours le même, et l'unité de la quantité associée à l'ingrédient peut varier selon les goûts de chacun.\\
 
