@@ -12,7 +12,7 @@
 \section{Modélisation de la base de données orientée documents}% (fold)
 \label{sec:modelisation}
 
-	Comme expliqué dans notre introduction aux bases de données orientées documents, il n'existe pas de schéma fixe pour ces dernières. Pour autant, lors du développement d'une véritable application, il est nécessaire pour les développeurs de se fixer des schémas afin de pouvoir utiliser la base de données.\\
+	Comme expliqué dans notre état de l'art des bases de données NoSQL\footnote{Voir notre état de l'art sur les bases de données NoSQL : \url{https://github.com/AntoineAugusti/NoSQL-etatart/tree/master/livrables/rapport}}, il n'existe pas de schéma fixe pour ces dernières. Pour autant, lors du développement d'une véritable application, il est nécessaire pour les développeurs de se fixer des schémas afin de pouvoir utiliser la base de données.\\
 
 	Nous avons organisé notre base de données en 4 collections : \verb|recipes|, \verb|locations|, \verb|guests| et \verb|events|.
 
@@ -100,11 +100,15 @@
 			L'ajout ou la suppression d'une relation entre deux documents passent par la mise à jour des deux documents et non pas par l'insertion ou la suppression d'un document pivot unique.
 		% paragraph desavantage_de_la_solution (end)
 
+		\paragraph{Conclusion} % (fold)
+			Le cas d'utilisation le plus courant de l'application sera la lecture des recettes. Il est donc nécessaire d'optimiser les requêtes en lecture, même si ces optimisations se font au détriment des requête en écriture (cas d'utilisation beaucoup plus rare). La solution de suppression de la table pivot est donc plus performante pour nos cas d'utilisation.
+		% paragraph conclusion (end)
+
 	\subsection{La vue AInviter}
 
 		Dans le cadre du projet de base de données, il a été demandé de faciliter l'accès aux personnes à inviter en créant une vue des invités avec si oui ou non ils ont déjà été invités, le nombre d’événements auxquels ils ont participé et la date de la dernière invitation si cette dernière a eu lieu.\\
 
-		Le système de vue n'existant pas dans les bases de données orientées document, nous avons créé un faux modèle imbriqué (un booléen indiquant si la personne a déjà été invitée, le nombre d'invitations reçues par cette personne et la date de la dernière invitation) dans les invités afin de stocker ces informations dupliquées. Ce stockage sous forme de document imbriqué va améliorer les performances de lecture mais détériorer les performances en écriture. En effet, à chaque nouvelle invitation d'un invité, il est nécessaire de mettre à jour ce document imbriqué avec les nouvelles valeurs.
+		Le système de vue n'existant pas dans les bases de données orientées document, cette optimisation passe par un nouveau document dupliqué (un booléen indiquant si la personne a déjà été invitée, le nombre d'invitations reçues par cette personne et la date de la dernière invitation) et imbriqué dans les invités afin de stocker ces informations. Ce stockage sous forme de document imbriqué va améliorer les performances de lecture mais détériorer les performances en écriture. En effet, à chaque nouvelle invitation d'un invité, il est nécessaire de mettre à jour ce document imbriqué avec les nouvelles valeurs. La duplication des informations n'est pas une mauvaise chose car l'application a des besoins beaucoup plus importants en lecture qu'en écriture.
 
 % section modelisation (end)
 
