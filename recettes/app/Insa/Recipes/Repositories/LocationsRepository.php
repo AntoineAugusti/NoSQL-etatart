@@ -1,17 +1,22 @@
-<?php namespace Insa\Recipes\Repositories;
+<?php
 
-interface LocationsRepository {
+namespace Insa\Recipes\Repositories;
 
-	/**
-	 * Get all locations
-	 * @return \Illuminate\Database\Eloquent\Collection
-	 */
-	public function getAll();
+interface LocationsRepository
+{
+    /**
+     * Get all locations.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll();
 
-	/**
-	 * Get a location by its ID
-	 * @param  string $id
-	 * @return Insa\Recipes\Models\Location
-	 */
-	public function findById($id);
+    /**
+     * Get a location by its ID.
+     *
+     * @param string $id
+     *
+     * @return Insa\Recipes\Models\Location
+     */
+    public function findById($id);
 }

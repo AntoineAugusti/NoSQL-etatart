@@ -1,7 +1,7 @@
-<?php namespace Insa\Events\Controllers;
+<?php
 
-use Carbon\Carbon;
-use DateTime;
+namespace Insa\Events\Controllers;
+
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
@@ -10,21 +10,20 @@ use Illuminate\View\Factory as View;
 use Insa\Events\Models\Event;
 use Insa\Events\Repositories\EventsRepository;
 use Insa\Events\Validation\EventValidator;
-use Insa\Guests\Models\Guest;
 use Insa\Guests\Repositories\GuestsRepository;
 use Insa\Recipes\Repositories\RecipesRepository;
 
-class EventsController extends Controller {
+class EventsController extends Controller
+{
+    /**
+     * @var EventsRepository
+     */
+    private $eventsRepository;
 
-	/**
-	 * @var EventsRepository
-	 */
-	private $eventsRepository;
-
-	/**
-	 * @var View
-	 */
-	private $view;
+    /**
+     * @var View
+     */
+    private $view;
     /**
      * @var EventValidator
      */
@@ -39,39 +38,42 @@ class EventsController extends Controller {
     private $recipesRepository;
 
     /**
-     * The constructor
-     * @param View $view
-     * @param EventsRepository $eventsRepository
-     * @param EventValidator $eventValidator
-     * @param GuestsRepository $guestsRepository
+     * The constructor.
+     *
+     * @param View              $view
+     * @param EventsRepository  $eventsRepository
+     * @param EventValidator    $eventValidator
+     * @param GuestsRepository  $guestsRepository
      * @param RecipesRepository $recipesRepository
      */
-	function __construct(View $view, EventsRepository $eventsRepository, EventValidator $eventValidator, GuestsRepository $guestsRepository, RecipesRepository $recipesRepository)
-	{
-		$this->view = $view;
-		$this->eventsRepository = $eventsRepository;
+    public function __construct(View $view, EventsRepository $eventsRepository, EventValidator $eventValidator, GuestsRepository $guestsRepository, RecipesRepository $recipesRepository)
+    {
+        $this->view = $view;
+        $this->eventsRepository = $eventsRepository;
         $this->eventValidator = $eventValidator;
         $this->guestsRepository = $guestsRepository;
         $this->recipesRepository = $recipesRepository;
     }
 
-	/**
-	 * List all events
-	 * @return Response
-	 */
-	public function index()
-	{
-		$events = $this->eventsRepository->getAll();
+    /**
+     * List all events.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $events = $this->eventsRepository->getAll();
 
-		return $this->view->make('events.index', compact('events'));
-	}
+        return $this->view->make('events.index', compact('events'));
+    }
 
-	/**
-	 * Show the form to create a new event
-	 * @return Response
-	 */
-	public function create()
-	{
+    /**
+     * Show the form to create a new event.
+     *
+     * @return Response
+     */
+    public function create()
+    {
         $guests = [];
         foreach ($this->guestsRepository->getAll() as $guest) {
             $guests[$guest->id] = $guest->name;
@@ -79,23 +81,24 @@ class EventsController extends Controller {
 
         $data = [
             'possibleTypes' => Event::getAllowedTypeValues(),
-            'guests'        => $guests
+            'guests' => $guests,
         ];
 
-		return $this->view->make('events.create', $data);
-	}
+        return $this->view->make('events.create', $data);
+    }
 
-	/**
-	 * Store a new event
-	 * @return Response
-	 */
-	public function store()
-	{
+    /**
+     * Store a new event.
+     *
+     * @return Response
+     */
+    public function store()
+    {
         $data = Input::only('name', 'date', 'type');
 
         $this->eventValidator->validate($data);
 
-		$data['date'] = $this->eventValidator->getValidatedDate($data['type'], $data['date']);
+        $data['date'] = $this->eventValidator->getValidatedDate($data['type'], $data['date']);
         $event = new Event($data);
         $this->eventsRepository->save($event);
 
@@ -105,7 +108,7 @@ class EventsController extends Controller {
         }
 
         return Redirect::route('events.index');
-	}
+    }
 
     public function associate()
     {

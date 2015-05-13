@@ -13,7 +13,7 @@
 
 ClassLoader::addDirectories(array(
 
-	app_path().'/database/seeds',
+    app_path().'/database/seeds',
 
 ));
 
@@ -43,26 +43,23 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
-App::error(function(Exception $exception, $code)
-{
-	Log::error($exception);
+App::error(function (Exception $exception, $code) {
+    Log::error($exception);
 });
 
-App::error(function(Laracasts\Validation\FormValidationException $e, $code)
-{
-	if (Request::wantsJson()) {
+App::error(function (Laracasts\Validation\FormValidationException $e, $code) {
+    if (Request::wantsJson()) {
+        $failedKey = array_keys($e->getErrors()->getMessages())[0];
 
-		$failedKey = array_keys($e->getErrors()->getMessages())[0];
-		
-		return Response::json([
-			'status' => 'wrong_'.$failedKey,
-			'error'  => $e->getErrors()->first($failedKey),
-		], 400);
-	}
+        return Response::json([
+            'status' => 'wrong_'.$failedKey,
+            'error' => $e->getErrors()->first($failedKey),
+        ], 400);
+    }
 
-	return Redirect::back()
-		->withInput(Input::except(['password', 'avatar']))
-		->withErrors($e->getErrors());
+    return Redirect::back()
+        ->withInput(Input::except(['password', 'avatar']))
+        ->withErrors($e->getErrors());
 });
 
 /*
@@ -76,9 +73,8 @@ App::error(function(Laracasts\Validation\FormValidationException $e, $code)
 |
 */
 
-App::down(function()
-{
-	return Response::make("Be right back!", 503);
+App::down(function () {
+    return Response::make('Be right back!', 503);
 });
 
 /*

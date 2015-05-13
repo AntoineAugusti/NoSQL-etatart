@@ -1,16 +1,16 @@
 <?php
 
 return [
-	'recipes.index'   => 'Our recipes',
-	'recipes.create'  => 'Add a recipe',
-	'recipes.ranking' => 'Ranking',
+    'recipes.index' => 'Our recipes',
+    'recipes.create' => 'Add a recipe',
+    'recipes.ranking' => 'Ranking',
 
-	'guests' => 'Guests',
-	'guests.index' => 'List guests',
-	'guests.create' => 'Add guest',
-	'guests.invite' => 'Show invited guests',
+    'guests' => 'Guests',
+    'guests.index' => 'List guests',
+    'guests.create' => 'Add guest',
+    'guests.invite' => 'Show invited guests',
 
-	'events' => 'Events',
-	'events.index' => 'List events',
-	'events.create' => 'Add event',
+    'events' => 'Events',
+    'events.index' => 'List events',
+    'events.create' => 'Add event',
 ];

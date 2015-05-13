@@ -2,18 +2,18 @@
 
 return [
     'events' => 'Events',
-    'createEvent'  => 'Create an event!',
+    'createEvent' => 'Create an event!',
 
-    'name'      => 'Name',
-    'type'      => 'Event type',
-    'date'      => 'Date',
+    'name' => 'Name',
+    'type' => 'Event type',
+    'date' => 'Date',
 
-    'new-year'  => 'New year',
-    'birthday'  => 'Birthday',
-    'party'     => 'Party',
+    'new-year' => 'New year',
+    'birthday' => 'Birthday',
+    'party' => 'Party',
     'christmas' => 'Christmas',
-    'guests'    => 'Guests',
-        'guestsHelp'      => 'Type here the name of the guests invited to the event',
+    'guests' => 'Guests',
+        'guestsHelp' => 'Type here the name of the guests invited to the event',
         'guestsHelpInput' => 'Type here the name of your guests',
 
     'submit' => 'Create the event!',

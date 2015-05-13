@@ -6,8 +6,8 @@ use Illuminate\Database\Seeder;
 use Insa\Guests\Models\Guest;
 use Insa\Guests\Models\Invite;
 
-class GuestTableSeeder extends Seeder {
-
+class GuestTableSeeder extends Seeder
+{
     public function run()
     {
         $this->command->info('Deleting existing Guests table ...');
@@ -17,12 +17,11 @@ class GuestTableSeeder extends Seeder {
 
         $this->command->info('Seeding Guests table using Faker...');
 
-        foreach(range(1, 20) as $index)
-        {
+        foreach (range(1, 20) as $index) {
             $guest = new Guest([
-                'name'        => $faker->name,
+                'name' => $faker->name,
                 'phoneNumber' => $faker->phoneNumber,
-                'type'        => $faker->randomElement(Guest::getAllowedTypeValues()),
+                'type' => $faker->randomElement(Guest::getAllowedTypeValues()),
             ]);
 
             $invite = new Invite();
@@ -30,9 +29,9 @@ class GuestTableSeeder extends Seeder {
             $toInvite = $faker->boolean();
             $invite->toInvite = $toInvite;
 
-            if ($toInvite)
+            if ($toInvite) {
                 $invite->numberOfInvitations = 0;
-            else {
+            } else {
                 $invite->numberOfInvitations = 1;
                 $invite->lastInvite = Carbon::createFromTimestamp($faker->dateTime->getTimestamp());
             }

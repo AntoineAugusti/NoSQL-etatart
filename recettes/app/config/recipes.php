@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'perPage'       => 5,
-	'possibleRanks' => ['fine', 'great', 'awesome'],
+    'perPage' => 5,
+    'possibleRanks' => ['fine', 'great', 'awesome'],
 ];

@@ -1,4 +1,6 @@
-<?php namespace Insa\Guests\Controllers;
+<?php
+
+namespace Insa\Guests\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
@@ -10,65 +12,69 @@ use Insa\Guests\Repositories\GuestsRepository;
 use Insa\Guests\Validation\GuestValidator;
 use Response;
 
-class GuestsController extends Controller {
+class GuestsController extends Controller
+{
+    /**
+     * @var GuestsRepository
+     */
+    private $guestsRepository;
 
-	/**
-	 * @var GuestsRepository
-	 */
-	private $guestsRepository;
-
-	/**
-	 * @var View
-	 */
-	private $view;
+    /**
+     * @var View
+     */
+    private $view;
     /**
      * @var GuestValidator
      */
     private $guestValidator;
 
     /**
-     * The constructor
-     * @param View $view
+     * The constructor.
+     *
+     * @param View             $view
      * @param GuestsRepository $guestsRepository
-     * @param GuestValidator $guestValidator
+     * @param GuestValidator   $guestValidator
      */
-	function __construct(View $view, GuestsRepository $guestsRepository, GuestValidator $guestValidator)
-	{
-		$this->view = $view;
-		$this->guestsRepository = $guestsRepository;
+    public function __construct(View $view, GuestsRepository $guestsRepository, GuestValidator $guestValidator)
+    {
+        $this->view = $view;
+        $this->guestsRepository = $guestsRepository;
         $this->guestValidator = $guestValidator;
     }
 
-	/**
-	 * List all guests
-	 * @return Response
-	 */
-	public function index()
-	{
-		$guests = $this->guestsRepository->getAll();
+    /**
+     * List all guests.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $guests = $this->guestsRepository->getAll();
 
-		return $this->view->make('guests.index', compact('guests'));
-	}
+        return $this->view->make('guests.index', compact('guests'));
+    }
 
-	/**
-	 * Show the form to create a new guest
-	 * @return Response
-	 */
-	public function create()
-	{
+    /**
+     * Show the form to create a new guest.
+     *
+     * @return Response
+     */
+    public function create()
+    {
         $data = [
-            'possibleTypes' => Guest::getAllowedTypeValues()
+            'possibleTypes' => Guest::getAllowedTypeValues(),
         ];
 
-		return $this->view->make('guests.create', $data);
-	}
+        return $this->view->make('guests.create', $data);
+    }
 
-	/**
-	 * Store a new guest
-	 * @return Response
-	 */
-	public function store()
-	{
+    /**
+     * Store a new guest.
+     *
+     * @return Response
+     */
+    public function store()
+    {
         $data = Input::only('name', 'phoneNumber', 'type');
 
         $this->guestValidator->validate($data);
@@ -82,5 +88,5 @@ class GuestsController extends Controller {
         $this->guestsRepository->save($guest);
 
         return Redirect::route('guests.index');
-	}
+    }
 }

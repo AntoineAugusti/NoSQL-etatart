@@ -1,10 +1,12 @@
-<?php namespace Insa\Events\Presenters;
+<?php
+
+namespace Insa\Events\Presenters;
 
 use Illuminate\Support\Facades\Lang;
 use Laracasts\Presenter\Presenter;
 
-class EventPresenter extends Presenter {
-
+class EventPresenter extends Presenter
+{
     public function date()
     {
         return $this->entity->date->format('d/m/Y');
@@ -12,6 +14,6 @@ class EventPresenter extends Presenter {
 
     public function type()
     {
-        return Lang::get('events.' . $this->entity->type);
+        return Lang::get('events.'.$this->entity->type);
     }
 }
