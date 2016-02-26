@@ -28,7 +28,7 @@
 		\textbf{Avantages :}
 		\begin{itemize}
 			\item Rapide à mettre en place (installation en un clic généralement) ;
-			\item Optimisation possible, verticalement le plus souvent ;
+			\item Optimisation possible par \textbf{scalabilité verticale} (augmenter les capacités physiques du serveur) ou séparation des services (BDD sur une autre machine par exemple).
 		\end{itemize}
 
 		\vspace{20px}
@@ -48,18 +48,16 @@
 			L'\textbf{O}bject-\textbf{R}elationnal \textbf{M}apping est une technique qui simule une base de données orientée objet à partir d'une base de données relationnelle.
 		\end{block}
 
-		\vspace{2px}
-
 		\begin{itemize}
+			\footnotesize
 			\item Fait la liaison entre le monde relationnel dans la couche stockage et le monde objet dans l'application ;
+			\item S'intègre généralement dans un DAO (\textit{Data Access Object}) pour respecter le pattern repository;
 			\item Facilité de développement : \textit{pas besoin} d'une connaissance poussée du SQL ;
 			\item Facilite les interactions avec la base de données pour les développeurs.
 		\end{itemize}
 
-		\vspace{2px}
-
 		\begin{alertblock}{Les limites des ORM}
-			Toujours \textbf{beaucoup} moins performant que des requêtes SQL optimisées.
+			Toujours \textbf{beaucoup} moins performant que des requêtes SQL optimisées dans les cas complexes.
 		\end{alertblock}
 	\end{frame}
 
@@ -67,9 +65,9 @@
 		\frametitle{ORM : exemple de requêtes}
 
 		\begin{listing}[H]
-			\inputminted[fontsize=\tiny, linenos=true]{php}{code/eloquent.php}
-			\caption{Quelques requêtes basiques avec l'ORM Eloquent (PHP).}
+			\inputminted[fontsize=\tiny, linenos=true]{java}{code/eloquent.java}
+			\caption{Quelques requêtes basiques avec un ORM imaginaire.}
 		\end{listing}
 
-		\scriptsize{D'autres ORM : Hibernate (Java), SQLAlchemy (Python), Mongoose (Node.js)\dots}
+		\scriptsize{D'autres ORM : Hibernate (Java), Eloquent (PHP), SQLAlchemy (Python), Mongoose (Node.js)\dots}
 	\end{frame}
