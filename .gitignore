@@ -1,1 +1,8 @@
 *.pdf
+_minted-slides/
+*.aux
+*.toc
+*.log
+*.nav
+*.out
+*.snm
