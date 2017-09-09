@@ -1,0 +1,96 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{fullpage}
+\usepackage{vmargin}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{pifont}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{csquotes}
+\usetikzlibrary{positioning,shadows,arrows,fit,automata,fadings,patterns,shapes}
+
+% Couleurs prédéfinies
+\colorlet{vertP}{green!10!white}
+\colorlet{vertF}{green!90!black}
+\colorlet{vertM}{green!40!white}
+\definecolor{gazon}{RGB}{58,157,35}
+\colorlet{bleuP}{blue!10!white}
+\colorlet{bleuF}{blue!90!black}
+\colorlet{bleuM}{blue!40!white}
+\colorlet{rougeP}{red!10!white}
+\colorlet{rougeM}{red!40!white}
+\colorlet{rouge}{red!80!black}
+\colorlet{rougeF}{red!90!black}
+\colorlet{bleu}{blue!80!black}
+\colorlet{vert}{green!80!black}
+\colorlet{jaune}{yellow!80!black}
+\colorlet{jauneF}{yellow!90!black}
+\colorlet{jauneM}{yellow!40!white}
+\colorlet{jauneP}{yellow!10!white}
+\colorlet{grisP}{gray!20!white}
+\definecolor{grisclair}{RGB}{206,206,206}
+\definecolor{orangebis}{RGB}{222, 41, 22}
+\definecolor{roux}{RGB}{173,79,9}
+\definecolor{lilas}{RGB}{182,102,210}
+\colorlet{lilasP}{lilas!20!white}
+\colorlet{lilasM}{lilas!40!white}
+\colorlet{jauneJoli}{yellow!50!white}
+\definecolor{bordeaux}{RGB}{109,7,26}
+\definecolor{magenta}{RGB}{255,0,255}
+
+\usepackage[tikz]{bclogo}
+\renewcommand\styleSousTitre[1]{\scriptsize\textsc{#1}}
+\usepackage{placeins}
+\usepackage{url}
+
+\title{TP bases de données NoSQL}
+\date{}
+\author{Antoine Augusti \& Thibaud Dauce}
+
+\begin{document}
+
+\maketitle
+\sloppy
+\begin{bclogo}[logo = \bclampe, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{Objectifs}
+\begin{itemize}
+ \item Découvrir une base de données clé-valeur avec Redis
+\end{itemize}
+
+\end{bclogo}
+
+
+\begin{bclogo}[logo = \bccrayon, noborder=true,barre=none]{}
+  Bloc simple
+\end{bclogo}
+
+\section{Redis}
+  \begin{bclogo}[logo = \bctakecare, arrondi = 0.1, ombre = true , epOmbre = 0.1, couleurOmbre = black!30,  barre =none, couleurBarre=bleuF]{Commandes et documentation}
+    \begin{itemize}
+    \item[$\bullet$] Les commandes Redis à notre disposition sont les suivantes, à taper dans un terminal :
+    \begin{verbatim}
+      /opt/redis-4.1/src/redis-server
+      /opt/redis-4.1/src/redis-cli
+      /opt/redis-4.1/src/redis-benchmark
+    \end{verbatim}
+    \item[] Ces commandes permettent de : lancer un serveur Redis en local, lancer un client Redis (qui se connecte par défaut en local) et de lancer un test de performance sur un serveur Redis.
+    \item[$\bullet$] Dans un client Redis, tapez la commande \texttt{HELP nom\_commande} pour connaître la documentation de la commande \textit{nom\_commande}.
+    \item[$\bullet$] Vous pouvez trouver toutes les commandes Redis disponibles à l'adresse suivante : \url{https://redis.io/commands}.
+
+   \end{itemize}
+  \end{bclogo}
+
+  Redis est une base de données de type clé-valeur, un des types de bases de données NoSQL. La fonction d'une base de données clé-valeur est de pouvoir stocker des données (appelée \textit{valeur}) dans une \textit{clé}. On peut retrouver ensuite la valeur stockée précédemment grâce à la clé, seulement si l'on connaît le nom de la clé qui contient la donnée. Il n'y a pas de façon directe de chercher une clé.\\
+
+  On peut voir ceci comme un dictionnaire géant, mais où le stockage est persistant. Ceci signifie que si l'on redémarre un serveur Redis, les données seront toujours présentes.
+  \subsection{Découverte de Redis}
+    \begin{enumerate}
+      \item Lancez un serveur Redis dans un terminal. Ouvrez un autre terminal et lancez un client Redis, puis exécutez la commande \texttt{PING} (\url{https://redis.io/commands/ping})
+      \item Redis supporte plusieurs types d'objets : chaînes de caractères, entiers, listes, ensembles, ensemble ordonné, dictionnaire etc. Familiarisez-vous avec ces différents types et les commandes Redis à l'aide du tutoriel à l'adresse \url{https://try.redis.io}
+      \item Redis est incroyablement rapide, sans configuration avancée, même avec une machine basique. Nous allons lancer un test de performance localement pour observer cela.\\
+
+      Vérifiez que votre serveur Redis local tourne toujours (sinon lancez-le à nouveau). Dans une autre session de terminal, lancez la commande \texttt{redis-benchmark}. Si certaines commandes vous sont inconnues, référez-vous à la documentation générale des commandes Redis. Prêtez attention à la complexité algorithmique des opérations, indiquée sur la documentation.
+    \end{enumerate}
+
+\end{document}
