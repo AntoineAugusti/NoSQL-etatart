@@ -131,22 +131,37 @@
   \subsection{Méta-requêtes sur le JSON}
     Nous voulons proposer des filtres intelligents à nos clients. Pour cela, pour chaque information (contenue dans le JSON), nous voulons proposer la meilleure méthode de filtrage :
     \begin{description}
-        \item[Choix oui non] Une case à cocher ([ ] G-Sync)
-        \item[Champs texte] Une case à cocher pour chaque occurence ([ ] LED, [ ] LCD)
+        \item[Choix oui non] Une case à cocher
+        \item[Champs texte] Une case à cocher pour chaque occurence
         \item[Champs numérique] Un slider du minimum au maximum
-        \item[Champs complexes] Une nouvelle catégorie avec les filtres pour toutes les informations dans ce champ (nous ne travaillerons qu'avec des champs simples dans des champs complexes, nous n'acceptons pas les champs complexes dans les champs complexes de manière récursive)
    \end{description}
 
-    \begin{enumerate}
-      \item Réalisez plusieurs requêtes sur les méta-données de la colonne JSON pour obtenir toutes ces informations :
-      \begin{description}
-          \item[G-Sync] case à cocher
-          \item[Diagonale] Slider de 14 à 27.
-          \item[Connectiques] Catégorie contenant trois sliders de 1 à 1 pour le VGA, de 1 à 1 pour le HDMI, et de 1 à 2 pour le DVI.
-          \item[Technologie] Deux cases à cocher une pour LED et une pour LCD.
-     \end{description}
-      \item Essayez de le faire en une seule requête ;-)
-      \item Est-il possible d'enlever la limitation sur les catégories ? ;-) ;-) ;-)
-    \end{enumerate}
+    \vspace{10px}
+
+   \begin{enumerate}
+     \item Affichez tous les champs correspondant à une case à cocher (une seule ligne doit être retournée avec comme valeur \texttt{"gsync"}).
+     \item Affichez tous les champs correspondant à des sliders (une seule ligne doit être retournée avec comme valeur \texttt{"diagonal" |  17 |  27}).
+     \item Affichez tous les champs libres (une seule ligne doit être retournée avec comme valeur \texttt{"technology" | \{"LED","LCD"\}}).
+   \end{enumerate}
+
+  \subsection{Recherche}
+    \url{https://www.postgresql.org/docs/current/static/textsearch.html} \\
+
+    Nous voulons proposer également un champ de recherche pour nos clients.
+
+   \begin{enumerate}
+     \item Ajoutez une colonne \texttt{description} à la table des produits et remplissez la avec des données.
+     \begin{description}
+         \item[Iiyama] "Super écran"
+         \item[Acer] "Bon pour les joueurs"
+         \item[HP] "Une bonne dalle presque comme le Iiyama"
+         \item[Dell] "Un vieil écran"
+    \end{description}
+     \item Pour trouvez les résultats les plus pertinents lors d'une recherche, PostgreSQL utilise le type \texttt{tsvector}, essayez de convertir la colonne "description" de "text" à "tsvector". Qu'observez-vous ? Est-ce que les résultats sont différents en fonction des langues ?
+     \item Trouvez via la recherche les produits contenant le terme "écran".
+     \item Trouvez via la recherche les produits contenant le terme "bonne", qu'observez-vous ?.
+     \item Écrivez une requête pour une personne cherchant "Iiyama" : nous voulons afficher en premier l'écran Iiyama puis l'écran HP. Comment faire pour ne pas afficher Dell et Acer dans ce cas ?
+   \end{enumerate}
+
 
 \end{document}

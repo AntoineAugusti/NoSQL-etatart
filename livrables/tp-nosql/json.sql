@@ -37,9 +37,73 @@ SELECT title FROM products WHERE (data->'connectivity'->>'HDMI')::int >= 1;
 UPDATE products SET data = jsonb_set(data, '{connectivity, DVI}', '2') WHERE title = 'HP';
 UPDATE products SET data = data - 'gsync' WHERE title = 'Iiyama';
 
+-- Toutes les cases à cocher à afficher
+SELECT DISTINCT key FROM (SELECT (jsonb_each(data)).* FROM products) as key_values WHERE jsonb_typeof(value) = 'boolean';
+
+-- Tous les sliders à afficher
+SELECT DISTINCT key, min(value::text::float), max(value::text::float) FROM (SELECT (jsonb_each(data)).* FROM products) as key_values WHERE jsonb_typeof(value) = 'number' GROUP BY key;
+
+-- Choix multiples à afficher
+SELECT key, array_agg(value::text) FROM (SELECT DISTINCT (jsonb_each(data)).* FROM products) as key_values WHERE jsonb_typeof(value) = 'string' GROUP BY key;
+
+
+
+--- Ajouter la colonne
+ALTER TABLE products ADD COLUMN description text;
+
+UPDATE products SET description = 'Super écran' WHERE title = 'Iiyama';
+UPDATE products SET description = 'Bon pour les joueurs' WHERE title = 'Acer';
+UPDATE products SET description = 'Une bonne dalle presque comme le Iiyama' WHERE title = 'HP';
+UPDATE products SET description = 'Un vieil écran' WHERE title = 'Dell';
+
+SELECT to_tsvector(description) FROM products;
+SELECT to_tsvector('english', description) FROM products;
+
+SELECT title FROM products WHERE to_tsvector(description) @@ 'écran';
+SELECT title FROM products WHERE to_tsvector(description) @@ to_tsquery('écran');
+SELECT title FROM products WHERE to_tsvector(description) @@ 'bonne';
+SELECT title FROM products WHERE to_tsvector(description) @@ to_tsquery('bonne');
+
+SELECT title FROM products
+ORDER BY ts_rank(
+    setweight(to_tsvector(title), 'A') ||
+    setweight(to_tsvector(description), 'B'),
+    to_tsquery('Iiyama')
+) DESC;
+
+-- Sans Dell et Acer
+SELECT title FROM products
+WHERE to_tsvector(title) || to_tsvector(description) @@ to_tsquery('Iiyama')
+ORDER BY ts_rank(
+    setweight(to_tsvector(title), 'A') ||
+    setweight(to_tsvector(description), 'B'),
+    to_tsquery('Iiyama')
+) DESC;
+
+-------------------------------------------------------------------
+--- Calcul des filtres avec une seule requête, expérimentations ---
+-------------------------------------------------------------------
+
 CREATE VIEW keyvalues AS SELECT (jsonb_each(data)).* FROM products;
 CREATE VIEW metadata AS SELECT key, value, jsonb_typeof(value) AS type FROM keyvalues;
 
+-- thibaud=# select add_value('{}'::jsonb, '"bonjour"'::jsonb);
+--         add_value
+-- -------------------------
+--  {"values": ["bonjour"]}
+-- (1 ligne)
+--
+-- thibaud=# select add_value('{"values": ["bonjour"]}'::jsonb, '"bonjour"'::jsonb);
+--         add_value
+-- -------------------------
+--  {"values": ["bonjour"]}
+-- (1 ligne)
+--
+-- thibaud=# select add_value('{"values": ["bonjour"]}'::jsonb, '"bonjour2"'::jsonb);
+--               add_value
+-- -------------------------------------
+--  {"values": ["bonjour", "bonjour2"]}
+-- (1 ligne)
 CREATE OR REPLACE FUNCTION add_value(some_values jsonb, new_value jsonb)
     RETURNS jsonb AS
 $$
@@ -59,23 +123,6 @@ $$
     END)::jsonb
 $$
 LANGUAGE 'sql' IMMUTABLE;
--- thibaud=# select add_value('{}'::jsonb, '"bonjour"'::jsonb);
---         add_value
--- -------------------------
---  {"values": ["bonjour"]}
--- (1 ligne)
---
--- thibaud=# select add_value('{"values": ["bonjour"]}'::jsonb, '"bonjour"'::jsonb);
---         add_value
--- -------------------------
---  {"values": ["bonjour"]}
--- (1 ligne)
---
--- thibaud=# select add_value('{"values": ["bonjour"]}'::jsonb, '"bonjour2"'::jsonb);
---               add_value
--- -------------------------------------
---  {"values": ["bonjour", "bonjour2"]}
--- (1 ligne)
 
 CREATE OR REPLACE FUNCTION build_min_max(some_values jsonb, new_value jsonb)
     RETURNS jsonb AS
