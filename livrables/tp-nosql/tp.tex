@@ -55,16 +55,10 @@
 \maketitle
 \sloppy
 \begin{bclogo}[logo = \bclampe, arrondi = 0.1, ombre = true, epOmbre = 0.2, couleurOmbre = black!30, couleurBord=bleuF, barre=none]{Objectifs}
-\begin{itemize}
- \item Découvrir une base de données clé-valeur avec Redis
- \item Découvrir les colonnes JSON avec PostgreSQL
-\end{itemize}
-
-\end{bclogo}
-
-
-\begin{bclogo}[logo = \bccrayon, noborder=true,barre=none]{}
-  Bloc simple
+  \begin{itemize}
+   \item Découvrir une base de données clé-valeur avec Redis
+   \item Découvrir les colonnes JSON avec PostgreSQL
+  \end{itemize}
 \end{bclogo}
 
 \section{Redis}
@@ -95,6 +89,36 @@
       Vérifiez que votre serveur Redis local tourne toujours (sinon lancez-le à nouveau). Dans une autre session de terminal, lancez la commande \texttt{redis-benchmark}. Si certaines commandes vous sont inconnues, référez-vous à la documentation générale des commandes Redis. Prêtez attention à la complexité algorithmique des opérations, indiquée sur la documentation.
     \end{enumerate}
 
+  \subsection{Un mini réseau social}
+    \begin{bclogo}[logo = \bcinfo, arrondi = 0.1, ombre = true , epOmbre = 0.1, couleurOmbre = black!30,  barre =none, couleurBarre=bleuF]{Dans la vraie vie}
+      Il faut noter que dans cet exercice nous allons utiliser uniquement une base de données clé-valeur pour stocker les données, ce qui n'est pas l'utilisation la plus commune. En réalité, les bases de données clé-valeur viennent dans l'écrasante majorité des cas en complément d'une base de données relationnelle.
+    \end{bclogo}
+    Lorsque l'on travaille avec des bases de données relationnelles et que l'on démarre un projet, on doit réfléchir aux différentes tables nécessaires et à leur schéma pour répondre aux besoins exprimés. Il n'y a pas de tables dans Redis, comment se déroule cette phase initiale alors ? Nous devons réfléchir aux noms des clés nécessaires pour représenter nos objets et quels types de valeurs sont clés vont contenir.
+
+    \begin{enumerate}
+      \item Le premier objet de notre réseau social est un utilisateur. Dans notre cas, nous modéliserons un utilisateur avec un identifiant numérique unique, un pseudonyme unique également, un pays (on utilisera le code 2 lettres, par exemple \texttt{FR} pour la France) et une date de naissance (au format \texttt{AAAA-MM-JJ}, par exemple \texttt{1970-12-25}). Quelle structure de données utiliser ? Quel nom donnerez-vous aux différentes clés ?
+      \item À l'aide de votre serveur Redis local, créez l'utilisateur ayant les caractéristiques suivantes :
+        \begin{itemize}
+          \item Identifiant : 42
+          \item Pseudonyme : bob
+          \item Pays : FR
+          \item Date de naissance : 1980-11-22
+        \end{itemize}
+      \item Nous souhaitons que chaque utilisateur ait un identifiant numérique unique, croissant dans le temps. Cela signifie que le premier utilisateur aura l'identifiant \texttt{1}, le deuxième utilisateur aura pour identifiant \texttt{2} etc.
+        \begin{enumerate}
+          \item Quelle structure de données utiliser ? Quelle clé utiliser ?
+          \item Comment l'initialiser ?
+          \item Quelles seraient les commandes Redis à effectuer lors de l'inscription d'un utilisateur ?
+        \end{enumerate}
+      \item Dans notre réseau social, les utilisateurs peuvent suivent d'autres utilisateurs et peuvent être suivis par d'autres utilisateurs. Cette relation est unidirectionnelle : si je suis un autre utilisateur, je ne suis pas automatiquement suivi par cet autre utilisateur en retour.
+        \begin{enumerate}
+          \item Quelles structures de données pouvons-nous utiliser pour modéliser ces relations ? Quelles seraient les noms des clés ?
+          \item Quelle serait selon vous la meilleure structure de données et pourquoi ?
+          \item Il serait intéressant de savoir quand un utilisateur a commencé à être suivi par un autre utilisateur ou quand un utilisateur a suivi un autre utilisateur. Quelle structure de données utiliser dans ce cas ?
+          \item Donnez la commande Redis indiquant que l'utilisateur \texttt{42} a suivi l'utilisateur \texttt{50} au repère temporel UNIX (timestamp) \texttt{1401267618}.
+        \end{enumerate}
+      \item Comment modéliseriez-vous ceci dans le cas d'une base de données relationnelle ?
+    \end{enumerate}
 
 \section{JSON avec PostgreSQL}
   \begin{bclogo}[logo = \bctakecare, arrondi = 0.1, ombre = true , epOmbre = 0.1, couleurOmbre = black!30,  barre =none, couleurBarre=bleuF]{Commandes et documentation}
@@ -113,18 +137,18 @@
       \item Créez la table SQL pouvant contenir ces informations en utilisant une colonne JSONB.
       \item Insérez les écrans suivants :
           \begin{itemize}
-          \item[$\bullet$] « Iiyama », 149.99 euros, 24 pouces, technologie LED, un port VGA, sans G-Sync
-          \item[$\bullet$] « Acer », 459.99 euros, 27 pouces, technologie LED, un port HDMI, avec G-Sync
-          \item[$\bullet$] « HP », 144.04 euros, 24 pouces, technologie LED, un port HDMI, un port VGA et un port DVI, sans G-Sync
-          \item[$\bullet$] « Dell », 24 euros, 17 pouces,  technologie LCD, pas d'autres informations
+            \item[$\bullet$] « Iiyama », 149.99 euros, 24 pouces, technologie LED, un port VGA, sans G-Sync
+            \item[$\bullet$] « Acer », 459.99 euros, 27 pouces, technologie LED, un port HDMI, avec G-Sync
+            \item[$\bullet$] « HP », 144.04 euros, 24 pouces, technologie LED, un port HDMI, un port VGA et un port DVI, sans G-Sync
+            \item[$\bullet$] « Dell », 24 euros, 17 pouces,  technologie LCD, pas d'autres informations
          \end{itemize}
     \end{enumerate}
 
   \subsection{Requêtes sur le JSON}
     \begin{enumerate}
-      \item Affichez les écrans possèdant une diagonale de 24 pouces.
-      \item Affichez les écrans possèdant une diagonale supérieure à 24 pouces.
-      \item Affichez les écrans possèdant au moins un port HDMI.
+      \item Affichez les écrans possédant une diagonale de 24 pouces.
+      \item Affichez les écrans possédant une diagonale supérieure à 24 pouces.
+      \item Affichez les écrans possédant au moins un port HDMI.
       \item Le commercial s'est trompé, l'écran HP, possède 2 ports DVI, mettez à jour la ligne.
       \item Après vérification, le vendeur de l'écran Iiyama ne fournit pas d'information sur la présence du G-Sync (ni oui, ni non), supprimez donc l'information.
     \end{enumerate}
@@ -133,7 +157,7 @@
     Nous voulons proposer des filtres intelligents à nos clients. Pour cela, pour chaque information (contenue dans le JSON), nous voulons proposer la meilleure méthode de filtrage :
     \begin{description}
         \item[Choix oui non] Une case à cocher
-        \item[Champs texte] Une case à cocher pour chaque occurence
+        \item[Champs texte] Une case à cocher pour chaque occurrence
         \item[Champs numérique] Un slider du minimum au maximum
    \end{description}
 
