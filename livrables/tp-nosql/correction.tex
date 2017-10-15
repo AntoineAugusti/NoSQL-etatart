@@ -1,0 +1,204 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{fullpage}
+\usepackage{vmargin}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{pifont}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{csquotes}
+\usepackage{listings}
+\DeclareUnicodeCharacter{00A0}{~}
+\usetikzlibrary{positioning,shadows,arrows,fit,automata,fadings,patterns,shapes}
+
+% Couleurs prédéfinies
+\colorlet{vertP}{green!10!white}
+\colorlet{vertF}{green!90!black}
+\colorlet{vertM}{green!40!white}
+\definecolor{gazon}{RGB}{58,157,35}
+\colorlet{bleuP}{blue!10!white}
+\colorlet{bleuF}{blue!90!black}
+\colorlet{bleuM}{blue!40!white}
+\colorlet{rougeP}{red!10!white}
+\colorlet{rougeM}{red!40!white}
+\colorlet{rouge}{red!80!black}
+\colorlet{rougeF}{red!90!black}
+\colorlet{bleu}{blue!80!black}
+\colorlet{vert}{green!80!black}
+\colorlet{jaune}{yellow!80!black}
+\colorlet{jauneF}{yellow!90!black}
+\colorlet{jauneM}{yellow!40!white}
+\colorlet{jauneP}{yellow!10!white}
+\colorlet{grisP}{gray!20!white}
+\definecolor{grisclair}{RGB}{206,206,206}
+\definecolor{orangebis}{RGB}{222, 41, 22}
+\definecolor{roux}{RGB}{173,79,9}
+\definecolor{lilas}{RGB}{182,102,210}
+\colorlet{lilasP}{lilas!20!white}
+\colorlet{lilasM}{lilas!40!white}
+\colorlet{jauneJoli}{yellow!50!white}
+\definecolor{bordeaux}{RGB}{109,7,26}
+\definecolor{magenta}{RGB}{255,0,255}
+
+\usepackage[tikz]{bclogo}
+\renewcommand\styleSousTitre[1]{\scriptsize\textsc{#1}}
+\usepackage{placeins}
+\usepackage{url}
+
+\title{Correction TP bases de données NoSQL}
+\date{}
+\author{Antoine Augusti \& Thibaud Dauce}
+
+\begin{document}
+
+\maketitle
+\sloppy
+
+\section{Redis}
+  \subsection{Découverte de Redis}
+    Pas de correction nécessaire.
+
+  \subsection{Un mini réseau social}
+
+    \begin{enumerate}
+      \item Pour modéliser un utilisateur nous allons utiliser un dictionnaire (\textit{hash map}). Nous allons utiliser une clé par utilisateur, et pour identifier un utilisateur, nous mettrons son identifiant dans le nom de la clé. Par exemple, les données de l'utilisateur \texttt{42} seront dans la clé \texttt{user:42}.
+      \item \texttt{HMSET user:42 pseudonyme bob pays FR date\_naissance 1980-11-22}
+      \item
+        \begin{enumerate}
+          \item Nous allons utiliser un compteur car c'est une structure de donné atomique qui permet de modéliser idéalement des identifiants qui sont incrémentés de un à chaque inscription. On pourrait nommer cette clé \texttt{next\_user\_id} par exemple.
+          \item Avant le lancement de notre réseau social, il faudra créer une clé contenant ce compteur et l'initialiser à 0. Ainsi, lors de l'inscription du premier utilisateur, celui-ci aura l'identifiant 1.
+          \item On devrait incrémenter le compteur pour obtenir un identifiant \texttt{INCR next\_user\_id} et utiliser la valeur de retour de la commande comme identifiant de l'utilisateur à créer dans un dictionnaire (commande \texttt{HMSET} vue précédemment).
+        \end{enumerate}
+      \item Dans notre réseau social, les utilisateurs peuvent suivent d'autres utilisateurs et peuvent être suivis par d'autres utilisateurs. Cette relation est unidirectionnelle : si je suis un autre utilisateur, je ne suis pas automatiquement suivi par cet autre utilisateur en retour.
+        \begin{enumerate}
+          \item Nous pouvons utiliser une liste, un ensemble ou un ensemble ordonné. Nous aurons 2 clés par utilisateur : une clé contenant les personnes suivies (\texttt{followings:42}) et une clé contenant les personnes qui suivent un utilisateur en question (\texttt{followers:42}).
+          \item Les ensembles sont idéaux car il ne devrait pas être possible pour un utilisateur de suivre plusieurs fois un autre. On cherche donc à garder l'unicité, ce qui est l'objectif d'un ensemble.
+          \item  On peut utiliser un ensemble ordonné pour conserver l'ordre des actions de suivi des utilisateurs.
+          \item \texttt{ZADD followers:50 1401267618 42} et \texttt{ZADD followings:42 1401267618 50}
+        \end{enumerate}
+      \item On aurait une table \texttt{followers} avec au moins 4 colonnes : \texttt{id}, \texttt{user\_id}, \texttt{follower\_id}, \texttt{created\_at}. \texttt{id} est clé primaire, \texttt{user\_id} et \texttt{follower\_id} sont clés étrangères de la colonne ID de \texttt{users} et ont une contrainte d'unicité.
+    \end{enumerate}
+
+\section{JSON avec PostgreSQL}
+
+  \subsection{Création de la table}
+    \begin{enumerate}
+      \item
+      \begin{lstlisting}[language=SQL, gobble=6, tabsize=2]
+      create table products (title varchar, price integer, data jsonb);
+      \end{lstlisting}
+      \item Insérez les écrans suivants :
+          \begin{itemize}
+            \item[$\bullet$]
+            \begin{lstlisting}[language=SQL, gobble=12, tabsize=2, showstringspaces=false]
+            INSERT INTO products VALUES ('Iiyama', 14999, '{
+                "diagonal": 24,
+                "technology": "LED",
+                "connectivity":{
+                    "VGA":1
+                },
+                "gsync": false
+            }');
+            \end{lstlisting}
+            \item[$\bullet$]
+            \begin{lstlisting}[language=SQL, gobble=12, tabsize=2, showstringspaces=false]
+            INSERT INTO products VALUES ('Acer', 45999, '{
+                "diagonal": 27,
+                "technology": "LED",
+                "connectivity":{
+                    "HDMI":1
+                },
+                "gsync": true
+            }');
+            \end{lstlisting}
+            \item[$\bullet$]
+            \begin{lstlisting}[language=SQL, gobble=12, tabsize=2, showstringspaces=false]
+            INSERT INTO products VALUES ('HP', 14404, '{
+                "diagonal": 24,
+                "technology": "LED",
+                "connectivity":{
+                    "HDMI":1,
+                    "VGA":1,
+                    "DVI":1
+                },
+                "gsync": false
+            }');
+            \end{lstlisting}
+            \item[$\bullet$]
+            \begin{lstlisting}[language=SQL, gobble=12, tabsize=2, showstringspaces=false]
+            INSERT INTO products VALUES ('Dell', 2400, '{
+                "diagonal": 17,
+                "technology": "LCD"
+            }');
+            \end{lstlisting}
+         \end{itemize}
+    \end{enumerate}
+
+  \subsection{Requêtes sur le JSON}
+    \begin{lstlisting}[language=SQL, gobble=4, tabsize=2, showstringspaces=false]
+    SELECT title FROM products WHERE (data->>'diagonal')::int = 24;
+    SELECT title FROM products WHERE (data->>'diagonal')::int >= 24;
+    SELECT title FROM products WHERE (data->'connectivity'->>'HDMI')::int >= 1;
+    UPDATE products SET data = jsonb_set(data, '{connectivity, DVI}', '2')
+    WHERE title = 'HP';
+    UPDATE products SET data = data - 'gsync' WHERE title = 'Iiyama';
+    \end{lstlisting}
+
+  \subsection{Méta-requêtes sur le JSON}
+    \begin{lstlisting}[language=SQL, gobble=4, tabsize=2, showstringspaces=false]
+    -- Toutes les cases
+    SELECT DISTINCT
+      key
+    FROM (
+      SELECT (jsonb_each(data)).*
+      FROM products
+    ) as key_values
+    WHERE jsonb_typeof(value) = 'boolean';
+
+    -- Tous les sliders
+    SELECT DISTINCT
+      key,
+      min(value::text::float),
+      max(value::text::float)
+    FROM (
+      SELECT (jsonb_each(data)).*
+      FROM products
+    ) as key_values
+    WHERE jsonb_typeof(value) = 'number'
+    GROUP BY key;
+
+    -- Choix multiples
+    SELECT
+      key,
+      array_agg(value::text)
+      FROM (
+        SELECT DISTINCT
+          (jsonb_each(data)).*
+        FROM products
+      ) as key_values
+      WHERE jsonb_typeof(value) = 'string'
+    GROUP BY key;
+    \end{lstlisting}
+
+  \subsection{Recherche}
+   %  \url{https://www.postgresql.org/docs/current/static/textsearch.html} \\
+
+   %  Nous voulons proposer également un champ de recherche pour nos clients.
+
+   % \begin{enumerate}
+   %   \item Ajoutez une colonne \texttt{description} à la table des produits et remplissez la avec des données.
+   %   \begin{description}
+   %       \item[Iiyama] "Super écran"
+   %       \item[Acer] "Bon pour les joueurs"
+   %       \item[HP] "Une bonne dalle presque comme le Iiyama"
+   %       \item[Dell] "Un vieil écran"
+   %  \end{description}
+   %   \item Pour trouvez les résultats les plus pertinents lors d'une recherche, PostgreSQL utilise le type \texttt{tsvector}, essayez de convertir la colonne "description" de "text" à "tsvector". Qu'observez-vous ? Est-ce que les résultats sont différents en fonction des langues ?
+   %   \item Trouvez via la recherche les produits contenant le terme "écran".
+   %   \item Trouvez via la recherche les produits contenant le terme "bonne", qu'observez-vous ?.
+   %   \item Écrivez une requête pour une personne cherchant "Iiyama" : nous voulons afficher en premier l'écran Iiyama puis l'écran HP. Comment faire pour ne pas afficher Dell et Acer dans ce cas ?
+   % \end{enumerate}
+
+\end{document}
