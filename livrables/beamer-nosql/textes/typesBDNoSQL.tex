@@ -68,53 +68,82 @@
         \end{listing}
     \end{frame}
 
-    \begin{frame}
-        \frametitle{Exemples de requêtes MongoDB}
+    % \begin{frame}
+    %     \frametitle{Exemples de requêtes MongoDB}
 
-        \begin{listing}[H]
-            \inputminted{javascript}{code/requeteMongoFind.js}
-            \caption{Exemple de requête find sur MongoDB.}
-            \label{findMongoDB}
-        \end{listing}
-    \end{frame}
+    %     \begin{listing}[H]
+    %         \inputminted{javascript}{code/requeteMongoFind.js}
+    %         \caption{Exemple de requête find sur MongoDB.}
+    %         \label{findMongoDB}
+    %     \end{listing}
+    % \end{frame}
 
     \begin{frame}
-        \frametitle{Exemples de requêtes MongoDB}
+        \frametitle{Exemple d'une requête MongoDB}
 
         \begin{listing}[H]
             \inputminted{javascript}{code/requeteMongoFindOperator.js}
-            \caption{Exemple de requête find sur MongoDB avec des opérateurs spéciaux.}
+            \caption{Exemple de requête find sur MongoDB.}
             \label{findOperatorMongoDB}
         \end{listing}
     \end{frame}
 
-    \begin{frame}
-        \frametitle{Exemples de requêtes MongoDB}
+    % \begin{frame}
+    %     \frametitle{Exemples de requêtes MongoDB}
 
-        \begin{listing}[H]
-            \inputminted{javascript}{code/requeteMongoInsert.js}
-            \caption{Exemple de requête insert sur MongoDB.}
-            \label{insertMongoDB}
-        \end{listing}
+    %     \begin{listing}[H]
+    %         \inputminted{javascript}{code/requeteMongoInsert.js}
+    %         \caption{Exemple de requête insert sur MongoDB.}
+    %         \label{insertMongoDB}
+    %     \end{listing}
+    % \end{frame}
+
+    % \begin{frame}
+    %     \frametitle{Exemples de requêtes MongoDB}
+
+    %     \begin{listing}[H]
+    %         \inputminted{javascript}{code/requeteMongoUpdate.js}
+    %         \caption{Exemple de requête update sur MongoDB.}
+    %         \label{updateMongoDB}
+    %     \end{listing}
+    % \end{frame}
+
+    % \begin{frame}
+    %     \frametitle{Mais on peut aussi utiliser une interface graphique}
+
+    %     \begin{figure}[htb]
+    %         \includegraphics[width=1\textwidth]{images/robomongo.png}
+    %         \caption{La vue d'un document avec Robomongo.}
+    %     \end{figure}
+    % \end{frame}
+
+    \subsection{Bases de données orientées recherche}
+    \begin{frame}
+        \frametitle{Bases de données orientées recherche}
+
+        \begin{itemize}
+            \item Dérivées des bases de données orientées documents ;
+            \item \textbf{Modélisation :} identique aux bases de données documents, choix des index en plus ;
+            \item \textbf{Opérations :} peu d'options, uniquement de la recherche ;
+            \item \textbf{Cas d'utilisation :} recherche full-text, recherche tolérante… ;
+            \item Souvent utilisées en parallèle d'une autre base de données de stockage ;
+            \item \textbf{Principaux acteurs :} ElasticSearch.
+        \end{itemize}
     \end{frame}
 
     \begin{frame}
-        \frametitle{Exemples de requêtes MongoDB}
+        \frametitle{Concurrence forte du SQL sur les documents / recherche}
 
-        \begin{listing}[H]
-            \inputminted{javascript}{code/requeteMongoUpdate.js}
-            \caption{Exemple de requête update sur MongoDB.}
-            \label{updateMongoDB}
-        \end{listing}
-    \end{frame}
+        \vspace{15px}
+        Ces dernières années, les SGBD relationnels ont intégré et amélioré le type JSON pour relaxer les schémas.
+        \vspace{5px}
 
-    \begin{frame}
-        \frametitle{Mais on peut aussi utiliser une interface graphique}
-
-        \begin{figure}[htb]
-            \includegraphics[width=1\textwidth]{images/robomongo.png}
-            \caption{La vue d'un document avec Robomongo.}
-        \end{figure}
+        \begin{itemize}
+            \item \textbf{Modélisation SQL :} utilisation des colonnes JSON ou BJSON, création d'index de recherche full-text ;
+            \item \textbf{Opérations :} SQL très connu et maîtrisé ;
+            \item \textbf{Cas d'utilisation :} stockage de données normalisées \textbf{ET} de données \textit{souples}, recherche full-text, recherche tolérante… ;
+            \item \textbf{Principaux acteurs :} PostgreSQL, MySQL…
+        \end{itemize}
     \end{frame}
 
     %% Bases de données graphe
