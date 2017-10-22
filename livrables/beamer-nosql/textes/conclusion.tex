@@ -1,79 +1,79 @@
 \section{Conclusion}
 
-	%% Bonnes pratiques
-	\subsection{Bonnes pratiques}
-		\begin{frame}
-			\frametitle{Les bonnes pratiques du NoSQL}
+    %% Bonnes pratiques
+    \subsection{Bonnes pratiques}
+        \begin{frame}
+            \frametitle{Les bonnes pratiques du NoSQL}
 
-			\begin{itemize}
-				\item Ne pas commencer par du NoSQL ;
-				\item Bien connaître ses données ;
-				\item Ne pas avoir peur de la redondance ;
-				\item Ne pas trop redonder ;
-				\item Et surtout, bien quantifier ses besoins.
-			\end{itemize}
+            \begin{itemize}
+                \item Ne pas commencer par du NoSQL ;
+                \item Bien connaître ses données ;
+                \item Ne pas avoir peur de la redondance ;
+                \item Ne pas trop redonder ;
+                \item Et surtout, bien quantifier ses besoins.
+            \end{itemize}
 
 
-			\begin{block}{RTFM}
-				La majorité des bases de données NoSQL connues sur le marché possèdent une très bonne documentation, souvent faite à destination de personnes venant du monde du relationnel.
-			\end{block}
-		\end{frame}
+            \begin{block}{RTFM}
+                La majorité des bases de données NoSQL connues sur le marché possèdent une très bonne documentation, souvent faite à destination de personnes venant du monde du relationnel.
+            \end{block}
+        \end{frame}
 
-		\begin{frame}
-			\frametitle{D'autres cas d'usage du NoSQL}
-			\begin{alertblock}{Première ligne en prod', mais pas que}
-				Le NoSQL ne permet pas uniquement de contenir la charge, de répondre aux problématiques du distribué.
-			\end{alertblock}
+        \begin{frame}
+            \frametitle{D'autres cas d'usage du NoSQL}
+            \begin{alertblock}{Première ligne en prod', mais pas que}
+                Le NoSQL ne permet pas uniquement de contenir la charge, de répondre aux problématiques du distribué.
+            \end{alertblock}
 
-			\vspace{10px}
+            \vspace{10px}
 
-			D'autres attraits du NoSQL:
-			\begin{itemize}
-				\item \textbf{Dénormalisation:} business intelligence, machine learning, data mining (BDD colonnes, documents)\dots
-				\item \textbf{Stockage:} entrepôt d’agrégation de données (BDD colonnes, documents)
-				\item \textbf{Modélisation:} systèmes de recommandation (BDD graphe)
-				\item \dots
-			\end{itemize}
-		\end{frame}
+            D'autres attraits du NoSQL:
+            \begin{itemize}
+                \item \textbf{Dénormalisation:} business intelligence, machine learning, data mining (BDD colonnes, documents)\dots
+                \item \textbf{Stockage:} entrepôt d’agrégation de données (BDD colonnes, documents)
+                \item \textbf{Modélisation:} systèmes de recommandation (BDD graphe)
+                \item \dots
+            \end{itemize}
+        \end{frame}
 
-	%% NoSQL ou relationnel ?
-	\subsection{NoSQL ou relationnel ?}
-		\begin{frame}
-			\frametitle{NoSQL ou relationnel ?}
+    %% NoSQL ou relationnel ?
+    \subsection{NoSQL ou relationnel ?}
+        \begin{frame}
+            \frametitle{NoSQL ou relationnel ?}
 
-			\begin{alertblock}{Les deux mon capitaine !}
-				Les bases de données NoSQL ont été inventées afin de résoudre des problèmes insolubles par les bases de données relationnelle et non \textbf{pas pour les remplacer}.
-			\end{alertblock}
+            \begin{alertblock}{Les deux mon capitaine !}
+                Les bases de données NoSQL ont été inventées afin de résoudre des problèmes insolubles par les bases de données relationnelle et non \textbf{pas pour les remplacer}.
+            \end{alertblock}
 
-			\vspace{20px}
+            \vspace{20px}
 
-			\begin{tabular}{|l|l|}
-				\hline
-				\textbf{NoSQL} & \textbf{Relationnel} \\ \hline\hline
-				stockage de masse & stockage fiable \\ \hline
-				données diverses & données formatées \\ \hline
-				scalabilité horizontale & scalabilité verticale \\ \hline
-			\end{tabular}
-		\end{frame}
+            \begin{tabular}{|l|l|}
+                \hline
+                \textbf{NoSQL} & \textbf{Relationnel} \\ \hline\hline
+                stockage de masse & stockage fiable \\ \hline
+                données diverses & données formatées \\ \hline
+                scalabilité horizontale & scalabilité verticale \\ \hline
+            \end{tabular}
+        \end{frame}
 
-		\begin{frame}
-			\frametitle{Choix du type de BD NoSQL}
+        \begin{frame}
+            \frametitle{Choix du type de BD NoSQL}
 
-			\begin{tabular}{|p{0.20\textwidth}|p{0.40\textwidth}|p{0.30\textwidth}|}
-				\hline
-				& Modélisation & Cas d'utilisation \\\hline
-				Clé / valeur
-				& Modélisation simple, permettant d'indexer des informations diverses via une clé
-				& Mise en cache  \\\hline
-				Documents
-				& Modélisation souple permettant de stocker des documents au format JSON dans des collections
-				& Stockage de masse \\\hline
-				Graphes
-				& Modélisation optimisée pour les problèmes de graphes
-				& Stockage provisoire pour traiter les données \\\hline
-			\end{tabular}
+            \begin{tabular}{|p{0.20\textwidth}|p{0.40\textwidth}|p{0.30\textwidth}|}
+                \hline
+                & Modélisation & Cas d'utilisation \\\hline
+                Clé / valeur
+                & Modélisation simple, permettant d'indexer des informations diverses via une clé
+                & Mise en cache  \\\hline
+                Documents
+                & Modélisation souple permettant de stocker des documents au format JSON dans des collections
+                & Stockage de masse \\\hline
+                Graphes
+                & Modélisation optimisée pour les problèmes de graphes
+                & Stockage provisoire pour traiter les données \\\hline
+            \end{tabular}
 
-			\vspace{10px}
+            \vspace{10px}
 
-			Non exhaustif: il existe d'autres types de BDD NoSQL !
-		\end{frame}
+            Non exhaustif: il existe d'autres types de BDD NoSQL !
+        \end{frame}

@@ -2,72 +2,72 @@
 % /// Architecture web et modèle relationnel //// %
 \section{Architecture web et modèle relationnel}
 
-	%% Architecture classique
-	\subsection{Architecture classique}
-	\begin{frame}
-		\frametitle{Architecture classique}
+    %% Architecture classique
+    \subsection{Architecture classique}
+    \begin{frame}
+        \frametitle{Architecture classique}
 
-		\begin{figure}[htb]
-			\includegraphics[width=1\textwidth]{images/LAMP.png}
-			\caption{La stack LAMP.}
-		\end{figure}
+        \begin{figure}[htb]
+            \includegraphics[width=1\textwidth]{images/LAMP.png}
+            \caption{La stack LAMP.}
+        \end{figure}
 
-		\textbf{Stacks habituelles :}
-		\begin{itemize}
-			\item LAMP : Linux, Apache, MySQL, PHP — la plus commune ;
-			\item LEMP : Linux, Nginx, MySQL, PHP-FPM — commence à remplacer LAMP ;
-			\item MEAN : MySQL, Express, AngularJS, Node.js — pour du JavaScript côté serveur.
-		\end{itemize}
-	\end{frame}
+        \textbf{Stacks habituelles :}
+        \begin{itemize}
+            \item LAMP : Linux, Apache, MySQL, PHP — la plus commune ;
+            \item LEMP : Linux, Nginx, MySQL, PHP-FPM — commence à remplacer LAMP ;
+            \item MEAN : MySQL, Express, AngularJS, Node.js — pour du JavaScript côté serveur.
+        \end{itemize}
+    \end{frame}
 
-	%% Bilan architecture classique
-	\subsection{Bilan architecture classique}
-	\begin{frame}
-		\frametitle{Bilan architecture classique}
+    %% Bilan architecture classique
+    \subsection{Bilan architecture classique}
+    \begin{frame}
+        \frametitle{Bilan architecture classique}
 
-		\textbf{Avantages :}
-		\begin{itemize}
-			\item Rapide à mettre en place (installation en un clic généralement) ;
-			\item Optimisation possible par \textbf{scalabilité verticale} (augmenter les capacités physiques du serveur) ou séparation des services (BDD sur une autre machine par exemple).
-		\end{itemize}
+        \textbf{Avantages :}
+        \begin{itemize}
+            \item Rapide à mettre en place (installation en un clic généralement) ;
+            \item Optimisation possible par \textbf{scalabilité verticale} (augmenter les capacités physiques du serveur) ou séparation des services (BDD sur une autre machine par exemple).
+        \end{itemize}
 
-		\vspace{20px}
+        \vspace{20px}
 
-		\textbf{Inconvénients :}
-		\begin{itemize}
-			\item Il faut une expertise base de données.
-		\end{itemize}
-	\end{frame}
+        \textbf{Inconvénients :}
+        \begin{itemize}
+            \item Il faut une expertise base de données.
+        \end{itemize}
+    \end{frame}
 
-	%% Qu'est-ce qu'un ORM ?
-	\subsection{Qu'est-ce qu'un ORM ?}
-	\begin{frame}
-		\frametitle{Qu'est-ce qu'un ORM ?}
+    %% Qu'est-ce qu'un ORM ?
+    \subsection{Qu'est-ce qu'un ORM ?}
+    \begin{frame}
+        \frametitle{Qu'est-ce qu'un ORM ?}
 
-		\begin{block}{Définition : ORM}
-			L'\textbf{O}bject-\textbf{R}elationnal \textbf{M}apping est une technique qui simule une base de données orientée objet à partir d'une base de données relationnelle.
-		\end{block}
+        \begin{block}{Définition : ORM}
+            L'\textbf{O}bject-\textbf{R}elationnal \textbf{M}apping est une technique qui simule une base de données orientée objet à partir d'une base de données relationnelle.
+        \end{block}
 
-		\begin{itemize}
-			\footnotesize
-			\item Fait la liaison entre le monde relationnel dans la couche stockage et le monde objet dans l'application ;
-			\item S'intègre généralement dans un DAO (\textit{Data Access Object}) pour respecter le pattern repository;
-			\item Facilité de développement : \textit{pas besoin} d'une connaissance poussée du SQL ;
-			\item Facilite les interactions avec la base de données pour les développeurs.
-		\end{itemize}
+        \begin{itemize}
+            \footnotesize
+            \item Fait la liaison entre le monde relationnel dans la couche stockage et le monde objet dans l'application ;
+            \item S'intègre généralement dans un DAO (\textit{Data Access Object}) pour respecter le pattern repository;
+            \item Facilité de développement : \textit{pas besoin} d'une connaissance poussée du SQL ;
+            \item Facilite les interactions avec la base de données pour les développeurs.
+        \end{itemize}
 
-		\begin{alertblock}{Les limites des ORM}
-			Toujours \textbf{beaucoup} moins performant que des requêtes SQL optimisées dans les cas complexes.
-		\end{alertblock}
-	\end{frame}
+        \begin{alertblock}{Les limites des ORM}
+            Toujours \textbf{beaucoup} moins performant que des requêtes SQL optimisées dans les cas complexes.
+        \end{alertblock}
+    \end{frame}
 
-	\begin{frame}
-		\frametitle{ORM : exemple de requêtes}
+    \begin{frame}
+        \frametitle{ORM : exemple de requêtes}
 
-		\begin{listing}[H]
-			\inputminted[fontsize=\tiny, linenos=true]{java}{code/eloquent.java}
-			\caption{Quelques requêtes basiques avec un ORM imaginaire.}
-		\end{listing}
+        \begin{listing}[H]
+            \inputminted[fontsize=\tiny, linenos=true]{java}{code/eloquent.java}
+            \caption{Quelques requêtes basiques avec un ORM imaginaire.}
+        \end{listing}
 
-		\scriptsize{D'autres ORM : Hibernate (Java), Eloquent (PHP), SQLAlchemy (Python), Mongoose (Node.js)\dots}
-	\end{frame}
+        \scriptsize{D'autres ORM : Hibernate (Java), Eloquent (PHP), SQLAlchemy (Python), Mongoose (Node.js)\dots}
+    \end{frame}
