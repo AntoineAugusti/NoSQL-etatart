@@ -183,22 +183,43 @@
     \end{lstlisting}
 
   \subsection{Recherche}
-   %  \url{https://www.postgresql.org/docs/current/static/textsearch.html} \\
+    \begin{lstlisting}[language=SQL, gobble=4, tabsize=2, showstringspaces=false]
+    -- Ajouter la colonne
+    ALTER TABLE products ADD COLUMN description text;
 
-   %  Nous voulons proposer également un champ de recherche pour nos clients.
+    -- Mise à jour des produits existants
+    UPDATE products SET description = 'Super écran' WHERE title = 'Iiyama';
+    UPDATE products SET description = 'Bon pour les joueurs' WHERE title = 'Acer';
+    UPDATE products SET description = 'Une bonne dalle presque comme le Iiyama' WHERE title = 'HP';
+    UPDATE products SET description = 'Un vieil écran' WHERE title = 'Dell';
 
-   % \begin{enumerate}
-   %   \item Ajoutez une colonne \texttt{description} à la table des produits et remplissez la avec des données.
-   %   \begin{description}
-   %       \item[Iiyama] "Super écran"
-   %       \item[Acer] "Bon pour les joueurs"
-   %       \item[HP] "Une bonne dalle presque comme le Iiyama"
-   %       \item[Dell] "Un vieil écran"
-   %  \end{description}
-   %   \item Pour trouvez les résultats les plus pertinents lors d'une recherche, PostgreSQL utilise le type \texttt{tsvector}, essayez de convertir la colonne "description" de "text" à "tsvector". Qu'observez-vous ? Est-ce que les résultats sont différents en fonction des langues ?
-   %   \item Trouvez via la recherche les produits contenant le terme "écran".
-   %   \item Trouvez via la recherche les produits contenant le terme "bonne", qu'observez-vous ?.
-   %   \item Écrivez une requête pour une personne cherchant "Iiyama" : nous voulons afficher en premier l'écran Iiyama puis l'écran HP. Comment faire pour ne pas afficher Dell et Acer dans ce cas ?
-   % \end{enumerate}
+    -- Expérimentations avec tsvector et la langue
+    SELECT to_tsvector(description) FROM products;
+    SELECT to_tsvector('english', description) FROM products;
 
+    -- Recherche du terme écran avec et sans tsvector
+    SELECT title FROM products WHERE to_tsvector(description) @@ 'écran';
+    SELECT title FROM products WHERE to_tsvector(description) @@ to_tsquery('écran');
+
+    -- Recherche du terme bonne avec et sans tsvector
+    SELECT title FROM products WHERE to_tsvector(description) @@ 'bonne';
+    SELECT title FROM products WHERE to_tsvector(description) @@ to_tsquery('bonne');
+
+    -- Recherche avec un poids plus important pour le titre que pour la description
+    SELECT title FROM products
+    ORDER BY ts_rank(
+        setweight(to_tsvector(title), 'A') ||
+        setweight(to_tsvector(description), 'B'),
+        to_tsquery('Iiyama')
+    ) DESC;
+
+    -- Recherche en excluant les résultats non pertinant
+    SELECT title FROM products
+    WHERE to_tsvector(title) || to_tsvector(description) @@ to_tsquery('Iiyama')
+    ORDER BY ts_rank(
+        setweight(to_tsvector(title), 'A') ||
+        setweight(to_tsvector(description), 'B'),
+        to_tsquery('Iiyama')
+    ) DESC;
+    \end{lstlisting}
 \end{document}
