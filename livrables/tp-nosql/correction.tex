@@ -203,7 +203,8 @@
     -- Mise à jour des produits existants
     UPDATE products SET description = 'Super écran' WHERE title = 'Iiyama';
     UPDATE products SET description = 'Bon pour les joueurs' WHERE title = 'Acer';
-    UPDATE products SET description = 'Une bonne dalle presque comme le Iiyama' WHERE title = 'HP';
+    UPDATE products SET description = 'Une bonne dalle presque comme le Iiyama'
+      WHERE title = 'HP';
     UPDATE products SET description = 'Un vieil écran' WHERE title = 'Dell';
 
     -- Expérimentations avec tsvector et la langue
@@ -212,13 +213,16 @@
 
     -- Recherche du terme écran avec et sans tsvector
     SELECT title FROM products WHERE to_tsvector(description) @@ 'écran';
-    SELECT title FROM products WHERE to_tsvector(description) @@ to_tsquery('écran');
+    SELECT title FROM products
+      WHERE to_tsvector(description) @@ to_tsquery('écran');
 
     -- Recherche du terme bonne avec et sans tsvector
     SELECT title FROM products WHERE to_tsvector(description) @@ 'bonne';
-    SELECT title FROM products WHERE to_tsvector(description) @@ to_tsquery('bonne');
+    SELECT title FROM products
+      WHERE to_tsvector(description) @@ to_tsquery('bonne');
 
-    -- Recherche avec un poids plus important pour le titre que pour la description
+    -- Recherche avec un poids plus important pour le titre
+    -- que pour la description
     SELECT title FROM products
     ORDER BY ts_rank(
         setweight(to_tsvector(title), 'A') ||
