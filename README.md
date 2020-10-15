@@ -20,4 +20,4 @@ En cas d'échec, il est toujours possible d'installer ce package à l'aide de [p
 
 ## Auteurs
 - [Antoine Augusti](http://www.antoine-augusti.fr)
-- [Thibaud Dauce](http://www.thibaud-dauce.fr)
+- [Thibaud Dauce](https://thibaud.dauce.fr)
