@@ -16,7 +16,7 @@
         \begin{itemize}
             \item LAMP : Linux, Apache, MySQL, PHP — la plus commune ;
             \item LEMP : Linux, Nginx, MySQL, PHP-FPM — commence à remplacer LAMP ;
-            \item MEAN : MySQL, Express, AngularJS, Node.js — pour du JavaScript côté serveur.
+            \item MERN : MySQL, Express, ReactJS, Node.js — pour du JavaScript côté serveur.
         \end{itemize}
     \end{frame}
 
@@ -28,14 +28,15 @@
         \textbf{Avantages :}
         \begin{itemize}
             \item Rapide à mettre en place (installation en un clic généralement) ;
-            \item Optimisation possible par \textbf{scalabilité verticale} (augmenter les capacités physiques du serveur) ou séparation des services (BDD sur une autre machine par exemple).
+            \item Optimisation possible par \textbf{scalabilité verticale} (augmenter les capacités physiques du serveur)
         \end{itemize}
 
         \vspace{20px}
 
         \textbf{Inconvénients :}
         \begin{itemize}
-            \item Il faut une expertise base de données.
+            \item Peu de tolérence à la charge
+            \item Augmentation complexe des peformances
         \end{itemize}
     \end{frame}
 
@@ -51,7 +52,6 @@
         \begin{itemize}
             \footnotesize
             \item Fait la liaison entre le monde relationnel dans la couche stockage et le monde objet dans l'application ;
-            \item S'intègre généralement dans un DAO (\textit{Data Access Object}) pour respecter le pattern repository;
             \item Facilité de développement : \textit{pas besoin} d'une connaissance poussée du SQL ;
             \item Facilite les interactions avec la base de données pour les développeurs.
         \end{itemize}

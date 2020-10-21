@@ -11,8 +11,8 @@
             \item Service réparti sur plusieurs continents
             \item Accès concurrent de plusieurs centaines de milliers de personnes
             \item Stockage de petites variations dans les schémas
-            \item Besoin d'analyser de gros volumes de données
-            \item Utilisation de structures de données complexes en base de données
+            \item Temps de réponse
+            \item Traitement de structures de données complexes en base de données
         \end{itemize}
     \end{frame}
 
@@ -49,13 +49,11 @@
     \begin{frame}
         \frametitle{Relâchement des contraintes de transactions}
 
-        Impossible de garantir les propriétés ACID des BDs relationnelles avec les nouvelles contraintes.\\
-        \vspace{10px}
-        De nouvelles propriétés \textbf{BASE}, suite au théorème CAP :
+        Les BDs relationnelles et NoSQL font des arbitrages différents dans le théorème CAP :
         \begin{itemize}
-            \item \textit{Basic Availability} : système disponible dans son ensemble bien que certaines machines soient indisponibles ;
-            \item \textit{Soft state} : l'état du système distribué peut changer, même sans nouvelles transactions ;
-            \item \textit{Eventual Consistency} : En l'absence de nouvelles transactions, le système sera cohérent au bout d'un temps.
+            \item \textit{Consistency} : chaque lecture reçoit l'écriture la plus récente ou une erreur ;
+            \item \textit{Availability} : chaque requête reçoit une réponse, sans garantie qu'elle contienne l'écriture la plus récente ;
+            \item \textit{Partition tolerance} : le système continue de fonctionner malgré la perte ou le retard de messages entre les nœuds.
         \end{itemize}
     \end{frame}
 
@@ -66,9 +64,9 @@
 
         \begin{itemize}
             \item Un SGBD qui n'est pas structuré en tables et dont l'élément de base n'est pas un tuple mais dépend du type de BD NoSQL ;
-            \item Un langage de requête non uniformisé, propre à chaque BD. Souvent au format JSON avec une API REST ;
+            \item Un langage de requête non uniformisé, propre à chaque BD ;
             \item Une dénormalisation des données où certains enregistrements sont en partie ou entièrement dupliqués ;
             \item Type de base de données NoSQL à choisir en fonction de l'usage souhaité ;
-            \item Types de base de données NoSQL existants : clé-valeur, colonnes, documents, graphe\dots
+            \item Types de base de données NoSQL existants : clé-valeur (Redis), colonnes (Cassandra), recherche (ElasticSearch), documents (MongoDB), graphe (Neo4j), évènements (Event Store)\dots
         \end{itemize}
     \end{frame}
