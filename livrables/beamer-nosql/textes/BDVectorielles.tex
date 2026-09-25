@@ -1,0 +1,136 @@
+% ///////////////////////////////////////////// %
+% /// Bases de données vectorielles et IA ///// %
+\section{Bases de données vectorielles et IA}
+
+    %% Contexte : les embeddings
+    \subsection{Contexte : les embeddings}
+    \begin{frame}
+        \frametitle{Contexte : l'arrivée des LLM}
+
+        Depuis 2022, les grands modèles de langage (LLM : ChatGPT, Claude, Gemini, Mistral\dots) se sont généralisés dans les applications.
+
+        \begin{itemize}
+            \small
+            \item Un LLM ne connaît pas \textbf{vos} données (documentation interne, catalogue produits, tickets de support\dots) ;
+            \item Impossible de lui envoyer toute la base de données à chaque question ;
+            \item Il faut donc retrouver rapidement les quelques documents \textbf{pertinents} pour une question\dots
+            \item \dots même quand ils n'utilisent pas les mêmes mots que la question !
+        \end{itemize}
+
+        \begin{alertblock}{Limite de la recherche full-text}
+            « Comment résilier mon abonnement ? » ne trouve pas un document intitulé « Mettre fin à son contrat ».
+        \end{alertblock}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Qu'est-ce qu'un embedding ?}
+
+        \begin{block}{Définition : embedding}
+            Un \textit{embedding} (ou plongement) est un vecteur de nombres réels, calculé par un modèle d'IA, qui représente le \textbf{sens} d'un contenu (texte, image, son\dots).
+        \end{block}
+
+        \begin{itemize}
+            \small
+            \item Des vecteurs de plusieurs centaines à quelques milliers de dimensions (384, 768, 1536, 3072\dots) ;
+            \item Deux contenus au sens proche ont des vecteurs proches dans l'espace ;
+            \item Proximité mesurée par la similarité cosinus, le produit scalaire ou la distance euclidienne.
+        \end{itemize}
+
+        \vspace{5px}
+        \footnotesize
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Contenu} & \textbf{Embedding} \\ \hline\hline
+            « résilier mon abonnement » & [0.12, -0.83, 0.05, \dots, 0.41] \\ \hline
+            « mettre fin à son contrat » & [0.10, -0.79, 0.07, \dots, 0.38] \\ \hline
+            « recette de la tarte tatin » & [-0.64, 0.22, 0.91, \dots, -0.17] \\ \hline
+        \end{tabular}
+    \end{frame}
+
+    %% Bases de données vectorielles
+    \subsection{Bases de données vectorielles}
+    \begin{frame}
+        \frametitle{Bases de données vectorielles}
+
+        \begin{itemize}
+            \item \textbf{Modélisation :} des vecteurs de dimension fixe, associés à un identifiant et à des métadonnées (auteur, date, langue, droits d'accès\dots) ;
+            \item \textbf{Opérations :} insertion de vecteurs, recherche des $k$ plus proches voisins d'un vecteur (\textit{k-NN}), filtrage sur les métadonnées ;
+            \item \textbf{Cas d'utilisation :} recherche sémantique, RAG, recommandation, détection de doublons ou d'anomalies, mémoire des agents IA\dots
+            \item Souvent utilisées en parallèle d'une autre base de données de stockage ;
+            \item \textbf{Principaux acteurs :} Pinecone, Qdrant, Weaviate, Milvus, Chroma.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Recherche approximative des plus proches voisins}
+
+        \small
+        Comparer la requête à des millions de vecteurs un par un est trop lent : on accepte de perdre un peu de précision pour gagner beaucoup en vitesse (\textit{Approximate Nearest Neighbors}, ANN).
+
+        \begin{itemize}
+            \small
+            \item \textbf{HNSW} : graphe de proximité à plusieurs niveaux, parcouru de proche en proche — l'index le plus répandu ;
+            \item \textbf{IVF} : partitionnement des vecteurs en groupes (\textit{clusters}), on ne cherche que dans les groupes les plus proches ;
+            \item \textbf{Quantification} : compression des vecteurs (\textit{float32} vers \textit{int8} ou binaire) pour tenir en RAM ;
+            \item \textbf{Recherche hybride} : combinaison de la recherche full-text (BM25) et de la recherche vectorielle.
+        \end{itemize}
+
+        \begin{alertblock}{Arbitrage}
+            Précision (\textit{recall}) vs temps de réponse vs mémoire consommée.
+        \end{alertblock}
+    \end{frame}
+
+    %% RAG
+    \subsection{Cas d'usage : le RAG}
+    \begin{frame}
+        \frametitle{Cas d'usage : le RAG}
+
+        \begin{block}{Définition : RAG}
+            Le \textbf{R}etrieval-\textbf{A}ugmented \textbf{G}eneration consiste à rechercher des documents pertinents dans une base de données puis à les fournir au LLM pour qu'il génère sa réponse.
+        \end{block}
+
+        \small
+        \textbf{Indexation} (en amont) :
+        \begin{enumerate}
+            \small
+            \item Découpage des documents en morceaux (\textit{chunks}) ;
+            \item Calcul de l'embedding de chaque morceau ;
+            \item Stockage des vecteurs et du texte dans la base vectorielle.
+        \end{enumerate}
+
+        \textbf{Requête} (à chaque question) :
+        \begin{enumerate}
+            \small
+            \item Calcul de l'embedding de la question ;
+            \item Recherche des $k$ morceaux les plus proches ;
+            \item Envoi de la question et des morceaux trouvés au LLM, qui répond en citant ses sources.
+        \end{enumerate}
+    \end{frame}
+
+    %% Concurrence
+    \subsection{Concurrence des bases existantes}
+    \begin{frame}
+        \frametitle{Concurrence forte des bases existantes}
+
+        \small
+        Comme pour le JSON, les bases de données existantes ont rapidement ajouté un type vecteur et des index ANN.
+        \vspace{5px}
+
+        \begin{itemize}
+            \small
+            \item \textbf{Relationnel :} PostgreSQL avec l'extension pgvector, Oracle, SQL Server, MariaDB ;
+            \item \textbf{NoSQL :} MongoDB Atlas, Redis, Elasticsearch / OpenSearch, Cassandra ;
+            \item \textbf{Stockage objet :} Amazon S3 Vectors, LanceDB ;
+            \item \textbf{Avantage :} une seule base à opérer, des jointures et des filtres classiques, des transactions ;
+            \item \textbf{Bases dédiées :} pertinentes pour de très gros volumes (centaines de millions de vecteurs) ou des besoins de performance spécifiques.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Exemple avec PostgreSQL et pgvector}
+
+        \begin{listing}[H]
+            \inputminted[fontsize=\scriptsize, linenos=true]{sql}{code/requetePgvector.sql}
+            \caption{Recherche sémantique avec pgvector.}
+        \end{listing}
+    \end{frame}

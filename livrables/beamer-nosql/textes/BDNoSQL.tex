@@ -37,9 +37,10 @@
         \end{itemize}
 
         \begin{itemize}
-            \item Gestion jusqu'à 2To de RAM sur une seule machine ;
-            \item Réplication de PostgreSQL sur plusieurs continents via master read-write et slaves read-only ;
+            \item Gestion de plusieurs dizaines de To de RAM sur une seule machine ;
+            \item Réplication de PostgreSQL sur plusieurs continents via un nœud primaire en lecture-écriture et des réplicas en lecture seule ;
             \item Ajout du type JSON pour relaxer les schémas ;
+            \item Bases SQL distribuées (\textit{NewSQL}) : CockroachDB, YugabyteDB, TiDB, Google Spanner ;
             \item Secteurs où la fiabilité des données est plus importante que le reste.
         \end{itemize}
     \end{frame}
@@ -67,6 +68,6 @@
             \item Un langage de requête non uniformisé, propre à chaque BD ;
             \item Une dénormalisation des données où certains enregistrements sont en partie ou entièrement dupliqués ;
             \item Type de base de données NoSQL à choisir en fonction de l'usage souhaité ;
-            \item Types de base de données NoSQL existants : clé-valeur (Redis), colonnes (Cassandra), recherche (ElasticSearch), documents (MongoDB), graphe (Neo4j), évènements (Event Store)\dots
+            \item Types de base de données NoSQL existants : clé-valeur (Redis), colonnes (Cassandra), recherche (Elasticsearch), documents (MongoDB), graphe (Neo4j), évènements (EventStoreDB), vectorielles (Qdrant)\dots
         \end{itemize}
     \end{frame}

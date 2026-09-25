@@ -31,7 +31,7 @@
             \item On peut définir la durée de vie d'une paire clé-valeur ou adopter une politique \textit{least recently used} ;
             \item Stockage en RAM pour accélérer les temps de lecture. Mécanisme de reprise en cas de crash ;
             \item \textbf{Cas d'utilisation :} cache d'une autre BD, comptage d'éléments, gestion de files d'attente, opérations ensemblistes\dots
-            \item \textbf{Principaux acteurs :} Redis, Memcached, Riak.
+            \item \textbf{Principaux acteurs :} Redis, Valkey, Memcached, Amazon DynamoDB.
         \end{itemize}
     \end{frame}
 
@@ -55,7 +55,7 @@
             \item \textbf{Opérations :} utilise le JSON pour les requêtes et pour le stockage ;
             \item Facile à prendre en main en venant des bases de données relationnelles ;
             \item \textbf{Cas d'utilisation :} base de données principalement utilisées pour du stockage ;
-            \item \textbf{Principaux acteurs :} MongoDB, CouchDB, CouchBase.
+            \item \textbf{Principaux acteurs :} MongoDB, CouchDB, Couchbase, Google Firestore.
         \end{itemize}
     \end{frame}
 
@@ -127,7 +127,7 @@
             \item \textbf{Opérations :} peu d'options, uniquement de la recherche ;
             \item \textbf{Cas d'utilisation :} recherche full-text, recherche tolérante… ;
             \item Souvent utilisées en parallèle d'une autre base de données de stockage ;
-            \item \textbf{Principaux acteurs :} ElasticSearch.
+            \item \textbf{Principaux acteurs :} Elasticsearch, OpenSearch, Meilisearch, Typesense.
         \end{itemize}
     \end{frame}
 
@@ -139,7 +139,7 @@
         \vspace{5px}
 
         \begin{itemize}
-            \item \textbf{Modélisation SQL :} utilisation des colonnes JSON ou BJSON, création d'index de recherche full-text ;
+            \item \textbf{Modélisation SQL :} utilisation des colonnes JSON ou JSONB, création d'index de recherche full-text ;
             \item \textbf{Opérations :} SQL très connu et maîtrisé ;
             \item \textbf{Cas d'utilisation :} stockage de données normalisées \textbf{ET} de données \textit{souples}, recherche full-text, recherche tolérante… ;
             \item \textbf{Principaux acteurs :} PostgreSQL, MySQL…
@@ -165,7 +165,7 @@
             \item \textbf{Opérations :} traitement très particulier de l'information (voir slide précédente) ;
             \item \textbf{Cas d'utilisation :} utilisé principalement pour les réseaux (liens entre des équipements ou des personnes) ;
             \item Base de données rarement utilisée pour du stockage ;
-            \item \textbf{Principaux acteurs :} Neo4j, Titan, OrientDB.
+            \item \textbf{Principaux acteurs :} Neo4j, JanusGraph, Memgraph, Amazon Neptune.
         \end{itemize}
     \end{frame}
 

@@ -32,6 +32,7 @@
                 \item \textbf{Dénormalisation:} business intelligence, machine learning, data mining (BDD colonnes, documents)\dots
                 \item \textbf{Stockage:} entrepôt d’agrégation de données (BDD colonnes, documents)
                 \item \textbf{Modélisation:} systèmes de recommandation (BDD graphe)
+                \item \textbf{IA:} recherche sémantique, RAG, mémoire des agents (BDD vectorielles)
                 \item \dots
             \end{itemize}
         \end{frame}
@@ -59,6 +60,7 @@
         \begin{frame}
             \frametitle{Choix du type de BD NoSQL}
 
+            \small
             \begin{tabular}{|p{0.20\textwidth}|p{0.40\textwidth}|p{0.30\textwidth}|}
                 \hline
                 & Modélisation & Cas d'utilisation \\\hline
@@ -71,9 +73,12 @@
                 Graphes
                 & Modélisation optimisée pour les problèmes de graphes
                 & Stockage provisoire pour traiter les données \\\hline
+                Vectorielles
+                & Vecteurs (embeddings) représentant le sens des contenus
+                & Recherche sémantique, RAG \\\hline
             \end{tabular}
 
-            \vspace{10px}
+            \vspace{5px}
 
             Non exhaustif: il existe d'autres types de BDD NoSQL !
         \end{frame}

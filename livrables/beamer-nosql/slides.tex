@@ -55,12 +55,12 @@
 	\vspace{5px}
 	Thibaud \textsc{Dauce} -- \texttt{thibaud.dauce.fr}
 }
-\date{19 octobre 2022}
+\date{7 octobre 2026}
 
 \AtBeginSection[]{
 	\begin{frame}[plain]
 		\frametitle{Plan}
-		\tableofcontents[current]
+		\tableofcontents[currentsection, hideothersubsections]
 	\end{frame}
 }
 
@@ -75,7 +75,7 @@
 	% Génération du sommaire
 	\begin{frame}[plain]
 		\frametitle{Sommaire}
-		\tableofcontents
+		\tableofcontents[hidesubsections]
 	\end{frame}
 
 		\input{textes/architectureWeb}
@@ -83,6 +83,8 @@
 		\input{textes/BDNoSQL}
 
 		\input{textes/typesBDNoSQL}
+
+		\input{textes/BDVectorielles}
 
 		\input{textes/conclusion}
 
